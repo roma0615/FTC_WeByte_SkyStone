@@ -23,13 +23,10 @@ public class Mechanum_wheels extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    private DcMotor frontLeftDrive = null;
-
-    private DcMotor frontRightDrive = null;
-
-    private DcMotor backLeftDrive = null;
-
-    private DcMotor backRightDrive = null;
+    private DcMotor forwardLeftDrive1 = null;
+    private DcMotor backLeftDrive2 = null;
+    private DcMotor forwardRightDrive1 = null;
+    private DcMotor backRightDrive2 = null;
 
     private Servo rightServo = null;
 
@@ -67,18 +64,18 @@ public class Mechanum_wheels extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
 
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "fleft");frontRightDrive = hardwareMap.get(DcMotor.class, "fright");
-
-        backLeftDrive = hardwareMap.get(DcMotor.class, "bleft");backRightDrive = hardwareMap.get(DcMotor.class, "bright");
-
+        forwardLeftDrive1  = hardwareMap.get(DcMotor.class, "forwardLeft_drive");
+        forwardRightDrive1 = hardwareMap.get(DcMotor.class, "forwardRight_drive");
+        backLeftDrive2  = hardwareMap.get(DcMotor.class, "backLeft_drive");
+        backRightDrive2 = hardwareMap.get(DcMotor.class, "backRight_drive");
         rightServo = hardwareMap.get(Servo.class, "servoRight");
         leftServo = hardwareMap.get(Servo.class, "servoLeft");
 
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
 
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
-        frontLeftDrive.setPower(0);frontRightDrive.setPower(0);backLeftDrive.setPower(0);backRightDrive.setPower(0);
+        forwardLeftDrive1.setPower(0);forwardRightDrive1.setPower(0);backLeftDrive2.setPower(0);backRightDrive2.setPower(0);
 
         turn = hardwareMap.get(DcMotor.class, "turn");
 
@@ -225,9 +222,9 @@ public class Mechanum_wheels extends LinearOpMode {
 
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
 
-                            "back left (%.2f), back right (%.2f)", frontLeftDrive.getPower(), frontRightDrive.getPower(),
+                            "back left (%.2f), back right (%.2f)", forwardLeftDrive1.getPower(), forwardRightDrive1.getPower(),
 
-                    backLeftDrive.getPower(), backRightDrive.getPower());
+                    backLeftDrive2.getPower(), backRightDrive2.getPower());
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 
@@ -285,13 +282,13 @@ public class Mechanum_wheels extends LinearOpMode {
 
         }
 
-        frontLeftDrive.setPower(v1*0.5);
+        forwardLeftDrive1.setPower(v1*0.5);
 
-        frontRightDrive.setPower(v2*0.5);
+        forwardRightDrive1.setPower(v2*0.5);
 
-        backLeftDrive.setPower(v3*0.5);
+        backLeftDrive2.setPower(v3*0.5);
 
-        backRightDrive.setPower(v4*0.5);
+        backRightDrive2.setPower(v4*0.5);
 
         //OK YOU GOOD NOW
 
