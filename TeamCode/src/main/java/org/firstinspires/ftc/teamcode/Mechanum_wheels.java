@@ -179,23 +179,6 @@ public class Mechanum_wheels extends LinearOpMode {
             backPrev = gamepad2.back;
 
 
-            /**if(gamepad2.x){
-
-             intake.setPower(1);
-
-             }else if(gamepad2.y){
-
-             intake.setPower(-1);
-
-             }else{
-
-             intake.setPower(0);
-
-             }
-
-             */
-
-
             xPrev = gamepad2.x;
 
             yPrev = gamepad2.y;
@@ -269,7 +252,7 @@ public class Mechanum_wheels extends LinearOpMode {
         double v3 = r * Math.sin(robotAngle) - rightX;
 
         double v4 = r * Math.cos(robotAngle) + rightX;
-
+        /*
         if(gamepad1.x) {
 
             v1 *=2;
@@ -281,7 +264,7 @@ public class Mechanum_wheels extends LinearOpMode {
             v4 *=2;
 
         }
-
+        */
         forwardLeftDrive1.setPower(v1*0.5);
 
         forwardRightDrive1.setPower(v2*0.5);
