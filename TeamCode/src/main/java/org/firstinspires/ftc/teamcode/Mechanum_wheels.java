@@ -258,13 +258,13 @@ public class Mechanum_wheels extends LinearOpMode {
 
         double rightX = gamepad1.right_stick_x;
 
-        double v1 = r * Math.cos(robotAngle) - rightX;
+        double v1 = r * Math.cos(robotAngle) + rightX;
 
-        double v2 = r * Math.sin(robotAngle) + rightX;
+        double v2 = r * Math.sin(robotAngle) - rightX;
 
-        double v3 = r * Math.sin(robotAngle) - rightX;
+        double v3 = r * Math.sin(robotAngle) + rightX;
 
-        double v4 = r * Math.cos(robotAngle) + rightX;
+        double v4 = r * Math.cos(robotAngle) - rightX;
         /*
         if(gamepad1.x) {
 
