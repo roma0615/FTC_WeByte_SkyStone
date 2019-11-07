@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
 
@@ -40,7 +40,9 @@ public class Mechanum_wheels extends LinearOpMode {
 
     private DcMotor backRightDrive = null;
 
+    private Servo rightServo = null;
 
+    private Servo leftServo = null;
 
     private CRServo intake = null;
 
@@ -87,6 +89,8 @@ public class Mechanum_wheels extends LinearOpMode {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);backRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         frontLeftDrive.setPower(0);frontRightDrive.setPower(0);backLeftDrive.setPower(0);backRightDrive.setPower(0);
+
+
 
         intake = hardwareMap.get(CRServo.class, "intake");
 
