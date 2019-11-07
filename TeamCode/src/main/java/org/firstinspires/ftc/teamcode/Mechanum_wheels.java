@@ -5,7 +5,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -77,14 +76,9 @@ public class Mechanum_wheels extends LinearOpMode {
 
         forwardLeftDrive1.setPower(0);forwardRightDrive1.setPower(0);backLeftDrive2.setPower(0);backRightDrive2.setPower(0);
 
-        turn = hardwareMap.get(DcMotor.class, "turn");
 
-
-        turn.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        turn.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        int startPosition = turn.getCurrentPosition();
+//        int startPosition = turn.getCurrentPosition();
+        int startPosition = 0;
 
         linAct = hardwareMap.get(DcMotor.class, "linAct");
 
@@ -110,71 +104,73 @@ public class Mechanum_wheels extends LinearOpMode {
 
             drive();
 
-            if(turn.getMode().equals(DcMotor.RunMode.RUN_WITHOUT_ENCODER))
-
-            {
-
-                if( gamepad2.left_stick_y>0.2 || gamepad2.left_stick_y<-0.2 ||gamepad2.right_stick_y>0.2){
-
-                    turn.setPower(0.45*gamepad2.left_stick_y + 0.3 * gamepad2.right_stick_y);
-
-                }else{
-
-                    turn.setPower(0);
-
-                    turn.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-                    turn.setTargetPosition(0);
-
-                }
-
-            }
-
-            else{
-
-                if(gamepad2.left_bumper)
-
-                {
-
-                    turn.setDirection(DcMotorSimple.Direction.REVERSE);
-
-                    turn.setTargetPosition(startPosition + 100);
-
-                    turn.setPower(0.3);
-
-                }
-
-                if(gamepad2.right_bumper)
-
-                {
-
-                    turn.setDirection(DcMotorSimple.Direction.FORWARD);
-
-                    turn.setTargetPosition(startPosition+10);
-
-                    turn.setPower(0.2);
-
-                }
-
-            }
-
-
-
-            if(gamepad2.back&& !backPrev && turn.getMode().equals(DcMotor.RunMode.RUN_WITHOUT_ENCODER))
-
-            {
-
-                turn.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            }
-
-            else if((gamepad2.back) && !backPrev && turn.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION))
-
-            {
-
-                turn.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-            }
+/*
+//            if(turn.getMode().equals(DcMotor.RunMode.RUN_WITHOUT_ENCODER))
+//
+//            {
+//*/
+//
+//                if( gamepad2.left_stick_y>0.2 || gamepad2.left_stick_y<-0.2 ||gamepad2.right_stick_y>0.2){
+//
+//                    turn.setPower(0.45*gamepad2.left_stick_y + 0.3 * gamepad2.right_stick_y);
+//
+//                }else{
+//
+////                    turn.setPower(0);
+////
+////                    turn.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+////
+////                    turn.setTargetPosition(0);
+//
+//                }
+//
+////            }
+////
+////            else{
+//
+//                if(gamepad2.left_bumper)
+//
+//                {
+//
+//                    turn.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//                    turn.setTargetPosition(startPosition + 100);
+//
+//                    turn.setPower(0.3);
+//
+//                }
+//
+//                if(gamepad2.right_bumper)
+//
+//                {
+//
+//                    turn.setDirection(DcMotorSimple.Direction.FORWARD);
+//
+//                    turn.setTargetPosition(startPosition+10);
+//
+//                    turn.setPower(0.2);
+//
+//                }
+//
+//            // }
+//
+//
+//
+////            if(gamepad2.back&& !backPrev && turn.getMode().equals(DcMotor.RunMode.RUN_WITHOUT_ENCODER))
+////
+////            {
+////
+////                turn.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+////
+////            }
+////
+////            else if((gamepad2.back) && !backPrev && turn.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION))
+////
+////            {
+////
+////                turn.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+////
+////            }
 
             backPrev = gamepad2.back;
 
@@ -199,13 +195,13 @@ public class Mechanum_wheels extends LinearOpMode {
 
             }
 
-            // test this
+            // test these positions
             if (gamepad1.y) {
                 rightServo.setPosition(0.25);
                 leftServo.setPosition(0.75);
             } else {
                 rightServo.setPosition(0);
-                leftServo.setPosition(1);
+                leftServo.setPosition(0.056);
             }
 
 
@@ -220,19 +216,19 @@ public class Mechanum_wheels extends LinearOpMode {
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-            telemetry.addData("turn", "Power:" + turn.getPower());
+//            telemetry.addData("turn", "Power:" + turn.getPower());
 
-            if(turn.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
-
-                telemetry.addData("turn", "CurrPos" + turn.getCurrentPosition());
-
-                telemetry.addData("turn", "TargetPos" + turn.getTargetPosition());
-
-            }
+//            if(turn.getMode().equals(DcMotor.RunMode.RUN_TO_POSITION)) {
+//
+//                telemetry.addData("turn", "CurrPos" + turn.getCurrentPosition());
+//
+//                telemetry.addData("turn", "TargetPos" + turn.getTargetPosition());
+//
+//            }
 
             telemetry.addData("linearActuator", "Power:" + linAct.getPower());
 
-            telemetry.addData((turn.getMode().equals(DcMotor.RunMode.RUN_WITHOUT_ENCODER)?"free":"direct"), 0);
+//            telemetry.addData((turn.getMode().equals(DcMotor.RunMode.RUN_WITHOUT_ENCODER)?"free":"direct"), 0);
 
             telemetry.update();
 
