@@ -45,6 +45,8 @@ public class Mechanum_wheels extends LinearOpMode {
 
     private boolean rbPrev = false;
 
+    private boolean servosToggle = false;
+
 
 
     private DcMotor linAct = null;
@@ -194,16 +196,19 @@ public class Mechanum_wheels extends LinearOpMode {
 //                linAct.setPower(0);
 //
 //            }
+            
+            if (gamepad2.a) {
+                servosToggle = !servosToggle;
+            }
 
-            // test these positions
-            if (gamepad1.y) {
-                rightServo.setPosition(0.35);
-                leftServo.setPosition(0.35);
+
+            if (servosToggle) {
+                rightServo.setPosition(0.55);
+                leftServo.setPosition(0.55);
             } else {
                 rightServo.setPosition(0.1);
                 leftServo.setPosition(0.1);
             }
-
 
 
 
