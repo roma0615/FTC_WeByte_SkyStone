@@ -80,7 +80,7 @@ public class Mechanum_wheels extends LinearOpMode {
 //        int startPosition = turn.getCurrentPosition();
         int startPosition = 0;
 
-        linAct = hardwareMap.get(DcMotor.class, "linAct");
+//        linAct = hardwareMap.get(DcMotor.class, "linAct");
 
 
 
@@ -181,19 +181,19 @@ public class Mechanum_wheels extends LinearOpMode {
 
 
 
-            if(gamepad1.a){
-
-                linAct.setPower(1);
-
-            }else if(gamepad1.b){
-
-                linAct.setPower(-1);
-
-            }else{
-
-                linAct.setPower(0);
-
-            }
+//            if(gamepad1.a){
+//
+//                linAct.setPower(1);
+//
+//            }else if(gamepad1.b){
+//
+//                linAct.setPower(-1);
+//
+//            }else{
+//
+//                linAct.setPower(0);
+//
+//            }
 
             // test these positions
             if (gamepad1.y) {
@@ -226,7 +226,7 @@ public class Mechanum_wheels extends LinearOpMode {
 //
 //            }
 
-            telemetry.addData("linearActuator", "Power:" + linAct.getPower());
+//            telemetry.addData("linearActuator", "Power:" + linAct.getPower());
 
 //            telemetry.addData((turn.getMode().equals(DcMotor.RunMode.RUN_WITHOUT_ENCODER)?"free":"direct"), 0);
 
