@@ -48,10 +48,10 @@ public class BasicTeleOp_Trial1 extends LinearOpMode {
         backRightDrive2 = hardwareMap.get(DcMotor.class, "backRight_drive");
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        forwardLeftDrive1.setDirection(DcMotor.Direction.FORWARD);
-        forwardRightDrive1.setDirection(DcMotor.Direction.REVERSE);
-        backLeftDrive2.setDirection(DcMotor.Direction.FORWARD);
-        backRightDrive2.setDirection(DcMotor.Direction.REVERSE);
+        forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
+        backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
