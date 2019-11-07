@@ -79,7 +79,10 @@ public class Mechanum_wheels extends LinearOpMode {
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
-        forwardLeftDrive1.setPower(0);forwardRightDrive1.setPower(0);backLeftDrive2.setPower(0);backRightDrive2.setPower(0);
+        forwardLeftDrive1.setPower(0);
+        forwardRightDrive1.setPower(0);
+        backLeftDrive2.setPower(0);
+        backRightDrive2.setPower(0);
 
 
 //        int startPosition = turn.getCurrentPosition();

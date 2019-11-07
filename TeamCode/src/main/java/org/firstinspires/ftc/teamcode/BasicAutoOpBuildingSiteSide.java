@@ -94,6 +94,7 @@ public class BasicAutoOpBuildingSiteSide extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
+
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
@@ -103,21 +104,20 @@ public class BasicAutoOpBuildingSiteSide extends LinearOpMode {
         forwardRightDrive1.setPower(FORWARD_SPEED);
         backLeftDrive2.setPower(FORWARD_SPEED);
         backRightDrive2.setPower(FORWARD_SPEED);
-
+        rightServo.setPosition(0.1);
+        leftServo.setPosition(0.1);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Spin right for 1.3 seconds
-        forwardLeftDrive1.setPower(TURN_SPEED);
-        forwardRightDrive1.setPower(-TURN_SPEED);
-        backLeftDrive2.setPower(TURN_SPEED);
-        backRightDrive2.setPower(-TURN_SPEED);
+        // Step 2:  Servo grab
+        rightServo.setPosition(0.55);
+        leftServo.setPosition(0.55);
         runtime.reset();
 
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
