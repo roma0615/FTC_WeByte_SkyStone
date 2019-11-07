@@ -46,7 +46,7 @@ public class Mechanum_wheels extends LinearOpMode {
     private boolean rbPrev = false;
 
     private boolean servosToggle = false;
-    private boolean gamepad2aLast = false;
+    private boolean servosChanged = false;
 
 
 
@@ -198,8 +198,11 @@ public class Mechanum_wheels extends LinearOpMode {
 //
 //            }
 
-            if (gamepad2.a && !gamepad2aLast) {
+            if (gamepad2.a && !servosChanged) {
                 servosToggle = !servosToggle;
+                changed = true;
+            } else {
+                servosChanged = false;
             }
 
 
@@ -239,8 +242,6 @@ public class Mechanum_wheels extends LinearOpMode {
             telemetry.update();
 
         }
-
-        gamepad2aLast = gamepad2.a;
 
     }
 
