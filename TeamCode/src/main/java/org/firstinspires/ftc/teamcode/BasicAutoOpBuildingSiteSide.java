@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -73,9 +74,16 @@ public class BasicAutoOpBuildingSiteSide extends LinearOpMode {
     private DcMotor backLeftDrive2 = null;
     private DcMotor forwardRightDrive1 = null;
     private DcMotor backRightDrive2 = null;
+    private Servo rightServo = null;
+    private Servo leftServo = null;
     @Override
     public void runOpMode() {
-
+        forwardLeftDrive1  = hardwareMap.get(DcMotor.class, "forwardLeft_drive");
+        forwardRightDrive1 = hardwareMap.get(DcMotor.class, "forwardRight_drive");
+        backLeftDrive2  = hardwareMap.get(DcMotor.class, "backLeft_drive");
+        backRightDrive2 = hardwareMap.get(DcMotor.class, "backRight_drive");
+        rightServo = hardwareMap.get(Servo.class, "servoRight");
+        leftServo = hardwareMap.get(Servo.class, "servoLeft");
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
