@@ -73,9 +73,11 @@ public class Mechanum_wheels extends LinearOpMode {
         rightServo = hardwareMap.get(Servo.class, "servoRight");
         leftServo = hardwareMap.get(Servo.class, "servoLeft");
 
-        forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
+        forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
 
-        forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
+        forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
+        backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
         forwardLeftDrive1.setPower(0);forwardRightDrive1.setPower(0);backLeftDrive2.setPower(0);backRightDrive2.setPower(0);
 
@@ -265,7 +267,8 @@ public class Mechanum_wheels extends LinearOpMode {
         double v3 = r * Math.sin(robotAngle) + rightX;
 
         double v4 = r * Math.cos(robotAngle) - rightX;
-        /*
+
+
         if(gamepad1.x) {
 
             v1 *=2;
@@ -277,7 +280,7 @@ public class Mechanum_wheels extends LinearOpMode {
             v4 *=2;
 
         }
-        */
+
         forwardLeftDrive1.setPower(v1*0.5);
 
         forwardRightDrive1.setPower(v2*0.5);
