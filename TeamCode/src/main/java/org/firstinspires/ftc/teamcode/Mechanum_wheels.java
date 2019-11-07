@@ -199,6 +199,15 @@ public class Mechanum_wheels extends LinearOpMode {
 
             }
 
+            // test this
+            if (gamepad1.y) {
+                rightServo.setPosition(0.25);
+                leftServo.setPosition(0.75);
+            } else {
+                rightServo.setPosition(0);
+                leftServo.setPosition(1);
+            }
+
 
 
 
