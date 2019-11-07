@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
  */
 
-@TeleOp(name="TeleOpROVERRUCKUS")
+@TeleOp(name="MechanumWheels")
 
 public class Mechanum_wheels extends LinearOpMode {
 

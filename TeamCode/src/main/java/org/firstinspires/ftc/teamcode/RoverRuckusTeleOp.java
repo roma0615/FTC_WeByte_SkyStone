@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by isong on 10/17/18.
  */
+@Disabled
 @TeleOp(name="TeleOpROVERRUCKUS")
 public class RoverRuckusTeleOp extends LinearOpMode {
     // Declare OpMode members.
