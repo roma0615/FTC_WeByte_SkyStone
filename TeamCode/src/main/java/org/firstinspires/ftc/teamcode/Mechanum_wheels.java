@@ -44,10 +44,6 @@ public class Mechanum_wheels extends LinearOpMode {
 
     private Servo leftServo = null;
 
-    private CRServo intake = null;
-
-    private DcMotor pully = null;
-
     private DcMotor turn = null;
 
     private boolean aPrev = false;
@@ -90,17 +86,8 @@ public class Mechanum_wheels extends LinearOpMode {
 
         frontLeftDrive.setPower(0);frontRightDrive.setPower(0);backLeftDrive.setPower(0);backRightDrive.setPower(0);
 
-
-
-        intake = hardwareMap.get(CRServo.class, "intake");
-
-        pully = hardwareMap.get(DcMotor.class, "pully");
-
         turn = hardwareMap.get(DcMotor.class, "turn");
 
-        intake.setDirection(CRServo.Direction.FORWARD);
-
-        pully.setDirection(DcMotorSimple.Direction.FORWARD);
 
         turn.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -201,21 +188,6 @@ public class Mechanum_wheels extends LinearOpMode {
             backPrev = gamepad2.back;
 
 
-
-            if(gamepad2.a){
-
-                pully.setPower(0.75);
-
-            }else if(gamepad2.b){
-
-                pully.setPower(-0.75);
-
-            }else{
-
-                pully.setPower(0);
-
-            }
-
             /**if(gamepad2.x){
 
              intake.setPower(1);
@@ -231,31 +203,6 @@ public class Mechanum_wheels extends LinearOpMode {
              }
 
              */
-
-
-
-            if (gamepad2.x && !xPrev && (intake.getPower() != 1)) {
-
-                intake.setPower(1);
-
-            }else if (gamepad2.x && !xPrev && intake.getPower() != 0) {
-
-                intake.setPower(0);
-
-            }
-
-
-
-            if (gamepad2.y && !yPrev && (intake.getPower() != -1)) {
-
-                intake.setPower(-1);
-
-            } else if (gamepad2.y && !yPrev && (intake.getPower() != 0)) {
-
-                intake.setPower(0);
-
-            }
-
 
 
             xPrev = gamepad2.x;
