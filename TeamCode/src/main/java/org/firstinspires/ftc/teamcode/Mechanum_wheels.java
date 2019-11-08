@@ -45,7 +45,9 @@ public class Mechanum_wheels extends LinearOpMode {
 
     private boolean rbPrev = false;
 
-    private boolean servosToggle = false;
+    private boolean servosToggleUp = false;
+    private boolean servosToggleDown = false;
+    private boolean servosToggleSide = false;
     private boolean servosChanged = false;
 
 
@@ -203,20 +205,34 @@ public class Mechanum_wheels extends LinearOpMode {
 //
 //            }
 
-            if (gamepad2.a && !servosChanged) {
-                servosToggle = !servosToggle;
-                servosChanged = true;
+            if (gamepad2.dpad_up) {
+                servosToggleUp = true;
+                servosToggleDown = false;
+                servosToggleSide = false;
+            }
+            else if ((gamepad2.dpad_right || gamepad2.dpad_left)) {
+                servosToggleUp = false;
+                servosToggleDown = false;
+                servosToggleSide = true;
+            }
+            else if ((gamepad2.dpad_right || gamepad2.dpad_left)) {
+                servosToggleUp = false;
+                servosToggleDown = false;
+                servosToggleSide = true;
             } else if(!gamepad2.a) {
                 servosChanged = false;
             }
 
 
-            if (servosToggle) {
+            if (servosToggleDown) {
                 rightServo.setPosition(0.65);
                 leftServo.setPosition(0.5);
-            } else {
+            } else if (servosToggleSide){
                 rightServo.setPosition(0.15);
                 leftServo.setPosition(1);
+            } else if (servosToggleUp){
+                rightServo.setPosition(1);
+                leftServo.setPosition(0);
             }
 
 
@@ -273,7 +289,7 @@ public class Mechanum_wheels extends LinearOpMode {
         double v4 = r * Math.cos(robotAngle) - rightX;
 
 
-        if(gamepad1.x) {
+        if(gamepad1.right_bumper) {
 
             v1 *=2;
 
