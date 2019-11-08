@@ -30,9 +30,9 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="DepotSideNoMove")
+@Autonomous(name="TestAllFunctions")
 
-public class DepotSideNoMove extends LinearOpMode {
+public class TestFunctions extends LinearOpMode {
 
     /* Declare OpMode members. */
     // Use a Pushbot's hardware
@@ -71,33 +71,42 @@ public class DepotSideNoMove extends LinearOpMode {
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
-        turnLeft(FORWARD_SPEED);
+        turnLeft(TURN_SPEED);
         rightServo.setPosition(0.1);
         leftServo.setPosition(0.1);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Robot should be turning left", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Move forward to parl
-        goForward(FORWARD_SPEED);
+        // Step 2:  Turn Right
+        turnRight(TURN_SPEED);
         runtime.reset();
 
         while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Robot should be turning right", runtime.seconds());
             telemetry.update();
         }
-        /*
-        // Step 3:  Drive Backwards for 1 Second
+
+        // Step 3:  Drive Forwards for 1 Second
+        goForward(FORWARD_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            telemetry.addData("Path", "Robot should be moving Forward", runtime.seconds());
+            telemetry.update();
+        }
+
+        // Step 4:  Drive Backwards for 1 Second
         goBack(FORWARD_SPEED);
         runtime.reset();
 
         while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Robot should be moving Backward", runtime.seconds());
             telemetry.update();
         }
-        */
+
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
