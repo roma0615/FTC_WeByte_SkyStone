@@ -154,4 +154,10 @@ public class TestFunctions extends LinearOpMode {
         backLeftDrive2.setPower(-speed);
         backRightDrive2.setPower(speed);
     }
+    public void stopMoving(){
+        forwardLeftDrive1.setPower(0);
+        forwardRightDrive1.setPower(0);
+        backLeftDrive2.setPower(0);
+        backRightDrive2.setPower(0);
+    }
 }

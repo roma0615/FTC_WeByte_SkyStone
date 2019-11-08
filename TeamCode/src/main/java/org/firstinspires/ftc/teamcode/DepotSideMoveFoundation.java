@@ -39,7 +39,7 @@ public class DepotSideMoveFoundation extends LinearOpMode {
     private ElapsedTime     runtime = new ElapsedTime();
 
 
-    static final double     FORWARD_SPEED = 0.6;
+    static final double     FORWARD_SPEED = 1;
     static final double     TURN_SPEED    = 0.5;
     private DcMotor forwardLeftDrive1 = null;
     private DcMotor backLeftDrive2 = null;
@@ -64,41 +64,61 @@ public class DepotSideMoveFoundation extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Drive forward for 3 seconds
+        // Step 1:  Strafe Left
 
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
-        goForward(FORWARD_SPEED);
-        rightServo.setPosition(0.1);
-        leftServo.setPosition(0.1);
+        strafeLeft(FORWARD_SPEED);
+        rightServo.setPosition(0.15);
+        leftServo.setPosition(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Servo grab
-        rightServo.setPosition(0.55);
-        leftServo.setPosition(0.55);
+
+        // Step 2:  Drive Forwards for 2 Seconds
+        goForward(FORWARD_SPEED);
         runtime.reset();
 
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        // Step 3:  Drive Backwards for 1 Second
-        goBack(FORWARD_SPEED);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 2)) {
             telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
+        // Step 2:  Servo grab
+        stopMoving();
+        rightServo.setPosition(0.65);
+        leftServo.setPosition(0.5);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        
+        // Step 3:  Drive Backwards for 1 Second
+        goBack(FORWARD_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 3)) {
+            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 4:  Strafe right for 1 Second
+        rightServo.setPosition(0.15);
+        leftServo.setPosition(1);
+        strafeRight(FORWARD_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 1)) {
+            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
@@ -126,5 +146,23 @@ public class DepotSideMoveFoundation extends LinearOpMode {
         forwardRightDrive1.setPower(-speed);
         backLeftDrive2.setPower(-speed);
         backRightDrive2.setPower(-speed);
+    }
+    public void strafeLeft(double speed){
+        forwardLeftDrive1.setPower(-speed);
+        forwardRightDrive1.setPower(speed);
+        backLeftDrive2.setPower(speed);
+        backRightDrive2.setPower(-speed);
+    }
+    public void strafeRight(double speed){
+        forwardLeftDrive1.setPower(speed);
+        forwardRightDrive1.setPower(-speed);
+        backLeftDrive2.setPower(-speed);
+        backRightDrive2.setPower(speed);
+    }
+    public void stopMoving(){
+        forwardLeftDrive1.setPower(0);
+        forwardRightDrive1.setPower(0);
+        backLeftDrive2.setPower(0);
+        backRightDrive2.setPower(0);
     }
 }
