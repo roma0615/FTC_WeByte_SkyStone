@@ -212,11 +212,11 @@ public class Mechanum_wheels extends LinearOpMode {
 
 
             if (servosToggle) {
-                rightServo.setPosition(0.55);
-                leftServo.setPosition(0.55);
+                rightServo.setPosition(0.15);
+                leftServo.setPosition(0.5);
             } else {
-                rightServo.setPosition(0.1);
-                leftServo.setPosition(0.1);
+                rightServo.setPosition(0.65);
+                leftServo.setPosition(1);
             }
 
 

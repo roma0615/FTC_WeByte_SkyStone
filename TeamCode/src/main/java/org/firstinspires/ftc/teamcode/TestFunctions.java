@@ -112,16 +112,16 @@ public class TestFunctions extends LinearOpMode {
         sleep(1000);
     }
     public void turnRight(double speed){
-        forwardLeftDrive1.setPower(-speed);
-        forwardRightDrive1.setPower(speed);
-        backLeftDrive2.setPower(-speed);
-        backRightDrive2.setPower(speed);
-    }
-    public void turnLeft(double speed){
         forwardLeftDrive1.setPower(speed);
         forwardRightDrive1.setPower(-speed);
         backLeftDrive2.setPower(speed);
         backRightDrive2.setPower(-speed);
+    }
+    public void turnLeft(double speed){
+        forwardLeftDrive1.setPower(-speed);
+        forwardRightDrive1.setPower(speed);
+        backLeftDrive2.setPower(-speed);
+        backRightDrive2.setPower(speed);
     }
     public void goForward(double speed){
         forwardLeftDrive1.setPower(speed);
