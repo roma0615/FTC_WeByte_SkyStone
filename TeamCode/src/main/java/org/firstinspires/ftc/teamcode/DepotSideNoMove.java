@@ -75,16 +75,16 @@ public class DepotSideNoMove extends LinearOpMode {
         rightServo.setPosition(0.1);
         leftServo.setPosition(0.1);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Move forward to parl
+        // Step 2:  Move forward to park
         goForward(FORWARD_SPEED);
         runtime.reset();
 
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -125,5 +125,23 @@ public class DepotSideNoMove extends LinearOpMode {
         forwardRightDrive1.setPower(-speed);
         backLeftDrive2.setPower(-speed);
         backRightDrive2.setPower(-speed);
+    }
+    public void strafeLeft(double speed){
+        forwardLeftDrive1.setPower(-speed);
+        forwardRightDrive1.setPower(speed);
+        backLeftDrive2.setPower(speed);
+        backRightDrive2.setPower(-speed);
+    }
+    public void strafeRight(double speed){
+        forwardLeftDrive1.setPower(speed);
+        forwardRightDrive1.setPower(-speed);
+        backLeftDrive2.setPower(-speed);
+        backRightDrive2.setPower(speed);
+    }
+    public void stopMoving(){
+        forwardLeftDrive1.setPower(0);
+        forwardRightDrive1.setPower(0);
+        backLeftDrive2.setPower(0);
+        backRightDrive2.setPower(0);
     }
 }

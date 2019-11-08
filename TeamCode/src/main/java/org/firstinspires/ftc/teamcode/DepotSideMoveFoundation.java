@@ -100,7 +100,7 @@ public class DepotSideMoveFoundation extends LinearOpMode {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        
+
         // Step 3:  Drive Backwards for 1 Second
         goBack(FORWARD_SPEED);
         runtime.reset();

@@ -75,21 +75,10 @@ public class BuildingSiteSideNoMove extends LinearOpMode {
         rightServo.setPosition(0.1);
         leftServo.setPosition(0.1);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-
-        // Step 2:  Servo grab
-        rightServo.setPosition(0.55);
-        leftServo.setPosition(0.55);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
         // Step 3:  Drive Forwards for 1 Second
         goForward(FORWARD_SPEED);
         runtime.reset();
@@ -126,5 +115,23 @@ public class BuildingSiteSideNoMove extends LinearOpMode {
         forwardRightDrive1.setPower(-speed);
         backLeftDrive2.setPower(-speed);
         backRightDrive2.setPower(-speed);
+    }
+    public void strafeLeft(double speed){
+        forwardLeftDrive1.setPower(-speed);
+        forwardRightDrive1.setPower(speed);
+        backLeftDrive2.setPower(speed);
+        backRightDrive2.setPower(-speed);
+    }
+    public void strafeRight(double speed){
+        forwardLeftDrive1.setPower(speed);
+        forwardRightDrive1.setPower(-speed);
+        backLeftDrive2.setPower(-speed);
+        backRightDrive2.setPower(speed);
+    }
+    public void stopMoving(){
+        forwardLeftDrive1.setPower(0);
+        forwardRightDrive1.setPower(0);
+        backLeftDrive2.setPower(0);
+        backRightDrive2.setPower(0);
     }
 }
