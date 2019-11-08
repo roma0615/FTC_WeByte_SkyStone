@@ -206,7 +206,7 @@ public class Mechanum_wheels extends LinearOpMode {
             if (gamepad2.a && !servosChanged) {
                 servosToggle = !servosToggle;
                 servosChanged = true;
-            } else {
+            } else if(!gamepad1.a) {
                 servosChanged = false;
             }
 
