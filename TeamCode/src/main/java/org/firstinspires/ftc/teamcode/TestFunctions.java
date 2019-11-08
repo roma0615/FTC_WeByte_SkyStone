@@ -63,7 +63,6 @@ public class TestFunctions extends LinearOpMode {
         waitForStart();
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
-
         // Step 1:  Turn Left
 
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
@@ -71,20 +70,28 @@ public class TestFunctions extends LinearOpMode {
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
-        turnLeft(TURN_SPEED);
-        rightServo.setPosition(0.1);
-        leftServo.setPosition(0.1);
+        strafeRight(TURN_SPEED);
+        rightServo.setPosition(0.15);
+        leftServo.setPosition(1);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            telemetry.addData("Path", "Robot should be strafing Right", runtime.seconds());
+            telemetry.update();
+        }
+        runtime.reset();
+        strafeLeft(0);
+        rightServo.setPosition(0.65);
+        leftServo.setPosition(0.5);
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Robot should be turning left", runtime.seconds());
             telemetry.update();
         }
-
+        /*
         // Step 2:  Turn Right
         turnRight(TURN_SPEED);
         runtime.reset();
 
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Robot should be turning right", runtime.seconds());
             telemetry.update();
         }
@@ -106,7 +113,7 @@ public class TestFunctions extends LinearOpMode {
             telemetry.addData("Path", "Robot should be moving Backward", runtime.seconds());
             telemetry.update();
         }
-
+        */
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
@@ -134,5 +141,17 @@ public class TestFunctions extends LinearOpMode {
         forwardRightDrive1.setPower(-speed);
         backLeftDrive2.setPower(-speed);
         backRightDrive2.setPower(-speed);
+    }
+    public void strafeLeft(double speed){
+        forwardLeftDrive1.setPower(-speed);
+        forwardRightDrive1.setPower(speed);
+        backLeftDrive2.setPower(speed);
+        backRightDrive2.setPower(-speed);
+    }
+    public void strafeRight(double speed){
+        forwardLeftDrive1.setPower(speed);
+        forwardRightDrive1.setPower(-speed);
+        backLeftDrive2.setPower(-speed);
+        backRightDrive2.setPower(speed);
     }
 }
