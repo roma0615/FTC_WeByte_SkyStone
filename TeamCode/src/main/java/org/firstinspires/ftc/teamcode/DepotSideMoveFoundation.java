@@ -75,18 +75,20 @@ public class DepotSideMoveFoundation extends LinearOpMode {
         rightServo.setPosition(0.15);
         leftServo.setPosition(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 5)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
 
-        // Step 2:  Drive Forwards for 2 Seconds
-        goForward(FORWARD_SPEED);
-        runtime.reset();
+        // Step 1:  Drive forward for 3 seconds
 
+        goForward(FORWARD_SPEED);
+        rightServo.setPosition(0.15);
+        leftServo.setPosition(0);
+        runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
@@ -105,13 +107,37 @@ public class DepotSideMoveFoundation extends LinearOpMode {
         goBack(FORWARD_SPEED);
         runtime.reset();
 
-        while (opModeIsActive() && (runtime.seconds() < 3)) {
+        while (opModeIsActive() && (runtime.seconds() < 2.5)) {
+            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 4:  Turn left
+        turnLeft(TURN_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 2)) {
             telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
         // Step 4:  Strafe right for 1 Second
         rightServo.setPosition(0.15);
         leftServo.setPosition(1);
+        strafeRight(FORWARD_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 1.2)) {
+            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 5: turn right
+        turnRight(TURN_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 1.25)) {
+            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 6: strafe right
         strafeRight(FORWARD_SPEED);
         runtime.reset();
 
