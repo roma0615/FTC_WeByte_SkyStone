@@ -215,12 +215,10 @@ public class Mechanum_wheels extends LinearOpMode {
                 servosToggleDown = false;
                 servosToggleSide = true;
             }
-            else if ((gamepad2.dpad_right || gamepad2.dpad_left)) {
+            else if (gamepad2.dpad_down) {
                 servosToggleUp = false;
-                servosToggleDown = false;
-                servosToggleSide = true;
-            } else if(!gamepad2.a) {
-                servosChanged = false;
+                servosToggleDown = true;
+                servosToggleSide = false;
             }
 
 
