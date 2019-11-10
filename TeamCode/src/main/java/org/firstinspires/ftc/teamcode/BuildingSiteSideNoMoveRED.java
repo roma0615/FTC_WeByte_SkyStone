@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.Robot;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -33,28 +30,12 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 @Autonomous(name="BuildingSiteSideNoMoveRED")
 
 public class BuildingSiteSideNoMoveRED extends LinearOpMode {
-
-    /* Declare OpMode members. */
-    // Use a Pushbot's hardware
-    private ElapsedTime     runtime = new ElapsedTime();
-
-
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
-    private DcMotor forwardLeftDrive1 = null;
-    private DcMotor backLeftDrive2 = null;
-    private DcMotor forwardRightDrive1 = null;
-    private DcMotor backRightDrive2 = null;
-    private Servo rightServo = null;
-    private Servo leftServo = null;
     @Override
     public void runOpMode() {
-        forwardLeftDrive1  = hardwareMap.get(DcMotor.class, "forwardLeft_drive");
-        forwardRightDrive1 = hardwareMap.get(DcMotor.class, "forwardRight_drive");
-        backLeftDrive2  = hardwareMap.get(DcMotor.class, "backLeft_drive");
-        backRightDrive2 = hardwareMap.get(DcMotor.class, "backRight_drive");
-        rightServo = hardwareMap.get(Servo.class, "servoRight");
-        leftServo = hardwareMap.get(Servo.class, "servoLeft");
+        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
+            @Override
+            public boolean get() { return opModeIsActive(); }
+        });
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
@@ -65,65 +46,13 @@ public class BuildingSiteSideNoMoveRED extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Strafe Left
+        Robot.setServos(0.1, 0.1, 0, "Moving servos");
+        Robot.strafeLeft(1, "Leg 1: %2.5f S Elapsed");
 
-        forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
-        backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
-        forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
-        backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
+        Robot.stopMoving();
 
-        strafeLeft(FORWARD_SPEED);
-        rightServo.setPosition(0.1);
-        leftServo.setPosition(0.1);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        stopMoving();
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
-    }
-    public void turnRight(double speed){
-        forwardLeftDrive1.setPower(speed);
-        forwardRightDrive1.setPower(-speed);
-        backLeftDrive2.setPower(speed);
-        backRightDrive2.setPower(-speed);
-    }
-    public void turnLeft(double speed){
-        forwardLeftDrive1.setPower(-speed);
-        forwardRightDrive1.setPower(speed);
-        backLeftDrive2.setPower(-speed);
-        backRightDrive2.setPower(speed);
-    }
-    public void goForward(double speed){
-        forwardLeftDrive1.setPower(speed);
-        forwardRightDrive1.setPower(speed);
-        backLeftDrive2.setPower(speed);
-        backRightDrive2.setPower(speed);
-    }
-    public void goBack(double speed){
-        forwardLeftDrive1.setPower(-speed);
-        forwardRightDrive1.setPower(-speed);
-        backLeftDrive2.setPower(-speed);
-        backRightDrive2.setPower(-speed);
-    }
-    public void strafeLeft(double speed){
-        forwardLeftDrive1.setPower(-speed);
-        forwardRightDrive1.setPower(speed);
-        backLeftDrive2.setPower(speed);
-        backRightDrive2.setPower(-speed);
-    }
-    public void strafeRight(double speed){
-        forwardLeftDrive1.setPower(speed);
-        forwardRightDrive1.setPower(-speed);
-        backLeftDrive2.setPower(-speed);
-        backRightDrive2.setPower(speed);
-    }
-    public void stopMoving(){
-        forwardLeftDrive1.setPower(0);
-        forwardRightDrive1.setPower(0);
-        backLeftDrive2.setPower(0);
-        backRightDrive2.setPower(0);
     }
 }

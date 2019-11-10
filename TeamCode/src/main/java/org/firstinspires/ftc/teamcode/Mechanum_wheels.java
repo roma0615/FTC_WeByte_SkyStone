@@ -3,10 +3,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.ServoPosition;
 
 /**
@@ -20,17 +19,6 @@ import org.firstinspires.ftc.teamcode.utils.ServoPosition;
 public class Mechanum_wheels extends LinearOpMode {
 
     // Declare OpMode members.
-
-    private ElapsedTime runtime = new ElapsedTime();
-
-    private DcMotor forwardLeftDrive1 = null;
-    private DcMotor backLeftDrive2 = null;
-    private DcMotor forwardRightDrive1 = null;
-    private DcMotor backRightDrive2 = null;
-
-    private Servo rightServo = null;
-    private Servo leftServo = null;
-
     private ServoPosition servoPosition = ServoPosition.SIDE;
 
 
@@ -41,32 +29,17 @@ public class Mechanum_wheels extends LinearOpMode {
     @Override
 
     public void runOpMode() throws InterruptedException {
+        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
+            @Override
+            public boolean get() { return opModeIsActive(); }
+        });
 
-        forwardLeftDrive1  = hardwareMap.get(DcMotor.class, "forwardLeft_drive");
-        forwardRightDrive1 = hardwareMap.get(DcMotor.class, "forwardRight_drive");
-        backLeftDrive2  = hardwareMap.get(DcMotor.class, "backLeft_drive");
-        backRightDrive2 = hardwareMap.get(DcMotor.class, "backRight_drive");
-        rightServo = hardwareMap.get(Servo.class, "servoRight");
-        leftServo = hardwareMap.get(Servo.class, "servoLeft");
-
-        forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
-        backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
-
-        forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
-        backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
-
-        forwardLeftDrive1.setPower(0);
-        forwardRightDrive1.setPower(0);
-        backLeftDrive2.setPower(0);
-        backRightDrive2.setPower(0);
-
+        Robot.stopMoving();
         telemetry.addData("Robot", "Initialized");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
-
         while (opModeIsActive()) {
             // Controls movement of the robot
             drive();
@@ -79,14 +52,13 @@ public class Mechanum_wheels extends LinearOpMode {
             } else if (gamepad2.dpad_down) {
                 servoPosition = ServoPosition.DOWN;
             }
-            rightServo.setPosition(servoPosition.getRight());
-            leftServo.setPosition(servoPosition.getLeft());
+            Robot.setServos(servoPosition, 0, "");
 
             // Telemetry
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
-                            "back left (%.2f), back right (%.2f)", forwardLeftDrive1.getPower(), forwardRightDrive1.getPower(),
-                    backLeftDrive2.getPower(), backRightDrive2.getPower());
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+                            "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
+                    Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
+            telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
             telemetry.update();
 
         }
@@ -113,9 +85,9 @@ public class Mechanum_wheels extends LinearOpMode {
             v4 *= 0.5;
         }
 
-        forwardLeftDrive1.setPower(v1);
-        forwardRightDrive1.setPower(v2);
-        backLeftDrive2.setPower(v3);
-        backRightDrive2.setPower(v4);
+        Robot.forwardLeftDrive1.setPower(v1);
+        Robot.forwardRightDrive1.setPower(v2);
+        Robot.backLeftDrive2.setPower(v3);
+        Robot.backRightDrive2.setPower(v4);
     }
 }

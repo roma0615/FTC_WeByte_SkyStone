@@ -5,10 +5,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.Robot;
 
 
 /**
@@ -26,40 +26,20 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 public class BasicTeleOp_Trial1 extends LinearOpMode {
-
-    // Declare OpMode members.
-    // Must name motors EXACTLY according to these variable names.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor forwardLeftDrive1 = null;
-    private DcMotor backLeftDrive2 = null;
-    private DcMotor forwardRightDrive1 = null;
-    private DcMotor backRightDrive2 = null;
     @Override
     public void runOpMode() {
+        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
+            @Override
+            public boolean get() { return opModeIsActive(); }
+        });
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
-        forwardLeftDrive1  = hardwareMap.get(DcMotor.class, "forwardLeft_drive");
-        forwardRightDrive1 = hardwareMap.get(DcMotor.class, "forwardRight_drive");
-        backLeftDrive2  = hardwareMap.get(DcMotor.class, "backLeft_drive");
-        backRightDrive2 = hardwareMap.get(DcMotor.class, "backRight_drive");
-        // Most robots need the motor on one side to be reversed to drive forward
-        // Reverse the motor that runs backwards when connected directly to the battery
-        forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
-        forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
-        backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
             double rightPower;
@@ -80,13 +60,13 @@ public class BasicTeleOp_Trial1 extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
-            forwardLeftDrive1.setPower(leftPower);
-            backLeftDrive2.setPower(leftPower);
-            forwardRightDrive1.setPower(rightPower);
-            backRightDrive2.setPower(rightPower);
+            Robot.forwardLeftDrive1.setPower(leftPower);
+            Robot.backLeftDrive2.setPower(leftPower);
+            Robot.forwardRightDrive1.setPower(rightPower);
+            Robot.backRightDrive2.setPower(rightPower);
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
