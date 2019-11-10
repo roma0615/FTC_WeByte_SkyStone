@@ -30,9 +30,9 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="BuildingSiteNoMove")
+@Autonomous(name="BuildingSiteSideNoMoveRED")
 
-public class BuildingSiteSideNoMove extends LinearOpMode {
+public class BuildingSiteSideNoMoveRED extends LinearOpMode {
 
     /* Declare OpMode members. */
     // Use a Pushbot's hardware
@@ -64,14 +64,14 @@ public class BuildingSiteSideNoMove extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Turn Right
+        // Step 1:  Strafe Left
 
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
-        turnRight(FORWARD_SPEED);
+        strafeLeft(FORWARD_SPEED);
         rightServo.setPosition(0.1);
         leftServo.setPosition(0.1);
         runtime.reset();
@@ -79,15 +79,7 @@ public class BuildingSiteSideNoMove extends LinearOpMode {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        // Step 3:  Drive Forwards for 1 Second
-        goForward(FORWARD_SPEED);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
+        stopMoving();
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);

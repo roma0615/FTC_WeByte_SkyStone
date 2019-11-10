@@ -10,18 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
- * This file illustrates the concept of driving a path based on time.
- * It uses the common Pushbot hardware class to define the drive on the robot.
  * The code is structured as a LinearOpMode
  *
- * The code assumes that you do NOT have encoders on the wheels,
- *   otherwise you would use: PushbotAutoDriveByEncoder;
- *
  *   The desired path in this example is:
- *   - Drive forward for 3 seconds
- *   - Spin right for 1.3 seconds
- *   - Drive Backwards for 1 Second
- *   - Stop and close the claw.
  *
  *  The code is written in a simple form with no optimizations.
  *  However, there are several ways that this type of sequence could be streamlined,
@@ -30,16 +21,16 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="DepotSideNoMove")
+@Autonomous(name="DepotSideMoveFoundationBLUE")
 
-public class DepotSideNoMove extends LinearOpMode {
+public class DepotSideMoveFoundationBLUE extends LinearOpMode {
 
     /* Declare OpMode members. */
     // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
 
-    static final double     FORWARD_SPEED = 0.6;
+    static final double     FORWARD_SPEED = 1;
     static final double     TURN_SPEED    = 0.5;
     private DcMotor forwardLeftDrive1 = null;
     private DcMotor backLeftDrive2 = null;
@@ -64,40 +55,101 @@ public class DepotSideNoMove extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Turn Left
+        // Step 1:  Strafe Left
 
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
-        turnLeft(FORWARD_SPEED);
-        rightServo.setPosition(0.1);
-        leftServo.setPosition(0.1);
+        strafeLeft(FORWARD_SPEED);
+        rightServo.setPosition(0.15);
+        leftServo.setPosition(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+        while (opModeIsActive() && (runtime.seconds() < 5)) {
+            telemetry.addData("Path", "Strafing left", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Move forward to park
+
+        // Step 1:  Drive forward for 3 seconds
         goForward(FORWARD_SPEED);
+        rightServo.setPosition(0.15);
+        leftServo.setPosition(0);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.8)) {
+            telemetry.addData("Path", "Drive forward", runtime.seconds());
+            telemetry.update();
+        }
+
+        // Step 2:  Servo grab
+        stopMoving();
+        rightServo.setPosition(0.65);
+        leftServo.setPosition(0.5);
         runtime.reset();
 
         while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Grabbing the foundation", runtime.seconds());
             telemetry.update();
         }
-        /*
+
         // Step 3:  Drive Backwards for 1 Second
         goBack(FORWARD_SPEED);
         runtime.reset();
 
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+        while (opModeIsActive() && (runtime.seconds() < 2.2)) {
+            telemetry.addData("Path", "Driving Backward", runtime.seconds());
             telemetry.update();
         }
-        */
+        // Move forward
+        goForward(FORWARD_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.2)) {
+            telemetry.addData("Path", "Driving Backward", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 4:  Turn left to move the foundation
+        turnLeft(TURN_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 2.2)) {
+            telemetry.addData("Path", "Turning left", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 4:  Strafe right for 1 Second
+        rightServo.setPosition(0.15);
+        leftServo.setPosition(1);
+        strafeRight(FORWARD_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 1.2)) {
+            telemetry.addData("Path", "Strafing right", runtime.seconds());
+            telemetry.update();
+        }
+        // Move out of foundation
+        goBack(FORWARD_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 0.3)) {
+            telemetry.addData("Path", "Turning right", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 5: turn right
+        turnRight(TURN_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 1.1)) {
+            telemetry.addData("Path", "Turning right", runtime.seconds());
+            telemetry.update();
+        }
+        // Step 6: strafe right
+        strafeRight(FORWARD_SPEED);
+        runtime.reset();
+
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+            telemetry.addData("Path", "Strafing right", runtime.seconds());
+            telemetry.update();
+        }
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);

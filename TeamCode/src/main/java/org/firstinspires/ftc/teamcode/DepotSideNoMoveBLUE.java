@@ -30,16 +30,16 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="DepotSideMoveFoundation")
+@Autonomous(name="DepotSideNoMoveBLUE")
 
-public class DepotSideMoveFoundation extends LinearOpMode {
+public class DepotSideNoMoveBLUE extends LinearOpMode {
 
     /* Declare OpMode members. */
     // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
 
-    static final double     FORWARD_SPEED = 1;
+    static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
     private DcMotor forwardLeftDrive1 = null;
     private DcMotor backLeftDrive2 = null;
@@ -64,7 +64,7 @@ public class DepotSideMoveFoundation extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Strafe Left
+        // Step 1:  Strafe Left to park on the line
 
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
@@ -72,79 +72,14 @@ public class DepotSideMoveFoundation extends LinearOpMode {
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
         strafeLeft(FORWARD_SPEED);
-        rightServo.setPosition(0.15);
-        leftServo.setPosition(0);
+        rightServo.setPosition(0.1);
+        leftServo.setPosition(0.1);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 5)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-
-        // Step 1:  Drive forward for 3 seconds
-
-        goForward(FORWARD_SPEED);
-        rightServo.setPosition(0.15);
-        leftServo.setPosition(0);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        // Step 2:  Servo grab
-        stopMoving();
-        rightServo.setPosition(0.65);
-        leftServo.setPosition(0.5);
-        runtime.reset();
-
         while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
+            telemetry.addData("Path", "Strafing left", runtime.seconds());
             telemetry.update();
         }
-
-        // Step 3:  Drive Backwards for 1 Second
-        goBack(FORWARD_SPEED);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 2.5)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        // Step 4:  Turn left
-        turnLeft(TURN_SPEED);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 2)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        // Step 4:  Strafe right for 1 Second
-        rightServo.setPosition(0.15);
-        leftServo.setPosition(1);
-        strafeRight(FORWARD_SPEED);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 1.2)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        // Step 5: turn right
-        turnRight(TURN_SPEED);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 1.25)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        // Step 6: strafe right
-        strafeRight(FORWARD_SPEED);
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 1)) {
-            telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
+        stopMoving();
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
