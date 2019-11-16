@@ -152,7 +152,7 @@ public class TensorFlowDetection {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
         //MINIMUM CONFIDENCE IS HERE - VERY IMPORTANT PARAMETER
-        tfodParameters.minimumConfidence = 0.6;
+        tfodParameters.minimumConfidence = 0.7;
 
 
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
