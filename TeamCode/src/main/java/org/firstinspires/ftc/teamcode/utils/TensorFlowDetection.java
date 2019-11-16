@@ -2,31 +2,21 @@
 
 package org.firstinspires.ftc.teamcode.utils;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import java.util.List;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-/**
- * This 2019-2020 OpMode illustrates the basics of using the TensorFlow Object Detection API to
- * determine the position of the Skystone game elements.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
- */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
-public class TensorFlowDetection extends LinearOpMode {
-    public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    public static final String LABEL_FIRST_ELEMENT = "Stone";
-    public static final String LABEL_SECOND_ELEMENT = "Skystone";
+import java.util.List;
+
+public class TensorFlowDetection {
+    private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Stone";
+    private static final String LABEL_SECOND_ELEMENT = "Skystone";
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -40,35 +30,30 @@ public class TensorFlowDetection extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    public static final String VUFORIA_KEY =
-            "AQqx7Hv/////AAABmeHmysAgekSTg8A/T+sJO28b/TqN3z6xf6Dx" +
-                    "rsqx/fV0NyN91JIaf1/r4s9SAhIFBarof770EinO7ACBxPgaRv8luUQcQWyyh1UUaC0EDVzgCDbZDLPAoj7+gch" +
-
-                    "3RnNLYfRWt/mcyVs2oKHF/5hArN1Rk7ubxrjnUSOCnOLd7ncXo5W+O9XGnaVgEhD+lmuR0jjWFcSuRgYOuA7X6" +
-
-                    "dXaeVdzumrQu7AH42+VtN4TIuSsEfTvH/wGKcGGehiX5MvWIvm7P+uMj256blkXPJLol4hksCfybiJpN2Zr7h4" +
-
-                    "q0CALaHsdaBD5cSJBAadYdQuh6KxhXKQGwFybQty8ee0on4Dfmt6hq2i/aCXIGslJqol+";
+    private static final String VUFORIA_KEY = "AQqx7Hv/////AAABmeHmysAgekSTg8A/T+sJO28b/TqN3z6xf6Dxrsqx/fV0NyN91JIaf1/r4s9SAhIFBarof770EinO7ACBxPgaRv8luUQcQWyyh1UUaC0EDVzgCDbZDLPAoj7+gch3RnNLYfRWt/mcyVs2oKHF/5hArN1Rk7ubxrjnUSOCnOLd7ncXo5W+O9XGnaVgEhD+lmuR0jjWFcSuRgYOuA7X6dXaeVdzumrQu7AH42+VtN4TIuSsEfTvH/wGKcGGehiX5MvWIvm7P+uMj256blkXPJLol4hksCfybiJpN2Zr7h4q0CALaHsdaBD5cSJBAadYdQuh6KxhXKQGwFybQty8ee0on4Dfmt6hq2i/aCXIGslJqol+";
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
-    public VuforiaLocalizer vuforia;
+    private static VuforiaLocalizer vuforia;
 
     /**
      * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
      * Detection engine.
      */
-    public TFObjectDetector tfod;
+    private static TFObjectDetector tfod;
+    private static List<Recognition> recognitions;
 
-    @Override
-    public static void runOpMode() {
+    private static Telemetry telemetry;
+
+    public static void init(HardwareMap hwmap, Telemetry tel) {
+        telemetry = tel;
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
+            initTfod(hwmap);
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
@@ -80,36 +65,38 @@ public class TensorFlowDetection extends LinearOpMode {
         if (tfod != null) {
             tfod.activate();
         }
+    }
 
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode");
-        telemetry.update();
-        waitForStart();
+    /** Return a list of recognitions from the tensorflow object detector */
+    public static List<Recognition> getRecognitions() {
+        return recognitions;
+    }
 
-        if (opModeIsActive()) {
-            while (opModeIsActive()) {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+    /** Update the recognitions list */
+    public static void updateRecognitions() {
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                recognitions = updatedRecognitions;
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
 
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                        }
-                        telemetry.update();
-                    }
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                for (Recognition recognition : updatedRecognitions) {
+                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
                 }
+                telemetry.update();
             }
         }
+    }
 
+    public static void shutdown() {
         if (tfod != null) {
             tfod.shutdown();
         }
@@ -118,7 +105,7 @@ public class TensorFlowDetection extends LinearOpMode {
     /**
      * Initialize the Vuforia localization engine.
      */
-    public static void initVuforia() {
+    private static void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
@@ -136,9 +123,9 @@ public class TensorFlowDetection extends LinearOpMode {
     /**
      * Initialize the TensorFlow Object Detection engine.
      */
-    public static void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    private static void initTfod(HardwareMap hwmap) {
+        int tfodMonitorViewId = hwmap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hwmap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
         //MINIMUM CONFIDENCE IS HERE - VERY IMPORTANT PARAMETER
