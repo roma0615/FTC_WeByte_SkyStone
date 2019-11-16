@@ -5,10 +5,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
-import org.firstinspires.ftc.teamcode.utils.Robot;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /**
@@ -24,14 +21,17 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
+@TeleOp(name="TESTING MOTOR", group="Linear Opmode")
 public class BasicTeleOp_Trial1 extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
-            @Override
-            public boolean get() { return opModeIsActive(); }
-        });
+//        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
+//            @Override
+//            public boolean get() { return opModeIsActive(); }
+//        });
+        DcMotor motor;
+        motor = hardwareMap.get(DcMotor.class, "motor1");
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -40,35 +40,38 @@ public class BasicTeleOp_Trial1 extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double leftPower;
-            double rightPower;
+            double power = gamepad1.left_stick_y;
+            motor.setPower(power);
 
-            // Choose to drive using either Tank Mode, or POV Mode
-            // Comment out the method that's not used.  The default below is POV.
-
-            // POV Mode uses left stick to go forward, and right stick to turn.
-            // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
-            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            // leftPower  = -gamepad1.left_stick_y ;
-            // rightPower = -gamepad1.right_stick_y ;
-
-            // Send calculated power to wheels
-            Robot.forwardLeftDrive1.setPower(leftPower);
-            Robot.backLeftDrive2.setPower(leftPower);
-            Robot.forwardRightDrive1.setPower(rightPower);
-            Robot.backRightDrive2.setPower(rightPower);
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.update();
+//            // Setup a variable for each drive wheel to save power level for telemetry
+//            double leftPower;
+//            double rightPower;
+//
+//            // Choose to drive using either Tank Mode, or POV Mode
+//            // Comment out the method that's not used.  The default below is POV.
+//
+//            // POV Mode uses left stick to go forward, and right stick to turn.
+//            // - This uses basic math to combine motions and is easier to drive straight.
+//            double drive = -gamepad1.left_stick_y;
+//            double turn  =  gamepad1.right_stick_x;
+//            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+//            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+//
+//            // Tank Mode uses one stick to control each wheel.
+//            // - This requires no math, but it is hard to drive forward slowly and keep straight.
+//            // leftPower  = -gamepad1.left_stick_y ;
+//            // rightPower = -gamepad1.right_stick_y ;
+//
+//            // Send calculated power to wheels
+//            Robot.forwardLeftDrive1.setPower(leftPower);
+//            Robot.backLeftDrive2.setPower(leftPower);
+//            Robot.forwardRightDrive1.setPower(rightPower);
+//            Robot.backRightDrive2.setPower(rightPower);
+//
+//            // Show the elapsed game time and wheel power.
+//            telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
+//            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+//            telemetry.update();
         }
     }
 }
