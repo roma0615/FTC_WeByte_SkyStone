@@ -16,8 +16,8 @@ import java.util.List;
 
 public class TensorFlowDetection {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
+    public static final String LABEL_FIRST_ELEMENT = "Stone";
+    public static final String LABEL_SECOND_ELEMENT = "Skystone";
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -75,6 +75,19 @@ public class TensorFlowDetection {
                 return (int)(r1.getLeft() - r2.getLeft());
             }
         };
+    }
+
+    public static int skystonesFound() {
+        if (getRecognitions() == null) return 0;
+        else {
+            int c = 0;
+            for (Recognition r : recognitions) {
+                if (r.getLabel() == LABEL_SECOND_ELEMENT) {
+                    c++;
+                }
+            }
+            return c;
+        }
     }
 
     /** Return a list of recognitions from the tensorflow object detector */
