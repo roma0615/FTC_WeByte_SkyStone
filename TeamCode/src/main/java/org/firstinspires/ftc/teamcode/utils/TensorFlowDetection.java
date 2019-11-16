@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class TensorFlowDetection {
@@ -65,6 +66,15 @@ public class TensorFlowDetection {
         if (tfod != null) {
             tfod.activate();
         }
+    }
+
+    public static Comparator<Recognition> sortByLeft() {
+        return new Comparator<Recognition>() {
+            @Override
+            public int compare(Recognition r1, Recognition r2) {
+                return (int)(r1.getLeft() - r2.getLeft());
+            }
+        };
     }
 
     /** Return a list of recognitions from the tensorflow object detector */
