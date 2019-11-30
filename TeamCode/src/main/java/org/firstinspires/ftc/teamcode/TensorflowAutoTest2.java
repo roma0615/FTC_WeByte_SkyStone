@@ -5,7 +5,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.ServoPosition;
-import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
+import org.firstinspires.ftc.teamcode.utils.TensorFlowWebcamDetection;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.util.*;
 
@@ -13,8 +13,8 @@ import java.util.*;
 If it is, knock it out and move it.
 If not, move to the next stone.
  */
-@Autonomous(name="TensorFlowAutoTest")
-public class TensorflowAutoTest extends LinearOpMode{
+@Autonomous(name="TensorFlowAutoTest2")
+public class TensorflowAutoTest2 extends LinearOpMode{
     int moveCount = 0;
     @Override
     public void runOpMode(){
@@ -27,27 +27,29 @@ public class TensorflowAutoTest extends LinearOpMode{
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
-        TensorFlowDetection.init(hardwareMap,telemetry);
+        TensorFlowWebcamDetection.init(hardwareMap,telemetry);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         boolean END = false;
         while (opModeIsActive()) {
-            if (END == true){
-                executeCenterGrab();
-            }
-            else {
+            if (END == true) {
+                telemetry.addData("Status", "Skystone FOUND!");    //
+                telemetry.update();
+            } else {
                 if (moveCount != 5) {
-                    if (TensorFlowDetection.getRecognitions() != null
-                            && TensorFlowDetection.getRecognitions().size() == 1) {
+                    if (TensorFlowWebcamDetection.getRecognitions() != null
+                            && TensorFlowWebcamDetection.getRecognitions().size() == 1) {
                         moving = true;
                     }
                     // Update the recognitions if the moving is false.
                     if (!moving) {
-                        TensorFlowDetection.updateRecognitions();
+                        TensorFlowWebcamDetection.updateRecognitions();
                     } else {
-                        List<Recognition> rec = TensorFlowDetection.getRecognitions();
+                        List<Recognition> rec = TensorFlowWebcamDetection.getRecognitions();
 
                         if (rec.get(0).getLabel().equals("Skystone")) {
+                            executeCenterGrab();
+                            moveToNext();
                             moving = false;
                             END = true;
                         } else {
@@ -58,14 +60,14 @@ public class TensorflowAutoTest extends LinearOpMode{
                 }
             }
         }
-        TensorFlowDetection.shutdown();
+        TensorFlowWebcamDetection.shutdown();
     }
     public void executeLeftGrab(){
         telemetry.addData("Status", "Execute pushing the left block!");    //
         telemetry.update();
     }
     public void executeCenterGrab(){
-        telemetry.addData("Status", "Execute pushing the center block! SKYSTONE FOUND!");    //
+        telemetry.addData("Status", "Execute pushing the center block!");    //
         telemetry.update();
     }
     public void executeRightGrab(){
