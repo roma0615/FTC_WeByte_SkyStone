@@ -124,6 +124,10 @@ public class TensorFlowDemo extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
+                            telemetry.addData(String.format("   height, width (%d)",i), "%.03f , %.03f",
+                                    recognition.getHeight(), recognition.getHeight());
+                            telemetry.addData(String.format("   height, width (%d)",i), "%.03f , %.03f",
+                                    recognition.getHeight(), recognition.getHeight());
                         }
                         telemetry.update();
                     }
