@@ -53,7 +53,9 @@ public class Mechanum_wheels extends LinearOpMode {
                 servoPosition = ServoPosition.DOWN;
             }
             Robot.setServos(servoPosition, 0, "");
-
+            if (gamepad2.left_bumper){
+                clawServo =
+            }
             // Telemetry
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
                             "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
@@ -83,6 +85,18 @@ public class Mechanum_wheels extends LinearOpMode {
             v2 *= 0.5;
             v3 *= 0.5;
             v4 *= 0.5;
+        }
+        if(gamepad1.dpad_up){
+            v1 = 1;
+            v2 = 1;
+            v3 = 1;
+            v4 = 1;
+        }
+        if(gamepad1.dpad_down){
+            v1 = -1;
+            v2 = -1;
+            v3 = -1;
+            v4 = -1;
         }
 
         Robot.forwardLeftDrive1.setPower(v1);

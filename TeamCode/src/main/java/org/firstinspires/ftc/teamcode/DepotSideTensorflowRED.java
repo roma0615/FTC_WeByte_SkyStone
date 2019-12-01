@@ -38,9 +38,10 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         while(opModeIsActive()) {
             // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-            // Step 1:  Strafe Right
+            // Step 1:  Strafe Right and move forward to get into position
             Robot.setServos(ServoPosition.SIDE, 0, "Lifting servos");
-            Robot.strafeLeft(6, "Getting ready to read blocks");
+            Robot.strafeLeft(3,"Getting ready to read blocks");
+            Robot.goForward(0.5,"Getting into position to read blocks");
 
             //Step 2: Begin first read of blocks using Tensorflow (UNFINISHED)
             boolean moving = false;

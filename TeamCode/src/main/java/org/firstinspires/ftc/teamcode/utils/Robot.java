@@ -22,6 +22,7 @@ public class Robot {
     public static DcMotor backRightDrive2 = null;
     public static Servo rightServo = null;
     public static Servo leftServo = null;
+    public static Servo clawServo = null;
 
     private static HardwareMap hwMap;
     private static Telemetry telemetry;
@@ -38,6 +39,7 @@ public class Robot {
         backRightDrive2 = hwMap.get(DcMotor.class, "backRight_drive");
         rightServo = hwMap.get(Servo.class, "servoRight");
         leftServo = hwMap.get(Servo.class, "servoLeft");
+        clawServo = hwMap.get(Servo.class, "servoClaw");
 
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
@@ -121,5 +123,8 @@ public class Robot {
         rightServo.setPosition(right);
         leftServo.setPosition(left);
         waitForSeconds(time, msg);
+    }
+    public static void setClawServo(){
+        //Implement for the ClawServo
     }
 }
