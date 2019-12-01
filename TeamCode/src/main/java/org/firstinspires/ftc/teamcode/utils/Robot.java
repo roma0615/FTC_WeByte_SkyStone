@@ -33,6 +33,21 @@ public class Robot {
         // this is a way of passing the opModeIsActive() method from an OpMode class to a different class
         opModeIsActive = opModeFunction;
 
+        /*
+        Expansion hub mappings:
+        Motors:
+            0 = back right
+            1 = back left
+            2 = front right
+            3 = front left
+        Servos:
+            0 = servoLeft
+            1 = servoRight
+            2 = servoClaw
+
+         The bottom expansion hub is Hub 3 in the config
+         The top expansion hub is Hub 2
+         */
         forwardLeftDrive1 = hwMap.get(DcMotor.class, "forwardLeft_drive");
         forwardRightDrive1 = hwMap.get(DcMotor.class, "forwardRight_drive");
         backLeftDrive2 = hwMap.get(DcMotor.class, "backLeft_drive");
