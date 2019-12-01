@@ -124,7 +124,8 @@ public class Robot {
         leftServo.setPosition(left);
         waitForSeconds(time, msg);
     }
-    public static void setClawServo(){
-        //Implement for the ClawServo
+    public static void setClawServo(ClawPosition pos, double time, String msg){
+        clawServo.setPosition(pos.getPos());
+        waitForSeconds(time, msg);
     }
 }

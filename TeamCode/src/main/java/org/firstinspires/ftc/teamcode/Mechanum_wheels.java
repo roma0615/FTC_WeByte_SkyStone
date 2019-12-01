@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.ClawPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 
@@ -20,6 +21,7 @@ public class Mechanum_wheels extends LinearOpMode {
 
     // Declare OpMode members.
     private FlipperPosition servoPosition = FlipperPosition.SIDE;
+    private ClawPosition clawPosition = ClawPosition.UP;
 
 
     /*
@@ -54,8 +56,11 @@ public class Mechanum_wheels extends LinearOpMode {
             }
             Robot.setServos(servoPosition, 0, "");
             if (gamepad2.left_bumper){
-                clawServo =
+                clawPosition = ClawPosition.DOWN;
+            } else if (gamepad2.right_bumper) {
+                clawPosition = ClawPosition.UP;
             }
+            Robot.setClawServo(clawPosition, 0, "");
             // Telemetry
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
                             "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
