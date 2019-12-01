@@ -20,7 +20,7 @@ import java.util.*;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="DepotSideMoveFoundationRED")
+@Autonomous(name="DepotSideTensorFlowRED")
 
 public class DepotSideTensorflowRED extends LinearOpMode {
     @Override
