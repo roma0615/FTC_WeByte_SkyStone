@@ -114,7 +114,7 @@ public class Robot {
         backRightDrive2.setPower(0);
     }
 
-    public static void setServos(ServoPosition pos, double time, String msg) {
+    public static void setServos(FlipperPosition pos, double time, String msg) {
         rightServo.setPosition(pos.getRight());
         leftServo.setPosition(pos.getLeft());
         waitForSeconds(time, msg);

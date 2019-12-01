@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.Robot;
-import org.firstinspires.ftc.teamcode.utils.ServoPosition;
+import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 
 /**
  * The code is structured as a LinearOpMode
@@ -40,7 +40,7 @@ public class DepotSideMoveFoundationBLUE extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Strafe Left
-        Robot.setServos(ServoPosition.SIDE, 0, "Lifting servos");
+        Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
         Robot.strafeLeft(5, "Strafing left");
 
 
@@ -49,7 +49,7 @@ public class DepotSideMoveFoundationBLUE extends LinearOpMode {
 
         // Step 2:  Servo grab
         Robot.stopMoving();
-        Robot.setServos(ServoPosition.DOWN, 1, "Grabbing the foundation");
+        Robot.setServos(FlipperPosition.DOWN, 1, "Grabbing the foundation");
 
         // Step 3:  Drive Backwards for 1 Second
         Robot.goBack(2.2, "Driving Backward");
@@ -61,7 +61,7 @@ public class DepotSideMoveFoundationBLUE extends LinearOpMode {
         Robot.turnLeft(2.2, "Turning left");
 
         // Step 4:  Strafe right for 1 Second
-        Robot.setServos(ServoPosition.SIDE, 0, "Lifting servos");
+        Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
         Robot.strafeRight(1.2, "Strafing right");
 
         // Move out of foundation

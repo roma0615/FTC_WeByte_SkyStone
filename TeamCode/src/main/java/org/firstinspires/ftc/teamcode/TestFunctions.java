@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.Robot;
-import org.firstinspires.ftc.teamcode.utils.ServoPosition;
+import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 
 /**
  * This file illustrates the concept of driving a path based on time.
@@ -46,10 +46,10 @@ public class TestFunctions extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         // Step 1:  Turn Left
-        Robot.setServos(ServoPosition.SIDE, 1, "Servos should be in SIDE position");
+        Robot.setServos(FlipperPosition.SIDE, 1, "Servos should be in SIDE position");
         Robot.strafeRight(1.0, "Robot should be strafing right");
 
-        Robot.setServos(ServoPosition.DOWN, 1, "Servos should be in DOWN position");
+        Robot.setServos(FlipperPosition.DOWN, 1, "Servos should be in DOWN position");
         Robot.strafeLeft(1.0, "Robot should be strafing left");
 
         // Step 2:  Turn Right

@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.Robot;
-import org.firstinspires.ftc.teamcode.utils.ServoPosition;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.util.*;

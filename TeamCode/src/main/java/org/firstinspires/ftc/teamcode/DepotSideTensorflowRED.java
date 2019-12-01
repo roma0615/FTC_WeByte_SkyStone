@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.Robot;
-import org.firstinspires.ftc.teamcode.utils.ServoPosition;
+import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.util.*;
@@ -39,7 +39,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
             // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
             // Step 1:  Strafe Right and move forward to get into position
-            Robot.setServos(ServoPosition.SIDE, 0, "Lifting servos");
+            Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
             Robot.strafeLeft(3,"Getting ready to read blocks");
             Robot.goForward(0.5,"Getting into position to read blocks");
 
