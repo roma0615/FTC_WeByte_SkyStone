@@ -55,7 +55,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         //Step 2: Begin first read of blocks using Tensorflow (UNFINISHED, seems to crash with Index out of bounds error)
         boolean moving = false;
         boolean END = false;
-        while (END == false && opModeIsActive()) {
+        while (!END && opModeIsActive()) {
             if (TensorFlowDetection.getRecognitions() != null
                     && TensorFlowDetection.getRecognitions().size() >= 1) {
                 moving = true;
@@ -82,7 +82,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         moving = false;
         END = false;
         int forwardMoveTime = 0;
-        while (END == false && opModeIsActive()) {
+        while (!END && opModeIsActive()) {
             if (TensorFlowDetection.getRecognitions() != null
                     && TensorFlowDetection.getRecognitions().size() == 1) {
                 moving = true;
@@ -105,28 +105,24 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         }
         //Step 4: Claw operation
         Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone!");
-            /*
-            //Step 5: Move to midline and release Claw
-            Robot.strafeRight(0.6, "Moving to midline");
-            Robot.goForward(5 + forwardMoveTime, "Moving to midline");
-            // RELEASE CLAW AND RESET IT
 
-            //Step 6: Go back to original position
-            Robot.strafeLeft(0.6, "Moving back to blocks");
-            Robot.goBack(5 + forwardMoveTime, "Moving back to blocks");
+        //Step 5: Move to midline and release Claw
+        Robot.strafeRight(0.6, "Moving to midline");
+        Robot.goForward(5 + forwardMoveTime, "Moving to midline");
+        // RELEASE CLAW AND RESET IT
 
-            //Step 7: Find Skystone based on position of last Skystone
-            Robot.goForward(2, "Moving to other Skystone");
-            // CLAW GRAB
+        //Step 6: Go back to original position
+        Robot.strafeLeft(0.6, "Moving to other block");
+        Robot.goBack(5 + forwardMoveTime - 2, "Moving to other block");
 
 
-            //Step 8: Go to midline again and release Claw
-            Robot.strafeRight(0.6, "Moving to midline");
-            Robot.goForward(3 + forwardMoveTime, "Moving to midline");
+        //Step 8: Go to midline again and release Claw
+        Robot.strafeRight(0.6, "Moving to midline");
+        Robot.goForward(3 + forwardMoveTime, "Moving to midline");
 
-            //Step 9: Line up with Midline
-            Robot.goBack(0.5,"Going to midline");
-            */
+        //Step 9: Line up with Midline
+        Robot.goBack(0.5,"Going to midline");
+
         Robot.stopMoving();
         telemetry.addData("Path", "Complete");
         telemetry.update();
