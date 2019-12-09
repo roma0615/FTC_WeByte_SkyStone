@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
  */
 //12/8/19
     //REVERSE ALL OF THE MOVEMENTS AND REDUCE TIME BECAUSE ROBOT IS FASTER
-@Autonomous(name="BuildingSiteMoveFoundationBLUE")
+@Autonomous(name="BuildingSiteMoveFoundationBLUE(CHANGED)")
 
 public class BuildingSiteMoveFoundationBLUE extends LinearOpMode {
     @Override
@@ -38,12 +38,10 @@ public class BuildingSiteMoveFoundationBLUE extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         // Step 0: strafe left
-        Robot.strafeLeft(0.7, "Strafe left");
+        Robot.strafeLeft(0.35, "Strafe left");
 
         // Step 1:  Drive forward and then turn around to expose the back flippers
-        Robot.goForward(8, "Drive forward");
-        Robot.turnLeft(1, "Turning around");
-        Robot.goBack(0.5, "Final nudge into foundation");
+        Robot.goBack(4.25, "Drive back");
         Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
 
         // Step 2:  Servo grab
@@ -51,26 +49,26 @@ public class BuildingSiteMoveFoundationBLUE extends LinearOpMode {
         Robot.setServos(FlipperPosition.DOWN, 1, "Grabbing the foundation");
 
         // Step 3:  Drive Forward for 1 Second
-        Robot.goForward(2.2, "Driving forward");
+        Robot.goForward(1.1,"Driving forward");
 
         // Move back
-        Robot.goBack(0.2, "Driving Backward");
+        Robot.goBack(0.1, "Driving Backward");
 
         // Step 4:  Turn right to move the foundation
-        Robot.turnRight(2.2, "Turning Right");
+        Robot.turnRight(1.1, "Turning Right");
 
         // Step 4:  Strafe left for 1 Second
         Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
-        Robot.strafeLeft(1.2, "Strafing right");
+        Robot.strafeLeft(0.6, "Strafing right");
 
         // Move out of foundation
-        Robot.goForward(0.3, "Driving forward");
+        Robot.goForward(0.15, "Driving forward");
 
         // Step 5: turn left
-        Robot.turnLeft(1.1, "Turning left");
+        Robot.turnLeft(0.55, "Turning left");
 
         // Step 6: strafe left
-        Robot.strafeLeft(0.5, "Strafing right");
+        Robot.strafeLeft(0.25, "Strafing right");
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

@@ -56,7 +56,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         //Step 2: Begin first read of blocks using Tensorflow (UNFINISHED, seems to crash with Index out of bounds error)
         boolean moving = false;
         boolean END = false;
-        while (END == false) {
+        while (END == false && opModeIsActive()) {
             if (TensorFlowDetection.getRecognitions() != null
                     && TensorFlowDetection.getRecognitions().size() >= 1) {
                 moving = true;
@@ -83,7 +83,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         moving = false;
         END = false;
         int forwardMoveTime = 0;
-        while (END == false) {
+        while (END == false && opModeIsActive()) {
             if (TensorFlowDetection.getRecognitions() != null
                     && TensorFlowDetection.getRecognitions().size() == 1) {
                 moving = true;
