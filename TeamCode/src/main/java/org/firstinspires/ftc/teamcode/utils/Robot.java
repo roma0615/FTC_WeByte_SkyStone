@@ -41,8 +41,8 @@ public class Robot {
             2 = front right
             3 = front left
         Servos:
-            0 = servoLeft
-            1 = servoRight
+            0 = servoRight
+            1 = servoLeft
             2 = servoClaw
 
          The bottom expansion hub is Hub 3 in the config
