@@ -84,6 +84,22 @@ public class Mechanum_wheels extends LinearOpMode {
         double v3 = r * Math.sin(robotAngle) + rightX;
         double v4 = r * Math.cos(robotAngle) - rightX;
 
+        // FULL POWER BUTTONS
+        if(gamepad1.left_bumper){
+            v1 *= 1/0.7;
+            v2 *= 1/0.7;
+            v3 *= 1/0.7;
+            v4 *= 1/0.7;
+        }
+        /*
+        if(gamepad1.dpad_down){
+            v1 = -1;
+            v2 = -1;
+            v3 = -1;
+            v4 = -1;
+        }
+        */
+
         // Precise movement
         if(gamepad1.right_bumper) {
             v1 *= 0.5;
@@ -91,18 +107,8 @@ public class Mechanum_wheels extends LinearOpMode {
             v3 *= 0.5;
             v4 *= 0.5;
         }
-        if(gamepad1.dpad_up){
-            v1 = 1;
-            v2 = 1;
-            v3 = 1;
-            v4 = 1;
-        }
-        if(gamepad1.dpad_down){
-            v1 = -1;
-            v2 = -1;
-            v3 = -1;
-            v4 = -1;
-        }
+
+
 
         Robot.forwardLeftDrive1.setPower(v1);
         Robot.forwardRightDrive1.setPower(v2);

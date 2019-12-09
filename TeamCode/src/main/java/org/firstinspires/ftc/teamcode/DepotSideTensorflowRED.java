@@ -104,30 +104,32 @@ public class DepotSideTensorflowRED extends LinearOpMode {
             }
         }
         //Step 4: Claw operation
+        Robot.setForwardSpeed(0.5);
+        Robot.strafeLeft(0.5, "MOVING TO THE SKYSTONE");
         Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone!");
 
         //Step 5: Move to midline and release Claw
         Robot.strafeRight(0.6, "Moving to midline");
         Robot.goForward(5 + forwardMoveTime, "Moving to midline");
-        // RELEASE CLAW AND RESET IT
+        Robot.setClawServo(ClawPosition.UP, 1, "Releasing Skystone");
 
-        //Step 6: Go back to original position
+        //Step 6: Go back to new Skystone
         Robot.strafeLeft(0.6, "Moving to other block");
         Robot.goBack(5 + forwardMoveTime - 2, "Moving to other block");
+        Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone");
 
-
-        //Step 8: Go to midline again and release Claw
+        //Step 7: Go to midline again and release Claw
         Robot.strafeRight(0.6, "Moving to midline");
         Robot.goForward(3 + forwardMoveTime, "Moving to midline");
 
-        //Step 9: Line up with Midline
+        //Step 8: Line up with Midline
         Robot.goBack(0.5,"Going to midline");
 
         Robot.stopMoving();
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
+        TensorFlowDetection.shutdown();
     }
-    //TensorFlowDetection.shutdown();
 }
 

@@ -53,6 +53,7 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
         Robot.setServos(FlipperPosition.DOWN, 2, "Grabbing the foundation");
 
         // Step 3:  Drive Forward for 1 Second
+        Robot.turnLeft(0.2, "Turn and get ready");
         Robot.goForward(1.5,"Driving forward");
 
         // Move back
