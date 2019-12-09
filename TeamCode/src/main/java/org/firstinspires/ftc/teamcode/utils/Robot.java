@@ -86,6 +86,7 @@ public class Robot {
         backLeftDrive2.setPower(turnSpeed);
         backRightDrive2.setPower(-turnSpeed);
         waitForSeconds(time, msg);
+        stopMoving();
     }
     public static void turnLeft(double time, String msg){
         forwardLeftDrive1.setPower(-turnSpeed);
@@ -100,6 +101,7 @@ public class Robot {
         backLeftDrive2.setPower(forwardSpeed);
         backRightDrive2.setPower(forwardSpeed);
         waitForSeconds(time, msg);
+        stopMoving();
     }
     public static void goBack(double time, String msg){
         forwardLeftDrive1.setPower(-forwardSpeed);
@@ -107,6 +109,7 @@ public class Robot {
         backLeftDrive2.setPower(-forwardSpeed);
         backRightDrive2.setPower(-forwardSpeed);
         waitForSeconds(time, msg);
+        stopMoving();
     }
     public static void strafeLeft(double time, String msg){
         forwardLeftDrive1.setPower(-forwardSpeed);
@@ -114,6 +117,7 @@ public class Robot {
         backLeftDrive2.setPower(forwardSpeed);
         backRightDrive2.setPower(-forwardSpeed);
         waitForSeconds(time, msg);
+        stopMoving();
     }
     public static void strafeRight(double time, String msg){
         forwardLeftDrive1.setPower(forwardSpeed);
@@ -121,6 +125,7 @@ public class Robot {
         backLeftDrive2.setPower(-forwardSpeed);
         backRightDrive2.setPower(forwardSpeed);
         waitForSeconds(time, msg);
+        stopMoving();
     }
     public static void stopMoving(){
         forwardLeftDrive1.setPower(0);
