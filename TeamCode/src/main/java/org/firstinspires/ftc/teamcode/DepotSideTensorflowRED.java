@@ -1,17 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.ClawPosition;
-import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
+import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import java.util.*;
+import java.util.List;
 
 /**
  * The code is structured as a LinearOpMode
@@ -46,7 +45,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
 
         // Step 1:  Strafe Right and move forward to get into position
 
-        Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
+        Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.5);
         Robot.goForward(0.1, "Getting into position to read blocks");

@@ -39,7 +39,7 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         // Step 0: strafe right
         Robot.strafeLeft(0.28, "Strafe right");
-        Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
+        Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
 
         // Step 1:  Drive forward and then turn around to expose the back flippers
         Robot.goBack(0.4, "Drive back");
@@ -62,7 +62,7 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
         Robot.turnRight(1.1, "Turning Left");
 
         // Step 4:  Strafe left for 1 Second
-        Robot.setServos(FlipperPosition.SIDE, 0.7, "Lifting servos");
+        Robot.setServos(FlipperPosition.UP, 0.7, "Lifting servos");
         Robot.strafeRight(0.6, "Strafing right");
 
         // Move out of foundation

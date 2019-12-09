@@ -38,7 +38,7 @@ public class DepotSideMoveFoundationRED extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Strafe Right
-        Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
+        Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.strafeRight(5, "Strafing right");
 
         // Step 1:  Drive forward for 3 seconds
@@ -58,7 +58,7 @@ public class DepotSideMoveFoundationRED extends LinearOpMode {
         Robot.turnRight(2.2, "Turning right");
 
         // Step 4:  Strafe left for 1 Second
-        Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
+        Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.strafeLeft(1.2, "Strafing left");
 
         // Move out of foundation
