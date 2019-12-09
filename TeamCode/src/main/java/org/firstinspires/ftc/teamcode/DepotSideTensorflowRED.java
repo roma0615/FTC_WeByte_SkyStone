@@ -3,6 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.ClawPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
@@ -39,16 +40,19 @@ public class DepotSideTensorflowRED extends LinearOpMode {
             // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
             // Step 1:  Strafe Right and move forward to get into position
+            /*
             Robot.setServos(FlipperPosition.SIDE, 0, "Lifting servos");
-            Robot.strafeLeft(3,"Getting ready to read blocks");
-            Robot.goForward(0.5,"Getting into position to read blocks");
+            Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
+            Robot.setForwardSpeed(0.5);
+            Robot.goForward(0.1,"Getting into position to read blocks");
+            Robot.strafeLeft(1,"Getting ready to read blocks");
+            */
 
             //Step 2: Begin first read of blocks using Tensorflow (UNFINISHED)
             boolean moving = false;
             boolean END = false;
             while (END == false) {
-                if (TensorFlowDetection.getRecognitions() != null
-                        && TensorFlowDetection.getRecognitions().size() == 1) {
+                if (TensorFlowDetection.getRecognitions() != null) {
                     moving = true;
                 }
                 // Update the recognitions if the moving is false.
@@ -61,7 +65,9 @@ public class DepotSideTensorflowRED extends LinearOpMode {
                     if(itemWidth >= 600){
                         END = true;
                     } else {
-                        Robot.strafeLeft(0.2,"Inching closer");
+                        Robot.setForwardSpeed(0.5);
+                        Robot.strafeLeft(0.1,"Inching closer");
+                        sleep(1000);
                     }
                 }
             }
@@ -84,15 +90,15 @@ public class DepotSideTensorflowRED extends LinearOpMode {
                         moving = false;
                         END = true;
                     } else {
-                        Robot.goForward(0.5,"Moving to next Stone");
+                        Robot.goBack(0.5,"Moving to next Stone");
                         forwardMoveTime += 0.5;
                         moving = false;
                     }
                 }
             }
             //Step 4: Claw operation
-            //CLAW GRAB
-
+            Robot.setClawServo(ClawPosition.DOWN,1,"Grabbing Skystone!");
+            /*
             //Step 5: Move to midline and release Claw
             Robot.strafeRight(0.6, "Moving to midline");
             Robot.goForward(5 + forwardMoveTime, "Moving to midline");
@@ -113,11 +119,12 @@ public class DepotSideTensorflowRED extends LinearOpMode {
 
             //Step 9: Line up with Midline
             Robot.goBack(0.5,"Going to midline");
-
+            */
             telemetry.addData("Path", "Complete");
             telemetry.update();
             sleep(1000);
         }
+        TensorFlowDetection.shutdown();
     }
 }
 
