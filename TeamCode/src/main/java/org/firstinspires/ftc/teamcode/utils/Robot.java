@@ -94,6 +94,7 @@ public class Robot {
         backLeftDrive2.setPower(-turnSpeed);
         backRightDrive2.setPower(turnSpeed);
         waitForSeconds(time, msg);
+        stopMoving();
     }
     public static void goForward(double time, String msg){
         forwardLeftDrive1.setPower(forwardSpeed);

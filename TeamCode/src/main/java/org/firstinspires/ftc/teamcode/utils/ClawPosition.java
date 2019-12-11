@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 public enum ClawPosition {
-    UP(0.75), DOWN(0.15);
+    UP(1), DOWN(0.3);
 
     private double pos;
 
