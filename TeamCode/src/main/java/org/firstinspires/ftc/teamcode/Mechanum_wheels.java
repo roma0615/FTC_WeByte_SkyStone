@@ -21,7 +21,7 @@ public class Mechanum_wheels extends LinearOpMode {
 
     // Declare OpMode members.
     private FlipperPosition servoPosition = FlipperPosition.SIDE;
-    private ClawPosition clawPosition = ClawPosition.UP;
+    private ClawPosition clawPosition = ClawPosition.DOWN;
 
 
     /*

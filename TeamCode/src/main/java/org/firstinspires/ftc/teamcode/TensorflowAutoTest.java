@@ -8,7 +8,8 @@ import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.util.*;
 
-/* "Strafing" strategy: We strafe by each block to see if it is a Skystone.
+/* Assuming strafing works, this is a
+"Strafing" strategy: We strafe by each block to see if it is a Skystone.
 If it is, knock it out and move it.
 If not, move to the next stone.
  */
