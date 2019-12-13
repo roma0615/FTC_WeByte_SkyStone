@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -15,7 +16,7 @@ import java.util.List;
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made. Must be adjusted.
 @Autonomous(name = "DepotSideTensorFlowRED2")
-
+@Disabled
 public class DepotSideTensorflowRED2 extends LinearOpMode {
     @Override
     public void runOpMode() {

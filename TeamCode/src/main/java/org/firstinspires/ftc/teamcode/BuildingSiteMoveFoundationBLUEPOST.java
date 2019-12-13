@@ -20,14 +20,16 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
  */
 //12/8/19
 //REVERSE ALL OF THE MOVEMENTS AND REDUCE TIME BECAUSE ROBOT IS FASTER
-@Autonomous(name="BuildingSiteMoveFoundationRED(WALL)")
+@Autonomous(name="BuildingSiteMoveFoundationBLUE(POST)")
 
-public class BuildingSiteMoveFoundationRED extends LinearOpMode {
+public class BuildingSiteMoveFoundationBLUEPOST extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot.init(hardwareMap, telemetry, new BooleanFunction() {
             @Override
-            public boolean get() { return opModeIsActive(); }
+            public boolean get() {
+                return opModeIsActive();
+            }
         });
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
@@ -38,7 +40,7 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         // Step 0: strafe right
-        Robot.strafeLeft(0.4, "Strafe right");
+        Robot.strafeRight(0.4, "Strafe right");
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
 
         // Step 1:  Drive forward and then turn around to expose the back flippers
@@ -46,7 +48,7 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
         Robot.setForwardSpeed(0.5);
         Robot.goBack(0.75, "Drive back");
         Robot.setForwardSpeed(1.0);
-        
+
 
         // Step 2:  Servo grab
         Robot.stopMoving();
@@ -54,17 +56,17 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
 
         // Step 3:  Drive Forward for 1 Second
         //Robot.turnRight(0.1, "Turn and get ready");
-        Robot.goForward(1.1,"Driving forward");
+        Robot.goForward(1.1, "Driving forward");
 
         // Move back
         Robot.goBack(0.1, "Driving Backward");
 
         // Step 4:  Turn right to move the foundation
-        Robot.turnRight(1.1, "Turning Left");
+        Robot.turnLeft(1.1, "Turning Left");
 
         // Step 4:  Strafe left for 1 Second
         Robot.setServos(FlipperPosition.UP, 0.7, "Lifting servos");
-        Robot.strafeRight(0.6, "Strafing right");
+        Robot.strafeLeft(0.6, "Strafing right");
 
         // Move out of foundation
         Robot.goForward(0.15, "Driving forward");
@@ -79,10 +81,10 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
 
         Robot.strafeRight(0.4, "heading to midline!");
         */
-        Robot.turnLeft(0.4, "Turning left");
-        Robot.goForward(0.35,"Moving forward");
-        Robot.turnRight(0.8,"Turning right");
-        Robot.goForward(0.7, "Heading to Midline");
+        Robot.turnRight(1.0, "Turning left");
+        Robot.goBack(0.4, "Moving Back");
+        Robot.turnRight(0.2, "Turning left");
+        Robot.goBack(0.2, "Heading to Midline");
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);

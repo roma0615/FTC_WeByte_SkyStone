@@ -14,9 +14,9 @@ import java.util.List;
 // ASSUMES STRAFE WORKS
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made.
-@Autonomous(name = "DepotSideTensorFlowRED")
+@Autonomous(name = "DepotSideTensorFlowBLUE")
 
-public class DepotSideTensorflowRED extends LinearOpMode {
+public class DepotSideTensorflowBLUE extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 1000;
@@ -123,7 +123,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         //Step 4: Claw operation
         Robot.setForwardSpeed(0.5);
         //Robot.goForward(0.01,"MOVING TO THE SKYSTONE");
-        Robot.strafeLeft(0.325, "MOVING TO THE SKYSTONE");
+        Robot.strafeLeft(0.35, "MOVING TO THE SKYSTONE");
         Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone!");
 
         //Step 5: Move to midline and release Claw
@@ -132,7 +132,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         Robot.setClawServo(ClawPosition.UP, 1, "Releasing Skystone");
 
         //Step 6: Go back to new Skystone
-        Robot.goBack(2.98 + forwardMoveTime, "Moving to other block");
+        Robot.goBack(2.85 + forwardMoveTime, "Moving to other block");
         Robot.strafeLeft(0.7, "Moving to other block");
         Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone");
 
