@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -11,20 +10,14 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
-import java.util.List;
-
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made. Must be adjusted.
-@Autonomous(name = "DepotSideTensorFlowRED2")
-@Disabled
-public class DepotSideTensorflowRED2 extends LinearOpMode {
+@Autonomous(name = "DepotSideTensorFlowRED")
+
+public class DepotSideTensorflowRED extends LinearOpMode {
     @Override
     public void runOpMode() {
-        long intialTensorflowPauseCheck = 3000;
-        int inchPause = 1250;
-        double intialStrafeAdjust = 0.2;
-        double inchStrafeAdjust = 0.1;
-        double ninetyDegreeTurn = 0.8;
+        int inchPause = 1000;
         Robot.init(hardwareMap, telemetry, new BooleanFunction() {
             @Override
             public boolean get() {
@@ -43,14 +36,12 @@ public class DepotSideTensorflowRED2 extends LinearOpMode {
 
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
-        Robot.setForwardSpeed(0.3);
-        Robot.goForward(0.55, "Moving to position");
-        Robot.turnLeft(ninetyDegreeTurn+0.05, "Turn 90 degrees left");
-        Robot.goForward(0.95, "Get vertical distance for blocks");
-        Robot.turnRight(ninetyDegreeTurn-0.05, "Turn 90 degrees right");
+        Robot.setForwardSpeed(0.5);
+        Robot.goForward(0.3, "Getting into position to read blocks");
+        Robot.strafeLeft(1.02, "Getting ready to read blocks");
         Robot.stopMoving();
-        sleep(intialTensorflowPauseCheck);
-        //Step 2: Begin first read of blocks using Tensorflow (UNFINISHED, seems to crash with Index out of bounds error)
+        sleep(2000);
+        //Step 2: Begin first read of blocks using Tensorflow
         boolean moving = false;
         boolean END = false;
         while (!END && opModeIsActive()) {
@@ -62,23 +53,32 @@ public class DepotSideTensorflowRED2 extends LinearOpMode {
             if (!moving) {
                 TensorFlowDetection.updateRecognitions();
             } else {
-                List<Recognition> rec = TensorFlowDetection.getRecognitions();
                 int i = 0;
-                for (Recognition recognition : rec) {
+                for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
                     telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
                     telemetry.addData(String.format("   height, width (%d)",i), "%.03f , %.03f",
                             recognition.getHeight(), recognition.getWidth());
                 }
-                telemetry.addData("Status", rec.get(0));
+                telemetry.addData("Status", TensorFlowDetection.getRecognitions().get(0));
                 telemetry.update();
-                double itemWidth = rec.get(0).getWidth();
-                if (itemWidth >= 600) {
-                    END = true;
+                if(TensorFlowDetection.getRecognitions().size() > 1){
+                    //sleep(2000);
+                    Robot.goForward(0.02,"Inching away from crack");
+                    sleep(2*inchPause);
+                    TensorFlowDetection.updateRecognitions();
+                    moving = false;
                 } else {
-                    Robot.setForwardSpeed(0.5);
-                    Robot.strafeLeft(0.1, "inching closer");
-                    Robot.stopMoving();
-                    sleep(inchPause);
+                    double itemWidth = TensorFlowDetection.getRecognitions().get(0).getWidth();
+                    if (itemWidth >= 950) {
+                        END = true;
+                    } else {
+                        Robot.setForwardSpeed(0.5);
+                        Robot.strafeLeft(0.1, "inching closer");
+                        Robot.stopMoving();
+                        sleep(inchPause);
+                        TensorFlowDetection.updateRecognitions();
+                        moving = false;
+                    }
                 }
             }
         }
@@ -86,15 +86,15 @@ public class DepotSideTensorflowRED2 extends LinearOpMode {
         moving = false;
         END = false;
         int forwardMoveTime = 0;
-        List<Recognition> rec = TensorFlowDetection.getRecognitions();
+        //List<Recognition> rec = TensorFlowDetection.getRecognitions();
         while (!END && opModeIsActive()) {
-            if (rec != null
-                    && rec.size() == 1) {
+            if (TensorFlowDetection.getRecognitions() != null
+                    && TensorFlowDetection.getRecognitions().size() == 1) {
                 moving = true;
             }
-            else if(rec != null && rec.size() > 1){
-                Robot.goForward(0.2, "Moving to next Stone");
-                forwardMoveTime -= 0.2;
+            else if(TensorFlowDetection.getRecognitions() != null && TensorFlowDetection.getRecognitions().size() > 1){
+                Robot.goForward(0.1, "Going back");
+                forwardMoveTime -= 0.1;
                 moving = false;
                 sleep(2000);
                 TensorFlowDetection.updateRecognitions();
@@ -104,13 +104,13 @@ public class DepotSideTensorflowRED2 extends LinearOpMode {
                 TensorFlowDetection.updateRecognitions();
             } else {
 
-                if (rec.get(0).getLabel().equals("Skystone")) {
+                if (TensorFlowDetection.getRecognitions().get(0).getLabel().equals("Skystone")) {
                     moving = false;
                     END = true;
                 } else {
-                    Robot.turnRight(0.05,"adjusting to drift");
-                    Robot.goBack(0.4, "Moving to next Stone");
-                    forwardMoveTime += 0.4;
+                    //sleep(1000);
+                    Robot.goBack(0.18, "Moving to next Stone");
+                    forwardMoveTime += 0.18;
 
                     moving = false;
                     sleep(2000);
@@ -119,39 +119,35 @@ public class DepotSideTensorflowRED2 extends LinearOpMode {
             }
         }
         //Step 4: Claw operation
-        Robot.strafeLeft(0.45, "Reaching for the Skystone!");
+        Robot.setForwardSpeed(0.5);
+        //Robot.goForward(0.01,"MOVING TO THE SKYSTONE");
+        Robot.strafeLeft(0.35, "MOVING TO THE SKYSTONE");
         Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone!");
-        Robot.strafeRight(0.45, "Moving out");
 
         //Step 5: Move to midline and release Claw
-        Robot.turnRight(ninetyDegreeTurn-0.05, "Turn 90 degrees right");
-        Robot.goForward(0.6, "Get vertical distance for blocks");
-        Robot.turnLeft(ninetyDegreeTurn, "Turn 90 degrees left");
+        Robot.strafeRight(0.6, "Moving to midline");
         Robot.goForward(2 + forwardMoveTime, "Moving to midline");
         Robot.setClawServo(ClawPosition.UP, 1, "Releasing Skystone");
 
         //Step 6: Go back to new Skystone
-        Robot.turnLeft(ninetyDegreeTurn, "Turn 90 degrees left");
-        Robot.goForward(0.6, "Get vertical distance for blocks");
-        Robot.turnRight(ninetyDegreeTurn-0.05, "Turn 90 degrees right");
-        Robot.goBack(3.5 + forwardMoveTime, "Moving to other block");
-        Robot.strafeLeft(0.45, "Reaching for the Skystone!");
+        Robot.goBack(2.85 + forwardMoveTime, "Moving to other block");
+        Robot.strafeLeft(0.7, "Moving to other block");
         Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone");
-        Robot.strafeRight(0.45, "Reaching for the Skystone!");
+
 
         //Step 7: Go to midline again and release Claw
-        Robot.turnRight(ninetyDegreeTurn, "Turn 90 degrees right");
-        Robot.goForward(0.6, "Get vertical distance for blocks");
-        Robot.turnLeft(ninetyDegreeTurn, "Turn 90 degrees left");
-        Robot.goForward(3 + forwardMoveTime, "Moving past midline");
+        Robot.strafeRight(0.67, "Moving to midline");
+        Robot.turnLeft(0.07, "Adjusting for drift");
+        Robot.goForward(3.1 + forwardMoveTime, "Moving to midline");
         Robot.setClawServo(ClawPosition.UP, 1, "Grabbing Skystone");
 
         //Step 8: Line up with Midline
-        Robot.goBack(0.5,"Going to midline");
+        Robot.goBack(0.7,"Going to midline");
 
         Robot.stopMoving();
         telemetry.addData("Path", "Complete");
         telemetry.update();
+        sleep(1000);
         TensorFlowDetection.shutdown();
     }
 }
