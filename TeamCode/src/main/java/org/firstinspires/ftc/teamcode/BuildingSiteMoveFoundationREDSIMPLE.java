@@ -20,9 +20,8 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
  */
 //12/8/19
 //REVERSE ALL OF THE MOVEMENTS AND REDUCE TIME BECAUSE ROBOT IS FASTER
-@Autonomous(name="BuildingSiteMoveFoundationBLUE(POST)")
-
-public class BuildingSiteMoveFoundationBLUEPOST extends LinearOpMode {
+@Autonomous(name="BuildingSiteMoveFoundationRED(SIMPLE)")
+public class BuildingSiteMoveFoundationREDSIMPLE extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot.init(hardwareMap, telemetry, new BooleanFunction() {
@@ -41,13 +40,7 @@ public class BuildingSiteMoveFoundationBLUEPOST extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         // Step 0: strafe right
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
-        Robot.strafeRight(0.4, "Strafe right");
-
-
-        // Step 1:  Drive forward and then turn around to expose the back flippers
-        Robot.goBack(0.4, "Drive back");
-        Robot.setForwardSpeed(0.5);
-        Robot.goBack(0.7, "Drive back");
+        Robot.strafeLeft (0.3,"Drive back");
         Robot.setForwardSpeed(1.0);
 
 
@@ -57,8 +50,10 @@ public class BuildingSiteMoveFoundationBLUEPOST extends LinearOpMode {
 
         // Step 3:  Drive Forward for 1 Second
         //Robot.turnRight(0.1, "Turn and get ready");
-        Robot.goForward(1.2, "Driving forward");
-
+        Robot.goForward(2, "Driving forward");
+        Robot.setServos(FlipperPosition.UP, 2, "Grabbing the foundation");
+        Robot.strafeRight(2,"Go to midline");
+        /*
         // Move back
         Robot.goBack(0.1, "Driving Backward");
 
@@ -82,8 +77,8 @@ public class BuildingSiteMoveFoundationBLUEPOST extends LinearOpMode {
 
         Robot.strafeRight(0.4, "heading to midline!");
         */
-        Robot.turnRight(1.15, "Turning left");
-        Robot.goBack(0.5, "Moving Back");
+        //Robot.turnRight(1.15, "Turning left");
+        //Robot.goBack(0.5, "Moving Back");
         //Robot.turnRight(0.1, "Turning left");
         //Robot.goBack(0.1, "Heading to Midline");
         telemetry.addData("Path", "Complete");

@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 public class Mechanum_wheels extends LinearOpMode {
 
     // Declare OpMode members.
-    private FlipperPosition servoPosition = FlipperPosition.SIDE;
-    private ClawPosition clawPosition = ClawPosition.DOWN;
+    private FlipperPosition servoPosition = FlipperPosition.DOWN;
+    private ClawPosition clawPosition = ClawPosition.UP;
 
 
     /*
@@ -58,6 +58,8 @@ public class Mechanum_wheels extends LinearOpMode {
             if (gamepad2.left_bumper){
                 clawPosition = ClawPosition.DOWN;
             } else if (gamepad2.right_bumper) {
+                clawPosition = ClawPosition.MEASURING;
+            } else if (gamepad2.a){
                 clawPosition = ClawPosition.UP;
             }
             Robot.setClawServo(clawPosition, 0, "");

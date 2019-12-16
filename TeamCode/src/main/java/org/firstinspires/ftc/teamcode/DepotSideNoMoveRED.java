@@ -47,7 +47,7 @@ public class DepotSideNoMoveRED extends LinearOpMode {
 
         // Step 1:  Strafe Right to park on the line
         Robot.setServos(0.1, 0.1, 0, "Moving servos");
-        Robot.strafeRight(1, "Strafing left");
+        Robot.strafeRight(0.25, "Strafing left");
 
         Robot.stopMoving();
         telemetry.addData("Path", "Complete");

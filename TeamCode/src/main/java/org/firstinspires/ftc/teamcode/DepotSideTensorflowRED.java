@@ -14,9 +14,9 @@ import java.util.List;
 // ASSUMES STRAFE WORKS
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made.
-@Autonomous(name = "DepotSideTensorFlowBLUE")
+@Autonomous(name = "DepotSideTensorFlowRED")
 
-public class DepotSideTensorflowBLUE extends LinearOpMode {
+public class DepotSideTensorflowRED extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 1000;
@@ -39,10 +39,10 @@ public class DepotSideTensorflowBLUE extends LinearOpMode {
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.5);
-        Robot.goForward(0.3, "Getting into position to read blocks");
-        Robot.strafeLeft(1.02, "Getting ready to read blocks");
+        Robot.goForward(0.35, "Getting into position to read blocks");
+        Robot.strafeLeft(1.06, "Getting ready to read blocks");
         Robot.stopMoving();
-        sleep(2000);
+        sleep(2500);
         //Step 2: Begin first read of blocks using Tensorflow
         boolean moving = false;
         boolean END = false;
@@ -58,12 +58,20 @@ public class DepotSideTensorflowBLUE extends LinearOpMode {
                 int i = 0;
                 for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
                     telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                    telemetry.addData(String.format("   height, width (%d)",i), "%.03f , %.03f",
+                    telemetry.addData(String.format("   height, width (%d)", i), "%.03f , %.03f",
                             recognition.getHeight(), recognition.getWidth());
                 }
                 telemetry.addData("Status", TensorFlowDetection.getRecognitions().get(0));
                 telemetry.update();
-                if(TensorFlowDetection.getRecognitions().size() > 1){
+                if (TensorFlowDetection.getRecognitions() == null) {
+                    Robot.setForwardSpeed(0.5);
+                    Robot.strafeLeft(0.1, "inching closer");
+                    Robot.stopMoving();
+                    Robot.goForward(0.02,"Inching away from crack");
+                    sleep(inchPause);
+                    TensorFlowDetection.updateRecognitions();
+                    moving = false;
+                } else if(TensorFlowDetection.getRecognitions().size() > 1){
                     //sleep(2000);
                     Robot.goForward(0.02,"Inching away from crack");
                     sleep(2*inchPause);
@@ -71,7 +79,7 @@ public class DepotSideTensorflowBLUE extends LinearOpMode {
                     moving = false;
                 } else {
                     double itemWidth = TensorFlowDetection.getRecognitions().get(0).getWidth();
-                    if (itemWidth >= 950) {
+                    if (itemWidth >= 1050) {
                         END = true;
                     } else {
                         Robot.setForwardSpeed(0.5);
@@ -113,9 +121,8 @@ public class DepotSideTensorflowBLUE extends LinearOpMode {
                     //sleep(1000);
                     Robot.goBack(0.18, "Moving to next Stone");
                     forwardMoveTime += 0.18;
-
                     moving = false;
-                    sleep(2000);
+                    sleep(2500);
                     TensorFlowDetection.updateRecognitions();
                 }
             }
@@ -132,8 +139,8 @@ public class DepotSideTensorflowBLUE extends LinearOpMode {
         Robot.setClawServo(ClawPosition.UP, 1, "Releasing Skystone");
 
         //Step 6: Go back to new Skystone
-        Robot.goBack(2.6 + forwardMoveTime, "Moving to other block");
-        Robot.strafeLeft(0.8, "Moving to other block");
+        Robot.goBack(2.8 + forwardMoveTime, "Moving to other block");
+        Robot.strafeLeft(0.75, "Moving to other block");
         Robot.setClawServo(ClawPosition.DOWN, 1, "Grabbing Skystone");
 
 
@@ -144,7 +151,7 @@ public class DepotSideTensorflowBLUE extends LinearOpMode {
         Robot.setClawServo(ClawPosition.UP, 1, "Grabbing Skystone");
 
         //Step 8: Line up with Midline
-        Robot.goBack(0.7,"Going to midline");
+        Robot.goBack(0.9,"Going to midline");
 
         Robot.stopMoving();
         telemetry.addData("Path", "Complete");
