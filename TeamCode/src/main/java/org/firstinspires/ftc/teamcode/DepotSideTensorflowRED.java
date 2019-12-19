@@ -10,9 +10,6 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
-
-import java.util.List;
-
 // ASSUMES STRAFE WORKS
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made.

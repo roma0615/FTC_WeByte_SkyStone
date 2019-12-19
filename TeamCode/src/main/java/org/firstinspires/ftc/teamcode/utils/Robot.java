@@ -34,19 +34,23 @@ public class Robot {
         opModeIsActive = opModeFunction;
 
         /*
-        Expansion hub mappings:
-        Motors:
-            0 = back right
-            1 = back left
-            2 = front right
-            3 = front left
-        Servos:
-            0 = servoRight
-            1 = servoLeft
-            2 = servoClaw
+        Expansion hub #1 mappings (address=2, the one with both a 1 and a 3 written on it):
+          Motors:
+            0 = back right (backRight_drive)
+            1 = back left (backLeft_drive)
+            2 = front right (forwardRight_drive)
+            3 = front left (forwardLeft_drive)
+          Servos:
+            0 = right flipper (servoRight)
+            1 = left flipper (servoLeft)
+            2 = claw servo (servoClaw) (DEPRECATED)
 
-         The bottom expansion hub is Hub 3 in the config
-         The top expansion hub is Hub 2
+        Expansion hub #2 mappings (address=3, the one with no writing on the front):
+          Motors:
+            0 = stone intake left (stoneIntake_left)
+            1 = stone intake right  (stoneIntake_right)
+          Servos:
+
          */
         forwardLeftDrive1 = hwMap.get(DcMotor.class, "forwardLeft_drive");
         forwardRightDrive1 = hwMap.get(DcMotor.class, "forwardRight_drive");
@@ -145,6 +149,8 @@ public class Robot {
         leftServo.setPosition(left);
         waitForSeconds(time, msg);
     }
+
+    @Deprecated
     public static void setClawServo(ClawPosition pos, double time, String msg){
         clawServo.setPosition(pos.getPos());
         waitForSeconds(time, msg);
