@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made.
 // 11. Reformat Code (CTRL+ALT+L / Command+Option+L):
-@Autonomous(name = "DepotSideTensorFlowRED")
+@Autonomous(name = "Skystone_Wall_Blue")
 
-public class DepotSideTensorflowRED extends LinearOpMode {
+public class Skystone_Wall_Blue extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 1000;
@@ -163,6 +163,7 @@ public class DepotSideTensorflowRED extends LinearOpMode {
         Robot.setClawServo(ClawPosition.UP, 1, "Releasing Skystone");
 
         //Step 8: Line up with Midline
+        Robot.strafeLeft(0.7, "Getting close to wall");
         Robot.goBack(0.7, "Going to midline");
 
         Robot.stopMoving();

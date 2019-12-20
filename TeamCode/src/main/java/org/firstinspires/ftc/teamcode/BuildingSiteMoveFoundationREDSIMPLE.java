@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
  */
 //12/8/19
 //REVERSE ALL OF THE MOVEMENTS AND REDUCE TIME BECAUSE ROBOT IS FASTER
+@Disabled
 @Autonomous(name="BuildingSiteMoveFoundationRED(SIMPLE)")
 public class BuildingSiteMoveFoundationREDSIMPLE extends LinearOpMode {
     @Override

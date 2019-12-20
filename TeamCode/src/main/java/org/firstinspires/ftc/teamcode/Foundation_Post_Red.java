@@ -20,9 +20,9 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
  */
 //12/8/19
 //REVERSE ALL OF THE MOVEMENTS AND REDUCE TIME BECAUSE ROBOT IS FASTER
-@Autonomous(name="BuildingSiteMoveFoundationRED(WALL)")
+@Autonomous(name="Foundation_Post_Red")
 
-public class BuildingSiteMoveFoundationRED extends LinearOpMode {
+public class Foundation_Post_Red extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot.init(hardwareMap, telemetry, new BooleanFunction() {
@@ -87,8 +87,8 @@ public class BuildingSiteMoveFoundationRED extends LinearOpMode {
 
         Robot.strafeRight(0.4, "heading to midline!");
         */
-        Robot.turnLeft(1.75, "Turning left");
-        Robot.goBack(0.5, "Moving Back");
+        Robot.turnLeft(1.27, "Turning left");
+        Robot.goBack(0.45, "Moving Back");
         //Robot.turnRight(0.1, "Turning left");
         //Robot.goBack(0.1, "Heading to Midline");
         telemetry.addData("Path", "Complete");

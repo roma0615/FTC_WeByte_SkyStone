@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+@Disabled
 @Autonomous(name="DepotSideMoveFoundationBLUE")
 
 public class DepotSideMoveFoundationBLUE extends LinearOpMode {

@@ -9,14 +9,12 @@ import org.firstinspires.ftc.teamcode.utils.ClawPosition;
 import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
-
-import java.util.List;
 // ASSUMES STRAFE WORKS
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made.
-@Autonomous(name = "DepotSideTensorFlowBLUE")
+@Autonomous(name = "Skystone_Post_Red")
 
-public class DepotSideTensorflowBLUE extends LinearOpMode {
+public class Skystone_Post_Red extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 1000;
@@ -144,6 +142,7 @@ public class DepotSideTensorflowBLUE extends LinearOpMode {
         Robot.setClawServo(ClawPosition.UP, 1, "Grabbing Skystone");
 
         //Step 8: Line up with Midline
+        Robot.strafeLeft(0.7, "Getting close to post");
         Robot.goBack(0.7,"Going to midline");
 
         Robot.stopMoving();

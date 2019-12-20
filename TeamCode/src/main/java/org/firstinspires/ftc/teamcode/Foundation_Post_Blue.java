@@ -20,9 +20,9 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
  */
 //12/8/19
 //REVERSE ALL OF THE MOVEMENTS AND REDUCE TIME BECAUSE ROBOT IS FASTER
-@Autonomous(name="BuildingSiteMoveFoundationBLUE(POST)")
+@Autonomous(name="Foundation_Post_Blue")
 
-public class BuildingSiteMoveFoundationBLUEPOST extends LinearOpMode {
+public class Foundation_Post_Blue extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot.init(hardwareMap, telemetry, new BooleanFunction() {

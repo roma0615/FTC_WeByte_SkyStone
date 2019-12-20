@@ -1,17 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
-import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 
 /**
+ * This file illustrates the concept of driving a path based on time.
+ * It uses the common Pushbot hardware class to define the drive on the robot.
  * The code is structured as a LinearOpMode
  *
+ * The code assumes that you do NOT have encoders on the wheels,
+ *   otherwise you would use: PushbotAutoDriveByEncoder;
+ *
  *   The desired path in this example is:
+ *   - Drive forward for 3 seconds
+ *   - Spin right for 1.3 seconds
+ *   - Drive Backwards for 1 Second
+ *   - Stop and close the claw.
  *
  *  The code is written in a simple form with no optimizations.
  *  However, there are several ways that this type of sequence could be streamlined,
@@ -20,10 +27,9 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Disabled
-@Autonomous(name="DepotSideMoveFoundationRED")
+@Autonomous(name="Up_Right")
 
-public class DepotSideMoveFoundationRED extends LinearOpMode {
+public class Up_Right extends LinearOpMode {
     @Override
     public void runOpMode() {
         Robot.init(hardwareMap, telemetry, new BooleanFunction() {
@@ -39,42 +45,13 @@ public class DepotSideMoveFoundationRED extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Strafe Right
-        Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
-        Robot.strafeRight(5, "Strafing right");
+        Robot.goForward(1.0, "Moving forward");
+        Robot.strafeRight(1.0, "Strafing right");
 
-        // Step 1:  Drive forward for 3 seconds
-        Robot.goForward(1.8, "Drive forward");
-
-        // Step 2:  Servo grab
         Robot.stopMoving();
-        Robot.setServos(FlipperPosition.DOWN, 1, "Grabbing the foundation");
-
-        // Step 3:  Drive Backwards for 1 Second
-        Robot.goBack(2.2, "Driving backward");
-
-        // Move forward
-        Robot.goForward(0.2, "Driving forward");
-
-        // Step 4:  Turn right to move the foundation
-        Robot.turnRight(2.2, "Turning right");
-
-        // Step 4:  Strafe left for 1 Second
-        Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
-        Robot.strafeLeft(1.2, "Strafing left");
-
-        // Move out of foundation
-        Robot.goBack(0.3, "Driving backward");
-
-        // Step 5: turn left
-        Robot.turnLeft(1.1, "Turning left");
-
-        // Step 6: strafe left
-        Robot.strafeLeft(0.5, "Strafing left");
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
     }
 }
-

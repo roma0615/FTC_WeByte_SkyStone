@@ -15,9 +15,9 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 
  */
 
-@TeleOp(name="MechanumWheels")
+@TeleOp(name="Driver_Phase")
 
-public class Mechanum_wheels extends LinearOpMode {
+public class Driver_Phase extends LinearOpMode {
 
     // Declare OpMode members.
     private FlipperPosition servoPosition = FlipperPosition.DOWN;
