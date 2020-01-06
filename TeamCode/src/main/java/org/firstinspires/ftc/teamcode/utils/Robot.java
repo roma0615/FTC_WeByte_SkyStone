@@ -59,7 +59,7 @@ public class Robot {
         rightServo = hwMap.get(Servo.class, "servoRight");
         leftServo = hwMap.get(Servo.class, "servoLeft");
         clawServo = hwMap.get(Servo.class, "servoClaw");
-
+        
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);

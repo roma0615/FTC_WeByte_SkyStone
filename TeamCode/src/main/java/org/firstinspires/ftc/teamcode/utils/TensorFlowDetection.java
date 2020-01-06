@@ -135,6 +135,7 @@ public class TensorFlowDetection {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        //FRONT camera is an option
         parameters.cameraDirection = CameraDirection.BACK;
 
         //  Instantiate the Vuforia engine
@@ -152,7 +153,9 @@ public class TensorFlowDetection {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
 
         //MINIMUM CONFIDENCE IS HERE - VERY IMPORTANT PARAMETER
-        tfodParameters.minimumConfidence = 0.65;
+        //0.5 is often agreed to be the optimal confidence.
+        //Our original confidence was 0.65
+        tfodParameters.minimumConfidence = 0.5;
 
 
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
