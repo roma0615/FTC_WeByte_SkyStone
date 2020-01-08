@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -20,10 +21,13 @@ public class Robot {
     public static DcMotor backLeftDrive2 = null;
     public static DcMotor forwardRightDrive1 = null;
     public static DcMotor backRightDrive2 = null;
+    public static DcMotor leftIntake = null;
+    public static DcMotor rightIntake = null;
     public static Servo rightServo = null;
     public static Servo leftServo = null;
     public static Servo clawServo = null;
-
+    //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER
+    public static DistanceSensor distanceSensor = null;
     private static HardwareMap hwMap;
     private static Telemetry telemetry;
 
@@ -59,11 +63,16 @@ public class Robot {
         rightServo = hwMap.get(Servo.class, "servoRight");
         leftServo = hwMap.get(Servo.class, "servoLeft");
         clawServo = hwMap.get(Servo.class, "servoClaw");
-        
+
+        //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER.
+
+        distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive2.setDirection(DcMotor.Direction.FORWARD);
+        leftIntake.setDirection(DcMotor.Direction.FORWARD);
+        rightIntake.setDirection(DcMotor.Direction.REVERSE);
 
         runtime.reset();
     }

@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.ClawPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 
 /**
 
- * Currently used TeleOp by Roma and Nicholas 11/29/19
+ * Currently used TeleOp by Roma and Nicholas 1/7/20
 
  */
 
@@ -67,6 +68,7 @@ public class Driver_Phase extends LinearOpMode {
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
                             "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
                     Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
+            telemetry.addData("range", String.format("%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
             telemetry.update();
 
@@ -116,5 +118,7 @@ public class Driver_Phase extends LinearOpMode {
         Robot.forwardRightDrive1.setPower(v2);
         Robot.backLeftDrive2.setPower(v3);
         Robot.backRightDrive2.setPower(v4);
+        Robot.leftIntake.setPower(gamepad2.left_stick_y);
+        Robot.rightIntake.setPower(gamepad2.left_stick_y);
     }
 }
