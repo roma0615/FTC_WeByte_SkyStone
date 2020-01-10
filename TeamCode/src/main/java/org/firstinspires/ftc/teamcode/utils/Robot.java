@@ -60,6 +60,8 @@ public class Robot {
         forwardRightDrive1 = hwMap.get(DcMotor.class, "forwardRight_drive");
         backLeftDrive2 = hwMap.get(DcMotor.class, "backLeft_drive");
         backRightDrive2 = hwMap.get(DcMotor.class, "backRight_drive");
+        rightIntake = hwMap.get(DcMotor.class, "intakeRight");
+        leftIntake = hwMap.get(DcMotor.class, "intakeLeft");
         rightServo = hwMap.get(Servo.class, "servoRight");
         leftServo = hwMap.get(Servo.class, "servoLeft");
         clawServo = hwMap.get(Servo.class, "servoClaw");
@@ -138,6 +140,12 @@ public class Robot {
         forwardRightDrive1.setPower(-forwardSpeed);
         backLeftDrive2.setPower(-forwardSpeed);
         backRightDrive2.setPower(forwardSpeed);
+        waitForSeconds(time, msg);
+        stopMoving();
+    }
+    public static void activateIntake(double intakePower,double time, String msg){
+        rightIntake.setPower(intakePower);
+        leftIntake.setPower(intakePower);
         waitForSeconds(time, msg);
         stopMoving();
     }

@@ -5,6 +5,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.util.*;
 
@@ -13,6 +15,7 @@ import java.util.*;
 If it is, knock it out and move it.
 If not, move to the next stone.
  */
+@Disabled
 @Autonomous(name="TensorFlowAutoTest")
 public class TensorflowAutoTest extends LinearOpMode{
     int moveCount = 0;

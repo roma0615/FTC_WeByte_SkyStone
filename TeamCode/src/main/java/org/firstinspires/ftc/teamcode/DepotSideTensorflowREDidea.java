@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -30,7 +31,7 @@ Make sure the "servoing in" on the block's center works properly.
 // Strafing has a HUGE drift, so there had to be adjustments made.
 // 11. Reformat Code (CTRL+ALT+L / Command+Option+L):
 @Autonomous(name = "DepotSideTensorFlowREDidea")
-
+@Disabled
 public class DepotSideTensorflowREDidea extends LinearOpMode {
     @Override
     public void runOpMode() {

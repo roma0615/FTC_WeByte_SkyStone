@@ -82,14 +82,18 @@ public class TensorFlowDetection {
         else {
             int c = 0;
             for (Recognition r : recognitions) {
-                if (r.getLabel() == LABEL_SECOND_ELEMENT) {
+                if (r.getLabel().equals(LABEL_SECOND_ELEMENT)) {
                     c++;
                 }
             }
             return c;
         }
     }
+    /*
+    public static int getSkystone(){
 
+    }
+    */
     /** Return a list of recognitions from the tensorflow object detector */
     public static List<Recognition> getRecognitions() {
         return recognitions;
@@ -155,7 +159,7 @@ public class TensorFlowDetection {
         //MINIMUM CONFIDENCE IS HERE - VERY IMPORTANT PARAMETER
         //0.5 is often agreed to be the optimal confidence.
         //Our original confidence was 0.65
-        tfodParameters.minimumConfidence = 0.5;
+        tfodParameters.minimumConfidence = 0.65;
 
 
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
