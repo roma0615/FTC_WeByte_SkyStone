@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 
 /**
 
- * Currently used TeleOp by Roma and Nicholas 1/7/20
+ * Currently used TeleOp by Roma and Nicholas 1/11/20
 
  */
 
@@ -21,9 +21,9 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 public class Driver_Phase extends LinearOpMode {
 
     // Declare OpMode members.
-    private FlipperPosition servoPosition = FlipperPosition.DOWN;
+    private FlipperPosition servoPosition = FlipperPosition.UP;
     private ClawPosition clawPosition = ClawPosition.UP;
-
+    double intakePower = 0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -50,10 +50,13 @@ public class Driver_Phase extends LinearOpMode {
             // Setting the position of the "flipper" servos
             if (gamepad2.dpad_up) {
                 servoPosition = FlipperPosition.UP;
+                telemetry.addData("Servo:","UP");
             } else if ((gamepad2.dpad_right || gamepad2.dpad_left)) {
                 servoPosition = FlipperPosition.SIDE;
+                telemetry.addData("Servo:","SIDE");
             } else if (gamepad2.dpad_down) {
                 servoPosition = FlipperPosition.DOWN;
+                telemetry.addData("Servo:","DOWN");
             }
             Robot.setServos(servoPosition, 0, "");
             if (gamepad2.left_bumper){
@@ -63,12 +66,19 @@ public class Driver_Phase extends LinearOpMode {
             } else if (gamepad2.a){
                 clawPosition = ClawPosition.UP;
             }
+            if (gamepad2.b){
+                intakePower = 1.0;
+            } else if(gamepad2.x){
+                intakePower = -1.0;
+            } else {
+                intakePower = 0.0;
+            }
             Robot.setClawServo(clawPosition, 0, "");
             // Telemetry
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
                             "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
                     Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
-            telemetry.addData("range", String.format("%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
+            //telemetry.addData("range", String.format("%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
             telemetry.update();
 
@@ -77,7 +87,7 @@ public class Driver_Phase extends LinearOpMode {
     }
 
     private void drive() {
-        // Do some ~~mathematics~~ to figure out how to power the mecanum wheels
+        // Do some ~~mathematics~~ to figure out how to power the mechanum wheels
         // Explained here: https://www.roboteq.com/index.php/applications/applications-blog/entry/driving-mecanum-wheels-omnidirectional-robots
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
@@ -118,7 +128,7 @@ public class Driver_Phase extends LinearOpMode {
         Robot.forwardRightDrive1.setPower(v2);
         Robot.backLeftDrive2.setPower(v3);
         Robot.backRightDrive2.setPower(v4);
-        Robot.leftIntake.setPower(gamepad2.left_stick_y);
-        Robot.rightIntake.setPower(gamepad2.left_stick_y);
+        Robot.leftIntake.setPower(intakePower);
+        Robot.rightIntake.setPower(intakePower);
     }
 }

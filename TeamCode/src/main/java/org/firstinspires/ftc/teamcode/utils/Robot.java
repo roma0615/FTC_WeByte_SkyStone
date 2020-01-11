@@ -23,11 +23,14 @@ public class Robot {
     public static DcMotor backRightDrive2 = null;
     public static DcMotor leftIntake = null;
     public static DcMotor rightIntake = null;
+    public static DcMotor armMotor = null;
     public static Servo rightServo = null;
     public static Servo leftServo = null;
     public static Servo clawServo = null;
+    public static Servo wristServo = null;
+    public static Servo fingerServo = null;
     //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER
-    public static DistanceSensor distanceSensor = null;
+    //public static DistanceSensor distanceSensor = null;
     private static HardwareMap hwMap;
     private static Telemetry telemetry;
 
@@ -60,15 +63,17 @@ public class Robot {
         forwardRightDrive1 = hwMap.get(DcMotor.class, "forwardRight_drive");
         backLeftDrive2 = hwMap.get(DcMotor.class, "backLeft_drive");
         backRightDrive2 = hwMap.get(DcMotor.class, "backRight_drive");
+        armMotor = hwMap.get(DcMotor.class, "armMotor");
         rightIntake = hwMap.get(DcMotor.class, "intakeRight");
         leftIntake = hwMap.get(DcMotor.class, "intakeLeft");
         rightServo = hwMap.get(Servo.class, "servoRight");
         leftServo = hwMap.get(Servo.class, "servoLeft");
         clawServo = hwMap.get(Servo.class, "servoClaw");
+        fingerServo = hwMap.get(Servo.class, "fingerServo");
+        wristServo = hwMap.get(Servo.class, "wristServo");
 
         //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER.
-
-        distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
+        //distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);

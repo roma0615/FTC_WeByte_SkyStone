@@ -18,13 +18,13 @@ import java.util.List;
 //12/10/19 demo code idea for tensorflow combination
 // Strafing has a HUGE drift, so there had to be adjustments made.
 // 11. Reformat Code (CTRL+ALT+L / Command+Option+L):
-// Assumes front mounted camera with feeder working
+// Assumes side mounted camera with feeder working
 
 //TO DO
 // Maybe look for the Skystone in its entirety instead of just checking the first entry?
-@Autonomous(name = "Skystone_Post_Red_CONTINUOUS_IDEA")
+@Autonomous(name = "Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder")
 
-public class Skystone_Post_Red_CONTINUOUS_IDEA extends LinearOpMode {
+public class Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;
@@ -94,6 +94,7 @@ public class Skystone_Post_Red_CONTINUOUS_IDEA extends LinearOpMode {
                     //ideal distance is 9-10 inches. USE DISTANCE SENSOR HERE
                     // if (Robot.distanceSensor.getDistance(DistanceUnit.INCH) < 10.5)
                     if (TensorFlowDetection.getRecognitions().get(0).getWidth() > 550) {
+                        END = true;
                     } else {
                         Robot.setForwardSpeed(0.5);
                         Robot.goForward(0.1, "inching closer");
