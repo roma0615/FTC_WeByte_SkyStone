@@ -38,6 +38,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 /**
  * This 2019-2020 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -139,6 +140,10 @@ public class TensorFlowDemoFrontCamera extends LinearOpMode {
                             telemetry.addData(String.format("   center (%d)",i), "%.03f",
                                     (recognition.getRight() + recognition.getLeft()) /2);
                             i++;
+                        }
+                        telemetry.addData("Skystones detected: ", TensorFlowDetection.skystonesFound());
+                        if(TensorFlowDetection.skystonesFound() >= 1) {
+                            telemetry.addData("Nearest Skystone: ", TensorFlowDetection.getSkystone().getTop());
                         }
                         telemetry.update();
                     }

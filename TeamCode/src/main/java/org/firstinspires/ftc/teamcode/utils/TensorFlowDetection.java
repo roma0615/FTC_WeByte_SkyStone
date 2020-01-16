@@ -78,15 +78,30 @@ public class TensorFlowDetection {
     }
 
     public static int skystonesFound() {
+        updateRecognitions();
         if (getRecognitions() == null) return 0;
         else {
             int c = 0;
-            for (Recognition r : recognitions) {
-                if (r.getLabel().equals(LABEL_SECOND_ELEMENT)) {
+            for (Recognition r : getRecognitions()) {
+                if (r.getLabel().equals("Skystone")) {
                     c++;
                 }
             }
             return c;
+        }
+    }
+    public static Recognition getSkystone(){
+        updateRecognitions();
+        if (getRecognitions() == null) return null;
+        else {
+            int c = 0;
+            for (Recognition r : getRecognitions()) {
+                if (r.getLabel().equals(LABEL_SECOND_ELEMENT)) {
+                    return r;
+                }
+                c++;
+            }
+            return null;
         }
     }
     /*

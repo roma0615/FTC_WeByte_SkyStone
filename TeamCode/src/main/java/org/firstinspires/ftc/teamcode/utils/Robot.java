@@ -30,7 +30,7 @@ public class Robot {
     public static Servo wristServo = null;
     public static Servo fingerServo = null;
     //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER
-    //public static DistanceSensor distanceSensor = null;
+    public static DistanceSensor distanceSensor = null;
     private static HardwareMap hwMap;
     private static Telemetry telemetry;
 
@@ -73,7 +73,7 @@ public class Robot {
         wristServo = hwMap.get(Servo.class, "wristServo");
 
         //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER.
-        //distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
+        distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
@@ -88,7 +88,7 @@ public class Robot {
         runtime.reset();
         while (opModeIsActive.get() && (runtime.seconds() < time)) {
             telemetry.addData("Path", msg, runtime.seconds());
-            telemetry.update();
+            //telemetry.update();
         }
     }
 
@@ -124,6 +124,30 @@ public class Robot {
         waitForSeconds(time, msg);
         stopMoving();
     }
+    public static void goForwardContinous(){
+        forwardLeftDrive1.setPower(forwardSpeed);
+        forwardRightDrive1.setPower(forwardSpeed);
+        backLeftDrive2.setPower(forwardSpeed);
+        backRightDrive2.setPower(forwardSpeed);
+    }
+    public static void goBackContinous(){
+        forwardLeftDrive1.setPower(-forwardSpeed);
+        forwardRightDrive1.setPower(-forwardSpeed);
+        backLeftDrive2.setPower(-forwardSpeed);
+        backRightDrive2.setPower(-forwardSpeed);
+    }
+    public static void strafeLeftContinous(){
+        forwardLeftDrive1.setPower(-forwardSpeed);
+        forwardRightDrive1.setPower(forwardSpeed);
+        backLeftDrive2.setPower(forwardSpeed);
+        backRightDrive2.setPower(-forwardSpeed);
+    }
+    public static void strafeRightContinous(){
+        forwardLeftDrive1.setPower(forwardSpeed);
+        forwardRightDrive1.setPower(-forwardSpeed);
+        backLeftDrive2.setPower(-forwardSpeed);
+        backRightDrive2.setPower(forwardSpeed);
+    }
     public static void goBack(double time, String msg){
         forwardLeftDrive1.setPower(-forwardSpeed);
         forwardRightDrive1.setPower(-forwardSpeed);
@@ -132,6 +156,7 @@ public class Robot {
         waitForSeconds(time, msg);
         stopMoving();
     }
+
     public static void strafeLeft(double time, String msg){
         forwardLeftDrive1.setPower(-forwardSpeed);
         forwardRightDrive1.setPower(forwardSpeed);
@@ -172,7 +197,7 @@ public class Robot {
         waitForSeconds(time, msg);
     }
 
-    @Deprecated
+    //@Deprecated
     public static void setClawServo(ClawPosition pos, double time, String msg){
         clawServo.setPosition(pos.getPos());
         waitForSeconds(time, msg);

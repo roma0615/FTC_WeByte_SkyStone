@@ -10,6 +10,8 @@ import org.firstinspires.ftc.teamcode.utils.ClawPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 
+import java.util.Locale;
+
 /**
 
  * Currently used TeleOp by Roma and Nicholas 1/11/20
@@ -23,7 +25,8 @@ public class Driver_Phase extends LinearOpMode {
     // Declare OpMode members.
     private FlipperPosition servoPosition = FlipperPosition.UP;
     private ClawPosition clawPosition = ClawPosition.UP;
-    double intakePower = 0;
+    private double intakePower = 0;
+    //private double armPower = 0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -50,23 +53,21 @@ public class Driver_Phase extends LinearOpMode {
             // Setting the position of the "flipper" servos
             if (gamepad2.dpad_up) {
                 servoPosition = FlipperPosition.UP;
-                telemetry.addData("Servo:","UP");
+                //telemetry.addData("Servo:","UP");
             } else if ((gamepad2.dpad_right || gamepad2.dpad_left)) {
                 servoPosition = FlipperPosition.SIDE;
-                telemetry.addData("Servo:","SIDE");
+                //telemetry.addData("Servo:","SIDE");
             } else if (gamepad2.dpad_down) {
                 servoPosition = FlipperPosition.DOWN;
-                telemetry.addData("Servo:","DOWN");
+                //telemetry.addData("Servo:","DOWN");
             }
             Robot.setServos(servoPosition, 0, "");
             if (gamepad2.left_bumper){
                 clawPosition = ClawPosition.DOWN;
             } else if (gamepad2.right_bumper) {
-                clawPosition = ClawPosition.MEASURING;
-            } else if (gamepad2.a){
                 clawPosition = ClawPosition.UP;
             }
-            if (gamepad2.b){
+            if (gamepad2.y){
                 intakePower = 1.0;
             } else if(gamepad2.x){
                 intakePower = -1.0;
@@ -78,8 +79,9 @@ public class Driver_Phase extends LinearOpMode {
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
                             "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
                     Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
-            //telemetry.addData("range", String.format("%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
+            telemetry.addData("range", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("ArmMotor Rotations", Robot.armMotor.getCurrentPosition());
+            //telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
             telemetry.update();
 
         }
@@ -130,5 +132,14 @@ public class Driver_Phase extends LinearOpMode {
         Robot.backRightDrive2.setPower(v4);
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
+        if(Robot.armMotor.getCurrentPosition() < -5300) {
+            telemetry.addData("Arm Motor is too high!", " Lower it!");
+            Robot.armMotor.setPower(0.1);
+        } else if(Robot.armMotor.getCurrentPosition() > -20){
+            telemetry.addData("Arm Motor is too low!", " Raise it!");
+            Robot.armMotor.setPower(-0.2);
+        } else {
+            Robot.armMotor.setPower(gamepad2.right_stick_y);
+        }
     }
 }

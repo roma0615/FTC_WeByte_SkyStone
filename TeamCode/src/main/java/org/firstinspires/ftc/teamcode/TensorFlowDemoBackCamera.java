@@ -33,11 +33,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.List;
+import java.util.Locale;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.Robot;
+import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 /**
  * This 2019-2020 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -50,7 +56,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "TensorFlow Back Camera test")
-public class TensorFlowDemo extends LinearOpMode {
+public class TensorFlowDemoBackCamera extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -113,7 +119,10 @@ public class TensorFlowDemo extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-
+        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
+            @Override
+            public boolean get() { return opModeIsActive(); }
+        });
         if (opModeIsActive()) {
             while (opModeIsActive()) {
                 if (tfod != null) {
@@ -144,12 +153,16 @@ public class TensorFlowDemo extends LinearOpMode {
                                     (recognition.getRight() + recognition.getLeft()) /2);
                             i++;
                         }
+                        telemetry.addData("Skystones detected: ", TensorFlowDetection.skystonesFound());
+                        if(TensorFlowDetection.skystonesFound() >= 1) {
+                            telemetry.addData("Nearest Skystone: ", TensorFlowDetection.getSkystone().getTop());
+                        }
+                        telemetry.addData("range", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
                         telemetry.update();
                     }
                 }
             }
         }
-
         if (tfod != null) {
             tfod.shutdown();
         }

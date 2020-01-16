@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 public enum FlipperPosition {
-    UP(0, 0), SIDE(0.5, 0.15), DOWN(0.6, 0.6);
+    UP(0.85, 0), SIDE(0.5, 0.15), DOWN(0.38, 0.62);
 
     private double left, right;
 

@@ -13,20 +13,18 @@ import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 
 import java.util.List;
+import java.util.Locale;
 
 // ASSUMES STRAFE WORKS
-//12/10/19 demo code idea for tensorflow combination
-// Strafing has a HUGE drift, so there had to be adjustments made.
+// 1/14/20 demo code idea for tensorflow combination
 // 11. Reformat Code (CTRL+ALT+L / Command+Option+L):
-// Assumes side mounted camera with feeder working
+// Front mounted claw and phone cominbantion with distance Sensor
 
 //TO DO
-// CHANGE FOR SIDE MOUNTED CAMERA
-// WRITE Mr. Fuller's idea for pushing out uncessary blocks and feeding from side.
-// Maybe look for the Skystone in its entirety instead of just checking the first entry?
-@Autonomous(name = "Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder")
+// Code in blocks the full auto using the IR sensor
+@Autonomous(name = "RED_SKYSTONE_IDEA")
 
-public class Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder extends LinearOpMode {
+public class RED_SKYSTONE_IDEA extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;
@@ -48,13 +46,103 @@ public class Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder extends LinearO
 
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
-        Robot.setForwardSpeed(0.5);
-
-        Robot.goForward(1.02, "Getting into position to read blocks");
-        sleep(1500);
+        Robot.setForwardSpeed(0.3);
+        while(Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 13){
+            Robot.strafeLeftContinous();
+        }
+        Robot.goForward(0.1, "Going 4 inches forward");
+        Robot.stopMoving();
+        sleep(4000);
 
 
         //Step 2: Begin first read of blocks using Tensorflow
+        //REWORK
+        /*
+        Robot.setForwardSpeed(0.2);
+        boolean END = false;
+        while(!END && opModeIsActive()){
+            Robot.setForwardSpeed(0.15);
+            Robot.goBackContinous();
+            TensorFlowDetection.updateRecognitions();
+            if(TensorFlowDetection.skystonesFound() > 0){
+                END = true;
+            }
+        }
+         */
+        boolean FOUND = false;
+        Robot.setForwardSpeed(0.4);
+        if(TensorFlowDetection.skystonesFound() == 0){
+            int i = 0;
+            for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
+                telemetry.addData("Object " + i, String.format(Locale.ENGLISH,
+                        recognition.getLabel()));
+                telemetry.addData("Object " + i,
+                        (recognition.getRight()
+                                + recognition.getLeft()) / 2);
+            }
+            telemetry.update();
+            Robot.goBack(0.3, "No Skystone");
+
+
+        } else {
+            FOUND = true;
+
+        }
+        if(FOUND == false) {
+            sleep(3000);
+        }
+        if(TensorFlowDetection.skystonesFound() == 0 && FOUND == false){
+            Robot.goBack(0.3, "No Skystone");
+        } else {
+            FOUND = true;
+        }
+        if(FOUND == false) {
+            sleep(3000);
+        }
+        if(TensorFlowDetection.skystonesFound() == 0 && FOUND == false){
+            Robot.setServos(FlipperPosition.UP, 60, "Nothing");
+        } else {
+            FOUND = true;
+        }
+        if(FOUND == true){
+            telemetry.addData("Skystone", " seen!");
+            Robot.stopMoving();
+            boolean END = false;
+            //while (!END) {
+            if (TensorFlowDetection.skystonesFound() >= 1) {
+                if ((TensorFlowDetection.getSkystone().getRight()
+                        + TensorFlowDetection.getSkystone().getLeft()) / 2 < 500) {
+                    Robot.goForward(0.1, "Moving towards Skystone");
+                }
+                if ((TensorFlowDetection.getSkystone().getRight()
+                        + TensorFlowDetection.getSkystone().getLeft()) / 2 > 700) {
+                    Robot.goBack(0.1, "Moving towards Skystone");
+                    int i = 0;
+                    for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
+                        telemetry.addData("Object " + i, String.format(Locale.ENGLISH,
+                                recognition.getLabel()));
+                        telemetry.addData("Object " + i,
+                                (recognition.getRight()
+                                        + recognition.getLeft()) / 2);
+                    }
+                    telemetry.update();
+
+                }
+                Robot.stopMoving();
+                while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 3) {
+                    Robot.strafeLeftContinous();
+                }
+                Robot.stopMoving();
+                Robot.setClawServo(ClawPosition.DOWN, 2, "GRABBING");
+                END = true;
+                Robot.strafeRight(0.5,"move");
+                Robot.goForward(2, "move");
+                Robot.setClawServo(ClawPosition.UP,2,"release");
+                Robot.goBack(2, "move");
+            }
+        }
+        //}
+        /*
         boolean identified = false;
         boolean END = false;
         while (!END && opModeIsActive()) {
@@ -68,9 +156,9 @@ public class Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder extends LinearO
             } else {
                 int i = 0;
                 for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
-                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format(Locale.ENGLISH, "label (%d)", i), recognition.getLabel());
 
-                    telemetry.addData(String.format("   height, width (%d)", i), "%.03f , %.03f",
+                    telemetry.addData(String.format(Locale.ENGLISH, "   height, width (%d)", i), "%.03f , %.03f",
 
                             recognition.getHeight(), recognition.getWidth());
                     i++;
@@ -108,6 +196,7 @@ public class Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder extends LinearO
                 }
             }
         }
+        /*
         //Step 3: Check if approached stone is a Skystone. (UNFINISHED)
 
         identified = false;
@@ -171,7 +260,7 @@ public class Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder extends LinearO
             }
         }
         */
-
+        /*
         //Step 4: Claw operation
         Robot.setForwardSpeed(0.5);
         //Robot.goForward(0.01,"MOVING TO THE SKYSTONE");
@@ -224,6 +313,7 @@ public class Skystone_Post_Red_SideMounted_Continuous_IdeaFeeder extends LinearO
         telemetry.update();
         sleep(1000);
         TensorFlowDetection.shutdown();
+
+         */
     }
 }
-
