@@ -18,13 +18,15 @@ import java.util.Locale;
 // ASSUMES STRAFE WORKS
 // 1/14/20 demo code idea for tensorflow combination
 // 11. Reformat Code (CTRL+ALT+L / Command+Option+L):
-// Front mounted claw and phone cominbantion with distance Sensor
+// Front mounted claw and phone cominbantion with 3 distance Sensors
 
 //TO DO
 // Code in blocks the full auto using the IR sensor
-@Autonomous(name = "RED_SKYSTONE_IDEA")
+// Replace all incremental movements with distance sensor movements
+// Functionalize the code? Function for finding Skystone and for capturing it?
+@Autonomous(name = "RED_SKYSTONE_3DISTANCEsensor")
 
-public class RED_SKYSTONE_IDEA extends LinearOpMode {
+public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;
@@ -51,25 +53,19 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
         while(Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 13){
             Robot.strafeLeftContinous();
         }
-        Robot.goForward(0.1, "Going 4 inches forward");
+        //Robot.checkDistanceSensors(0.05);
+        /*
+        while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > 44){
+            Robot.goForward();
+        }
+         */
+        //Robot.goForward(0.1, "Going 4 inches forward");
         Robot.stopMoving();
         sleep(4000);
 
 
         //Step 2: Begin first read of blocks using Tensorflow
         //REWORK
-        /*
-        Robot.setForwardSpeed(0.2);
-        boolean END = false;
-        while(!END && opModeIsActive()){
-            Robot.setForwardSpeed(0.15);
-            Robot.goBackContinous();
-            TensorFlowDetection.updateRecognitions();
-            if(TensorFlowDetection.skystonesFound() > 0){
-                END = true;
-            }
-        }
-         */
         boolean FOUND = false;
         Robot.setForwardSpeed(0.4);
         if(TensorFlowDetection.skystonesFound() == 0){
@@ -82,7 +78,8 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
                                 + recognition.getLeft()) / 2);
             }
             telemetry.update();
-            Robot.goBack(0.3, "No Skystone");
+            /* while() */
+            //Robot.goBack(0.3, "No Skystone");
 
 
         } else {
@@ -93,17 +90,14 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
             sleep(4000);
         }
         if(TensorFlowDetection.skystonesFound() == 0 && FOUND == false){
-            Robot.goBack(0.3, "No Skystone");
-            backCompensate += 0.3;
+            /*
+            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > 44){
+                Robot.goForward();
+            }
+            */
+            //Robot.goBack(0.3, "No Skystone");
+            //backCompensate += 0.3;
             FOUND = true;
-        } else {
-            FOUND = true;
-        }
-        if(FOUND == false) {
-            sleep(4000);
-        }
-        if(TensorFlowDetection.skystonesFound() == 0 && FOUND == false){
-            Robot.setServos(FlipperPosition.UP, 60, "Nothing");
         } else {
             FOUND = true;
         }
@@ -144,125 +138,6 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
                 Robot.goBack(2, "move");
             }
         }
-        //}
-        /*
-        boolean identified = false;
-        boolean END = false;
-        while (!END && opModeIsActive()) {
-            if (TensorFlowDetection.getRecognitions() != null
-                    && TensorFlowDetection.getRecognitions().size() >= 1) {
-                identified = true;
-            }
-            // Update the recognitions if the moving is false.
-            if (!identified) {
-                TensorFlowDetection.updateRecognitions();
-            } else {
-                int i = 0;
-                for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
-                    telemetry.addData(String.format(Locale.ENGLISH, "label (%d)", i), recognition.getLabel());
-
-                    telemetry.addData(String.format(Locale.ENGLISH, "   height, width (%d)", i), "%.03f , %.03f",
-
-                            recognition.getHeight(), recognition.getWidth());
-                    i++;
-                }
-                telemetry.addData("Status", TensorFlowDetection.getRecognitions().get(0));
-                telemetry.update();
-
-                if (TensorFlowDetection.getRecognitions() == null) {
-                    Robot.setForwardSpeed(0.5);
-                    Robot.strafeLeft(0.05, "Trying to find stone");
-                    Robot.goForward(0.05, "Trying to find stone");
-                    sleep(inchPause);
-                    TensorFlowDetection.updateRecognitions();
-                    identified = false;
-                } else if (TensorFlowDetection.getRecognitions().size() > 1) {
-                    //sleep(2000);
-                    Robot.goForward(0.02, "Inching away from crack");
-                    sleep(2 * inchPause);
-                    TensorFlowDetection.updateRecognitions();
-                    identified = false;
-                } else {
-                    double itemWidth = TensorFlowDetection.getRecognitions().get(0).getWidth();
-                    //ideal distance is 9-10 inches. USE DISTANCE SENSOR HERE
-                    // if (Robot.distanceSensor.getDistance(DistanceUnit.INCH) < 10.5)
-                    if (TensorFlowDetection.getRecognitions().get(0).getWidth() > 550) {
-                        END = true;
-                    } else {
-                        Robot.setForwardSpeed(0.5);
-                        Robot.goForward(0.1, "inching closer");
-                        Robot.stopMoving();
-                        sleep(inchPause);
-                        TensorFlowDetection.updateRecognitions();
-                        identified = false;
-                    }
-                }
-            }
-        }
-        /*
-        //Step 3: Check if approached stone is a Skystone. (UNFINISHED)
-
-        identified = false;
-        END = false;
-        int backwardMoveTime = 0;
-        while(!identified){
-            if(TensorFlowDetection.getRecognitions().get(0).getLabel().equals("Skystone")) {
-                identified = true;
-                Robot.setForwardSpeed(0.5);
-            } else {
-                Robot.setForwardSpeed(0.2);
-                Robot.strafeLeft(0.02, "Skystone not found yet...");
-            }
-        }
-        /*
-        //List<Recognition> rec = TensorFlowDetection.getRecognitions();
-        while (!END && opModeIsActive()) {
-            if (TensorFlowDetection.getRecognitions() != null
-                    && TensorFlowDetection.getRecognitions().size() == 1) {
-                identified = true;
-            } else if (TensorFlowDetection.getRecognitions() != null && TensorFlowDetection.getRecognitions().size() > 1) {
-                if(TensorFlowDetection.getRecognitions().size() == 2){
-                    if(TensorFlowDetection.getRecognitions().get(0).getLabel().equals("Skystone")
-                            && TensorFlowDetection.getRecognitions().get(1).getLabel().equals("Stone")){
-                        Robot.strafeLeft(0.1, "Going left to the Skystone");
-                        backwardMoveTime += 0.1;
-                        identified = false;
-                        sleep(inchPause*2);
-                        TensorFlowDetection.updateRecognitions();
-                    } else{
-                        Robot.strafeRight(0.1, "Going right to the Skystone");
-                        backwardMoveTime -= 0.1;
-                        identified = false;
-                        sleep(inchPause * 2);
-                        TensorFlowDetection.updateRecognitions();
-                    }
-                } else {
-                    Robot.strafeRight(0.1, "Going right to the Skystne");
-                    backwardMoveTime -= 0.1;
-                    identified = false;
-                    sleep(inchPause * 2);
-                    TensorFlowDetection.updateRecognitions();
-                }
-            }
-            // Update the recognitions if the moving is false.
-            if (!identified) {
-                TensorFlowDetection.updateRecognitions();
-            } else {
-
-                if (TensorFlowDetection.getRecognitions().get(0).getLabel().equals("Skystone")) {
-                    identified = false;
-                    END = true;
-                } else {
-                    //sleep(1000);
-                    Robot.strafeLeft(0.18, "Moving to next Stone");
-                    backwardMoveTime += 0.18;
-                    identified = false;
-                    sleep(inchPause*2);
-                    TensorFlowDetection.updateRecognitions();
-                }
-            }
-        }
-        */
         /*
         //Step 4: Claw operation
         Robot.setForwardSpeed(0.5);
@@ -318,5 +193,6 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
         TensorFlowDetection.shutdown();
 
          */
+
     }
 }

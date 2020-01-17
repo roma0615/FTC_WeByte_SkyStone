@@ -31,6 +31,9 @@ public class Robot {
     public static Servo fingerServo = null;
     //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER
     public static DistanceSensor distanceSensor = null;
+    //public static DistanceSensor frontLeftSensor = null;
+    //public static DistanceSensor frontRightSensor = null;
+
     private static HardwareMap hwMap;
     private static Telemetry telemetry;
 
@@ -71,9 +74,10 @@ public class Robot {
         clawServo = hwMap.get(Servo.class, "servoClaw");
         fingerServo = hwMap.get(Servo.class, "fingerServo");
         wristServo = hwMap.get(Servo.class, "wristServo");
-
         //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER.
         distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
+        //frontLeftSensor = hwMap.get(DistanceSensor.class, "frontLeftSensor");
+        //frontRightSensor = hwMap.get(DistanceSensor.class, "frontLeftSensor");
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
@@ -196,7 +200,20 @@ public class Robot {
         leftServo.setPosition(left);
         waitForSeconds(time, msg);
     }
+    /*
+    public static void checkDistanceSensors(double duration) {
+        double difference = frontLeftSensor.getDistance(DistanceUnit.INCH) -
+            frontRightSensor.getDistance(DistanceUnit.INCH)
+        if(difference > 1.0){
+            turnLeft(duration, "adjusting for drift");
+            checkDistanceSensors(duration);
+        } else if (difference < -1.0){
+            turnRight(duration, "adjusting for drift");
+            checkDistanceSensors(duration);
+        }
 
+    }
+    */
     //@Deprecated
     public static void setClawServo(ClawPosition pos, double time, String msg){
         clawServo.setPosition(pos.getPos());
