@@ -30,7 +30,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;
-        double backCompensate = 0;
+        double skystonePosition = 0;
         Robot.init(hardwareMap, telemetry, new BooleanFunction() {
             @Override
             public boolean get() {
@@ -50,7 +50,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.3);
-        while(Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 13){
+        while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 13) {
             Robot.strafeLeftContinous();
         }
         //Robot.checkDistanceSensors(0.05);
@@ -68,7 +68,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
         //REWORK
         boolean FOUND = false;
         Robot.setForwardSpeed(0.4);
-        if(TensorFlowDetection.skystonesFound() == 0){
+        if (TensorFlowDetection.skystonesFound() == 0) {
             int i = 0;
             for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
                 telemetry.addData("Object " + i, String.format(Locale.ENGLISH,
@@ -78,66 +78,84 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
                                 + recognition.getLeft()) / 2);
             }
             telemetry.update();
-            /* while() */
+            //Robot.checkDistanceSensors(0.05);
+            /*
+            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > 36){
+                Robot.goForward();
+            }
+             */
             //Robot.goBack(0.3, "No Skystone");
-
-
         } else {
             FOUND = true;
-
+            skystonePosition = 44;
         }
-        if(FOUND == false) {
+        if (FOUND == false) {
             sleep(4000);
         }
-        if(TensorFlowDetection.skystonesFound() == 0 && FOUND == false){
+        if (TensorFlowDetection.skystonesFound() == 0 && FOUND == false) {
             /*
-            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > 44){
+            //Robot.checkDistanceSensors(0.05);
+            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > 28){
                 Robot.goForward();
             }
             */
             //Robot.goBack(0.3, "No Skystone");
             //backCompensate += 0.3;
             FOUND = true;
+            skystonePosition = 28;
         } else {
             FOUND = true;
+            skystonePosition = 36;
         }
-        if(FOUND == true){
-            telemetry.addData("Skystone", " seen!");
-            Robot.stopMoving();
-            boolean END = false;
-            //while (!END) {
-            if (TensorFlowDetection.skystonesFound() >= 1) {
-                if ((TensorFlowDetection.getSkystone().getRight()
-                        + TensorFlowDetection.getSkystone().getLeft()) / 2 < 500) {
-                    Robot.goForward(0.1, "Moving towards Skystone");
-                }
-                if ((TensorFlowDetection.getSkystone().getRight()
-                        + TensorFlowDetection.getSkystone().getLeft()) / 2 > 700) {
-                    Robot.goBack(0.1, "Moving towards Skystone");
-                    int i = 0;
-                    for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
-                        telemetry.addData("Object " + i, String.format(Locale.ENGLISH,
-                                recognition.getLabel()));
-                        telemetry.addData("Object " + i,
-                                (recognition.getRight()
-                                        + recognition.getLeft()) / 2);
-                    }
-                    telemetry.update();
-
-                }
-                Robot.stopMoving();
-                while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 3) {
-                    Robot.strafeLeftContinous();
-                }
-                Robot.stopMoving();
-                Robot.setClawServo(ClawPosition.DOWN, 2, "GRABBING");
-                END = true;
-                Robot.strafeRight(0.5,"move");
-                Robot.goForward(2, "move");
-                Robot.setClawServo(ClawPosition.UP,2,"release");
-                Robot.goBack(2, "move");
+        telemetry.addData("Skystone", " seen!");
+        Robot.stopMoving();
+        boolean END = false;
+        //while (!END) {
+        if (TensorFlowDetection.skystonesFound() >= 1) {
+            if ((TensorFlowDetection.getSkystone().getRight()
+                    + TensorFlowDetection.getSkystone().getLeft()) / 2 < 500) {
+                Robot.goForward(0.1, "Moving towards Skystone");
             }
+            if ((TensorFlowDetection.getSkystone().getRight()
+                    + TensorFlowDetection.getSkystone().getLeft()) / 2 > 700) {
+                Robot.goBack(0.1, "Moving towards Skystone");
+                int i = 0;
+                for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
+                    telemetry.addData("Object " + i, String.format(Locale.ENGLISH,
+                            recognition.getLabel()));
+                    telemetry.addData("Object " + i,
+                            (recognition.getRight()
+                                    + recognition.getLeft()) / 2);
+                }
+                telemetry.update();
+
+            }
+            Robot.stopMoving();
+            while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 3) {
+                Robot.strafeLeftContinous();
+            }
+            Robot.stopMoving();
+            Robot.setClawServo(ClawPosition.DOWN, 2, "GRABBING");
+            END = true;
+            // This move doesn't need to be changed since the block sensor is blind
+            Robot.strafeRight(0.5, "move");
+                /*
+                //Robot.checkDistanceSensors(0.05);
+                while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > 44){
+                    Robot.goForward();
+                }
+                 */
+            Robot.goForward(2, "move");
+            Robot.setClawServo(ClawPosition.UP, 2, "release");
+            Robot.goBack(2, "move");
+            /*
+            //Robot.checkDistanceSensors(0.05);
+            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > 44){
+                Robot.goForward();
+            }
+             */
         }
+
         /*
         //Step 4: Claw operation
         Robot.setForwardSpeed(0.5);
