@@ -207,12 +207,12 @@ public class Robot {
     public static void checkDistanceSensors(double duration) {
         double difference = frontLeftSensor.getDistance(DistanceUnit.INCH) -
             frontRightSensor.getDistance(DistanceUnit.INCH);
-        if(difference > 1.0){
-            turnLeft(duration, "adjusting for drift");
-            checkDistanceSensors(duration);
-        } else if (difference < -1.0){
+        if(difference > 1.25){
             turnRight(duration, "adjusting for drift");
-            checkDistanceSensors(duration);
+            //checkDistanceSensors(duration);
+        } else if (difference < -1.25){
+            turnLeft(duration, "adjusting for drift");
+            //checkDistanceSensors(duration);
         }
 
     }

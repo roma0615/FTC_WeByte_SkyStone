@@ -79,9 +79,10 @@ public class Driver_Phase extends LinearOpMode {
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
                             "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
                     Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
-            telemetry.addData("range", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("ArmMotor Rotations", Robot.armMotor.getCurrentPosition());
             //telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
             telemetry.update();
