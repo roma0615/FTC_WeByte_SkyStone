@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -11,8 +12,6 @@ import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
-
-import java.util.List;
 import java.util.Locale;
 
 // ASSUMES STRAFE WORKS
@@ -23,7 +22,7 @@ import java.util.Locale;
 //TO DO
 // Code in blocks the full auto using the IR sensor
 @Autonomous(name = "RED_SKYSTONE_IDEA")
-
+@Disabled
 public class RED_SKYSTONE_IDEA extends LinearOpMode {
     @Override
     public void runOpMode() {
@@ -44,7 +43,7 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Strafe Right and move forward to get into position
-
+        /*
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.3);
@@ -70,6 +69,7 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
             }
         }
          */
+        /*
         boolean FOUND = false;
         Robot.setForwardSpeed(0.4);
         if(TensorFlowDetection.skystonesFound() == 0){

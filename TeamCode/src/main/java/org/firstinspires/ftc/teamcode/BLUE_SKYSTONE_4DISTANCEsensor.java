@@ -24,9 +24,10 @@ import java.util.Locale;
 // Code in blocks the full auto using the IR sensor
 // Replace all incremental movements with distance sensor movements
 // Functionalize the code? Function for finding Skystone and for capturing it?
-@Autonomous(name = "RED_SKYSTONE_3DISTANCEsensor")
+// Add differences to BLUE routine.
+@Autonomous(name = "BLUE_SKYSTONE_4DISTANCEsensor")
 
-public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
+public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;
@@ -168,3 +169,4 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
 
     }
 }
+

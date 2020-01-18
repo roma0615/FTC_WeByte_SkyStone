@@ -136,10 +136,10 @@ public class Driver_Phase extends LinearOpMode {
         Robot.rightIntake.setPower(intakePower);
         if(Robot.armMotor.getCurrentPosition() < -5300) {
             telemetry.addData("Arm Motor is too high!", " Lower it!");
-            Robot.armMotor.setPower(0.1);
+            Robot.armMotor.setPower(0.05);
         } else if(Robot.armMotor.getCurrentPosition() > -20){
             telemetry.addData("Arm Motor is too low!", " Raise it!");
-            Robot.armMotor.setPower(-0.2);
+            Robot.armMotor.setPower(-0.1);
         } else {
             Robot.armMotor.setPower(gamepad2.right_stick_y);
         }

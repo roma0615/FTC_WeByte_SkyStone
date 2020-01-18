@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Robot {
     /* Declare OpMode members. */
@@ -31,8 +32,9 @@ public class Robot {
     public static Servo fingerServo = null;
     //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER
     public static DistanceSensor distanceSensor = null;
-    //public static DistanceSensor frontLeftSensor = null;
-    //public static DistanceSensor frontRightSensor = null;
+    public static DistanceSensor frontLeftSensor = null;
+    public static DistanceSensor frontRightSensor = null;
+    public static DistanceSensor rearSensor = null;
 
     private static HardwareMap hwMap;
     private static Telemetry telemetry;
@@ -53,7 +55,7 @@ public class Robot {
           Servos:
             0 = right flipper (servoRight)
             1 = left flipper (servoLeft)
-            2 = claw servo (servoClaw) (DEPRECATED)
+            2 = claw servo (servoClaw)
 
         Expansion hub #2 mappings (address=3, the one with no writing on the front):
           Motors:
@@ -76,8 +78,9 @@ public class Robot {
         wristServo = hwMap.get(Servo.class, "wristServo");
         //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER.
         distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
-        //frontLeftSensor = hwMap.get(DistanceSensor.class, "frontLeftSensor");
-        //frontRightSensor = hwMap.get(DistanceSensor.class, "frontLeftSensor");
+        frontLeftSensor = hwMap.get(DistanceSensor.class, "frontLeftSensor");
+        frontRightSensor = hwMap.get(DistanceSensor.class, "frontRightSensor");
+        rearSensor = hwMap.get(DistanceSensor.class, "rearSensor");
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
@@ -128,25 +131,25 @@ public class Robot {
         waitForSeconds(time, msg);
         stopMoving();
     }
-    public static void goForwardContinous(){
+    public static void goForwardContinuous(){
         forwardLeftDrive1.setPower(forwardSpeed);
         forwardRightDrive1.setPower(forwardSpeed);
         backLeftDrive2.setPower(forwardSpeed);
         backRightDrive2.setPower(forwardSpeed);
     }
-    public static void goBackContinous(){
+    public static void goBackContinuous(){
         forwardLeftDrive1.setPower(-forwardSpeed);
         forwardRightDrive1.setPower(-forwardSpeed);
         backLeftDrive2.setPower(-forwardSpeed);
         backRightDrive2.setPower(-forwardSpeed);
     }
-    public static void strafeLeftContinous(){
+    public static void strafeLeftContinuous(){
         forwardLeftDrive1.setPower(-forwardSpeed);
         forwardRightDrive1.setPower(forwardSpeed);
         backLeftDrive2.setPower(forwardSpeed);
         backRightDrive2.setPower(-forwardSpeed);
     }
-    public static void strafeRightContinous(){
+    public static void strafeRightContinuous(){
         forwardLeftDrive1.setPower(forwardSpeed);
         forwardRightDrive1.setPower(-forwardSpeed);
         backLeftDrive2.setPower(-forwardSpeed);
@@ -200,10 +203,10 @@ public class Robot {
         leftServo.setPosition(left);
         waitForSeconds(time, msg);
     }
-    /*
+
     public static void checkDistanceSensors(double duration) {
         double difference = frontLeftSensor.getDistance(DistanceUnit.INCH) -
-            frontRightSensor.getDistance(DistanceUnit.INCH)
+            frontRightSensor.getDistance(DistanceUnit.INCH);
         if(difference > 1.0){
             turnLeft(duration, "adjusting for drift");
             checkDistanceSensors(duration);
@@ -213,7 +216,7 @@ public class Robot {
         }
 
     }
-    */
+
     //@Deprecated
     public static void setClawServo(ClawPosition pos, double time, String msg){
         clawServo.setPosition(pos.getPos());
