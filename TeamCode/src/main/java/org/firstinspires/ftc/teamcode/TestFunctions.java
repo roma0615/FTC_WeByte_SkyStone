@@ -26,7 +26,7 @@ public class TestFunctions extends LinearOpMode {
         waitForStart();
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
-        Robot.setServos(FlipperPosition.SIDE, 1, "Servos should be in SIDE position");
+        //Robot.setServos(FlipperPosition.SIDE, 1, "Servos should be in SIDE position");
         Robot.strafeRight(1.0, "Robot should be strafing right");
 
         Robot.setServos(FlipperPosition.DOWN, 1, "Servos should be in DOWN position");

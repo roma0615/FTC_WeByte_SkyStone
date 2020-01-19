@@ -203,15 +203,27 @@ public class Robot {
         leftServo.setPosition(left);
         waitForSeconds(time, msg);
     }
-
+    public static void setArmServos(ArmPosition pos, double time, String msg){
+        fingerServo.setPosition(pos.getFinger());
+        wristServo.setPosition(pos.getWrist());
+        waitForSeconds(time, msg);
+    }
+    public static void setFingerServo(double finger, double time, String msg){
+        fingerServo.setPosition(finger);
+        waitForSeconds(time, msg);
+    }
+    public static void setWristServo(double wrist, double time, String msg){
+        wristServo.setPosition(wrist);
+        waitForSeconds(time, msg);
+    }
     public static void checkDistanceSensors(double duration) {
         double difference = frontLeftSensor.getDistance(DistanceUnit.INCH) -
             frontRightSensor.getDistance(DistanceUnit.INCH);
         if(difference > 1.25){
-            turnRight(duration, "adjusting for drift");
+            turnLeft(duration, "adjusting for drift");
             //checkDistanceSensors(duration);
         } else if (difference < -1.25){
-            turnLeft(duration, "adjusting for drift");
+            turnRight(duration, "adjusting for drift");
             //checkDistanceSensors(duration);
         }
 

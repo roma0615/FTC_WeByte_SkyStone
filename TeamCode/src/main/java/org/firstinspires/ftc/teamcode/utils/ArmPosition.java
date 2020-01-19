@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode.utils;
 
 public enum ArmPosition {
-    UP(1), MEASURING(0.2), DOWN(0);
+    UP(0, 0), DOWN(0, 0.7);
 
-    private double pos;
+    private double wrist, finger;
 
-    public double getPos() {
-        return this.pos;
+    public double getWrist() {
+        return this.wrist;
+    }
+    public double getFinger() {
+        return this.finger;
     }
 
-    ArmPosition(double p) {
-        this.pos = p;
+    ArmPosition(double wrist, double finger) {
+        this.wrist = wrist;
+        this.finger = finger;
     }
 }

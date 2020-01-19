@@ -51,17 +51,19 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
 
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
-        Robot.setForwardSpeed(0.3);
-        while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 10 && opModeIsActive()) {
-            Robot.strafeRightContinuous();
+        Robot.setForwardSpeed(0.5);
+        while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 12 && opModeIsActive()) {
+            Robot.strafeLeftContinuous();
         }
         Robot.stopMoving();
+        //Robot.turnLeft(0.1, "turn");
         sleep(250);
         Robot.setForwardSpeed(0.2);
-        while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) < (distanceVar + 9.2) && opModeIsActive()){
+        while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) < (distanceVar + 10.2) && opModeIsActive()){
             Robot.goBackContinuous();
         }
-        Robot.checkDistanceSensors(checkDistanceVar);
+        //Robot.turnLeft(0.02,"adjust for drift");
+
         //Robot.goForward(0.1, "Going 4 inches forward");
         Robot.stopMoving();
         sleep(3000);
@@ -73,10 +75,11 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
         Robot.setForwardSpeed(0.4);
         if (TensorFlowDetection.skystonesFound() >= 1 &&
                 (TensorFlowDetection.getSkystone().getLeft() +
-                        TensorFlowDetection.getSkystone().getRight() / 2) > 300 &&
+                        TensorFlowDetection.getSkystone().getRight() / 2) > 250 &&
                 (TensorFlowDetection.getSkystone().getLeft() +
                         TensorFlowDetection.getSkystone().getRight() / 2) < 900) {
             FOUND = true;
+            //Robot.checkDistanceSensors(checkDistanceVar);
             skystonePosition = distanceVar + 13;
             int i = 0;
             for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
@@ -100,10 +103,12 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
             }
             telemetry.update();
             Robot.setForwardSpeed(0.2);
-            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > (distanceVar + 4) && opModeIsActive()){
+            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > (distanceVar + 6.5) && opModeIsActive()){
                 Robot.goForwardContinuous();
             }
             Robot.stopMoving();
+            Robot.strafeRight(0.15,"adjusting");
+            //Robot.turnLeft(0.01, "adjusting");
 
         }
 
@@ -116,7 +121,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
                 (TensorFlowDetection.getSkystone().getLeft() +
                         TensorFlowDetection.getSkystone().getRight() / 2) < 900) {
             FOUND = true;
-            skystonePosition = distanceVar + 4;
+            skystonePosition = distanceVar + 5.4;
 
         } else if(FOUND == false) {
             Robot.setForwardSpeed(0.2);
@@ -128,7 +133,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
             //backCompensate += 0.3;
             FOUND = true;
             skystonePosition = (distanceVar-2.5);
-            Robot.checkDistanceSensors(checkDistanceVar);
+            //Robot.checkDistanceSensors(checkDistanceVar);
         }
         telemetry.addData("Skystone", " seen!");
         Robot.stopMoving();
@@ -155,7 +160,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
             }
             Robot.stopMoving();
             */
-            Robot.setForwardSpeed(0.2);
+            Robot.setForwardSpeed(0.4);
             while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) < skystonePosition && opModeIsActive()){
                 Robot.goBackContinuous();
             }
@@ -174,47 +179,54 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
             Robot.setClawServo(ClawPosition.DOWN, 1.5, "GRABBING");
             END = true;
             // This move doesn't need to be changed since the block sensor is blind
-            Robot.setForwardSpeed(0.4);
-            Robot.strafeLeft(0.5, "move");
+            // speed 0.4 strafeLeft 0.65 goBack 2 goForward 2 worked
+            Robot.setForwardSpeed(1);
+            Robot.strafeLeft(0.35, "move");
 
 
             while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) < 40 && opModeIsActive()){
                 Robot.goBackContinuous();
             }
-            Robot.goBack(2, "move");
+            Robot.goBack(1, "move");
             Robot.setClawServo(ClawPosition.UP, 0.1, "release");
-            Robot.goForward(2, "move");
+            Robot.goForward(1.5, "move");
             Robot.setForwardSpeed(0.2);
-            while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > (skystonePosition - 17.75) && opModeIsActive()){
+            if(skystonePosition == (distanceVar +5.4)){
+                skystonePosition -= 0.1;
+            }
+            while(Robot.frontRightSensor.getDistance(DistanceUnit.INCH) > (skystonePosition - 17.8) && opModeIsActive()){
                 Robot.goForwardContinuous();
             }
             Robot.stopMoving();
-            Robot.checkDistanceSensors(checkDistanceVar);
+            //Robot.checkDistanceSensors(checkDistanceVar);
+            //Robot.turnLeft(0.02, "adjust");
+            Robot.setForwardSpeed(0.5);
             while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
                 Robot.strafeRightContinuous();
             }
             Robot.stopMoving();
-            /*
+
             Robot.setForwardSpeed(0.12);
             Robot.checkDistanceSensors(checkDistanceVar);
             while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) < (skystonePosition-17.25) && opModeIsActive()){
                 Robot.goBackContinuous();
             }
             Robot.stopMoving();
-            */
+
             Robot.setClawServo(ClawPosition.DOWN, 1.5, "grab");
             Robot.setForwardSpeed(0.4);
-            Robot.strafeLeft(0.6,"");
+            Robot.strafeLeft(0.7,"");
 
             while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) > (distanceVar + 22) && opModeIsActive()){
                 Robot.goBackContinuous();
             }
             // speed 0.4 back 3 forward 0.6 works
-            Robot.setForwardSpeed(0.7);
+            // speed 0.7 back 2.7 forward 0.7 works
+            Robot.setForwardSpeed(1);
             Robot.stopMoving();
-            Robot.goBack(2.7,"going to midfield");
+            Robot.goBack(2.3,"going to midfield");
             Robot.setClawServo(ClawPosition.UP, 0.1, "grab");
-            Robot.goForward(0.6,"going to midfield line");
+            Robot.goForward(0.65,"going to midfield line");
 
         }
         //TensorFlowDetection.shutdown();

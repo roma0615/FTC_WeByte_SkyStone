@@ -42,10 +42,10 @@ public class Right extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
+        Robot.setForwardSpeed(1);
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        Robot.strafeRight(1.0, "Strafing right");
+        Robot.strafeRight(0.5, "Strafing right");
 
         Robot.stopMoving();
 

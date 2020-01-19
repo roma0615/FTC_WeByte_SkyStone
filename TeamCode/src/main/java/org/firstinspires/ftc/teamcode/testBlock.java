@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.utils.ArmPosition;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.ClawPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
@@ -15,26 +14,18 @@ import java.util.Locale;
 
 /**
 
- * Currently used TeleOp by Roma and Nicholas 1/19/20
-    TO DO:
-    MUST FIX ALL TOGGLES
+ * Currently used TeleOp by Roma and Nicholas 1/11/20
+
  */
 
-@TeleOp(name="Driver_Phase")
+@TeleOp(name="testBlock")
 
-public class Driver_Phase extends LinearOpMode {
+public class testBlock extends LinearOpMode {
 
     // Declare OpMode members.
-    private FlipperPosition servoPosition = FlipperPosition.BOTTOM;
-    //private ClawPosition clawPosition = ClawPosition.UP;
-    //private ArmPosition armPosition = ArmPosition.UP;
+    private FlipperPosition servoPosition = FlipperPosition.UP;
+    private ClawPosition clawPosition = ClawPosition.UP;
     private double intakePower = 0;
-    private boolean clawToggle = false;
-    private boolean clawOn = false;
-    private boolean fingerToggle = false;
-    private boolean wristToggle = false;
-    private boolean forwardIntakeToggle = false;
-    //private boolean backwardIntakeToggle = false;
     //private double armPower = 0;
 
     /*
@@ -58,79 +49,48 @@ public class Driver_Phase extends LinearOpMode {
         while (opModeIsActive()) {
             // Controls movement of the robot
             drive();
-
+            /*
             // Setting the position of the "flipper" servos
             if (gamepad2.dpad_up) {
                 servoPosition = FlipperPosition.UP;
                 //telemetry.addData("Servo:","UP");
-            } else if (gamepad2.dpad_left || gamepad2.dpad_right) {
-                servoPosition = FlipperPosition.BOTTOM;
-                //telemetry.addData("Servo:","DOWN");
-            } else if (gamepad2.dpad_down){
+            } else if ((gamepad2.dpad_right || gamepad2.dpad_left)) {
+                servoPosition = FlipperPosition.SIDE;
+                //telemetry.addData("Servo:","SIDE");
+            } else if (gamepad2.dpad_down) {
                 servoPosition = FlipperPosition.DOWN;
+                //telemetry.addData("Servo:","DOWN");
             }
             Robot.setServos(servoPosition, 0, "");
-
-            /*
             if (gamepad2.left_bumper){
-                //clawPosition = ClawPosition.DOWN;
-                clawToggle = !clawToggle;
-                //sleep(200);
+                clawPosition = ClawPosition.DOWN;
+            } else if (gamepad2.right_bumper) {
+                clawPosition = ClawPosition.UP;
             }
-            */
-            // TEST CLAW TOGGLE
-            if(!clawToggle && gamepad2.left_bumper){
-                Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
-                clawOn = !clawOn;
-                clawToggle = true;
-            } else if(!gamepad2.left_bumper) {
-                clawToggle = false;
-            }
-
-
-            if(gamepad2.x) {
-                forwardIntakeToggle = !forwardIntakeToggle;
-                //sleep(200);
-            }
-            if(forwardIntakeToggle){
+            if (gamepad2.y){
+                intakePower = 1.0;
+            } else if(gamepad2.x){
                 intakePower = -1.0;
             } else {
                 intakePower = 0.0;
             }
 
-
-            if(gamepad2.a){
-                fingerToggle = !fingerToggle;
-                //sleep(200);
-                //armPosition = ArmPosition.UP;
-                //Robot.setFingerServo(0,0,"");
-            }
-            if(!fingerToggle){
-                Robot.setFingerServo(0,0,"");
-
-            } else {
-                Robot.setFingerServo(1.0,0,"");
-            }
-
-            if(gamepad2.y){
-                wristToggle = !wristToggle;
-                //sleep(200);
-            }
-            if (!wristToggle) {
-                Robot.setWristServo(-0.2,0,"");
-            } else {
-                Robot.setWristServo(1,0,"");
-            }
-
-            //Robot.setArmServos(armPosition, 0, "");
+             */
+            Robot.setClawServo(clawPosition, 0, "");
             // Telemetry
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
                             "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
                     Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
-            //telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
+            double frontLeftSensorValue = 0;
+            double frontRightSensorValue = 0;
+            for(int i = 0; i < 5; i++){
+                frontLeftSensorValue += Robot.frontLeftSensor.getDistance(DistanceUnit.INCH);
+                frontRightSensorValue += Robot.frontRightSensor.getDistance(DistanceUnit.INCH);
+            }
+            telemetry.addData("range front left AVERAGE", String.format(Locale.ENGLISH, "%.01f in", frontLeftSensorValue));
+            telemetry.addData("range front left AVERAGE", String.format(Locale.ENGLISH, "%.01f in", frontRightSensorValue));
+            telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("ArmMotor Rotations", Robot.armMotor.getCurrentPosition());
             telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
             telemetry.update();
@@ -176,25 +136,26 @@ public class Driver_Phase extends LinearOpMode {
         }
 
 
-
+        /*
         Robot.forwardLeftDrive1.setPower(v1);
         Robot.forwardRightDrive1.setPower(v2);
         Robot.backLeftDrive2.setPower(v3);
         Robot.backRightDrive2.setPower(v4);
 
+         */
+        /*
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
-
-        if(Robot.armMotor.getCurrentPosition() < -5000) {
+        if(Robot.armMotor.getCurrentPosition() < -5300) {
             telemetry.addData("Arm Motor is too high!", " Lower it!");
-            Robot.armMotor.setPower(0.1);
+            Robot.armMotor.setPower(0.05);
         } else if(Robot.armMotor.getCurrentPosition() > -20){
             telemetry.addData("Arm Motor is too low!", " Raise it!");
-            Robot.armMotor.setPower(-0.2);
+            Robot.armMotor.setPower(-0.1);
         } else {
             Robot.armMotor.setPower(gamepad2.right_stick_y);
         }
 
-
+         */
     }
 }

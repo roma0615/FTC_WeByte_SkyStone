@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.utils.ArmPosition;
@@ -15,14 +16,13 @@ import java.util.Locale;
 
 /**
 
- * Currently used TeleOp by Roma and Nicholas 1/19/20
-    TO DO:
-    MUST FIX ALL TOGGLES
+ * Currently used TeleOp by Roma and Nicholas 1/11/20
+    TeleOp to reset the arm into a proper position with the limits off.
  */
 
-@TeleOp(name="Driver_Phase")
+@TeleOp(name="armReset")
 
-public class Driver_Phase extends LinearOpMode {
+public class armReset extends LinearOpMode {
 
     // Declare OpMode members.
     private FlipperPosition servoPosition = FlipperPosition.BOTTOM;
@@ -30,11 +30,10 @@ public class Driver_Phase extends LinearOpMode {
     //private ArmPosition armPosition = ArmPosition.UP;
     private double intakePower = 0;
     private boolean clawToggle = false;
-    private boolean clawOn = false;
     private boolean fingerToggle = false;
     private boolean wristToggle = false;
     private boolean forwardIntakeToggle = false;
-    //private boolean backwardIntakeToggle = false;
+    private boolean backwardIntakeToggle = false;
     //private double armPower = 0;
 
     /*
@@ -71,29 +70,32 @@ public class Driver_Phase extends LinearOpMode {
             }
             Robot.setServos(servoPosition, 0, "");
 
-            /*
+
             if (gamepad2.left_bumper){
                 //clawPosition = ClawPosition.DOWN;
                 clawToggle = !clawToggle;
                 //sleep(200);
             }
-            */
-            // TEST CLAW TOGGLE
-            if(!clawToggle && gamepad2.left_bumper){
-                Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
-                clawOn = !clawOn;
-                clawToggle = true;
-            } else if(!gamepad2.left_bumper) {
-                clawToggle = false;
+            if(!clawToggle){
+                Robot.setClawServo(ClawPosition.UP, 0, "");
+            } else {
+                Robot.setClawServo(ClawPosition.DOWN, 0, "");
             }
 
 
-            if(gamepad2.x) {
+            if (gamepad2.y){
+                backwardIntakeToggle = !backwardIntakeToggle;
+                forwardIntakeToggle = false;
+                //sleep(200);
+            } else if(gamepad2.x) {
                 forwardIntakeToggle = !forwardIntakeToggle;
+                backwardIntakeToggle = false;
                 //sleep(200);
             }
             if(forwardIntakeToggle){
                 intakePower = -1.0;
+            } else if (backwardIntakeToggle) {
+                intakePower = 1.0;
             } else {
                 intakePower = 0.0;
             }
@@ -112,7 +114,7 @@ public class Driver_Phase extends LinearOpMode {
                 Robot.setFingerServo(1.0,0,"");
             }
 
-            if(gamepad2.y){
+            if(gamepad2.left_stick_x > 0){
                 wristToggle = !wristToggle;
                 //sleep(200);
             }
@@ -121,7 +123,13 @@ public class Driver_Phase extends LinearOpMode {
             } else {
                 Robot.setWristServo(1,0,"");
             }
-
+            if(gamepad2.right_stick_button){
+                Robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                telemetry.addData("","BYPASS COMPLETE. ENCODER ROTATIONS RESET");
+            } else {
+                Robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                telemetry.addData("","Move to a position and press right stick button to fix it as 0.");
+            }
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
@@ -175,26 +183,11 @@ public class Driver_Phase extends LinearOpMode {
             v4 *= 0.5;
         }
 
-
-
-        Robot.forwardLeftDrive1.setPower(v1);
-        Robot.forwardRightDrive1.setPower(v2);
-        Robot.backLeftDrive2.setPower(v3);
-        Robot.backRightDrive2.setPower(v4);
-
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
-
-        if(Robot.armMotor.getCurrentPosition() < -5000) {
-            telemetry.addData("Arm Motor is too high!", " Lower it!");
-            Robot.armMotor.setPower(0.1);
-        } else if(Robot.armMotor.getCurrentPosition() > -20){
-            telemetry.addData("Arm Motor is too low!", " Raise it!");
-            Robot.armMotor.setPower(-0.2);
-        } else {
-            Robot.armMotor.setPower(gamepad2.right_stick_y);
-        }
+        Robot.armMotor.setPower(gamepad2.right_stick_y * 0.5);
 
 
     }
+
 }
