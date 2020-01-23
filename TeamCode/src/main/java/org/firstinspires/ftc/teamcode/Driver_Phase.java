@@ -75,14 +75,7 @@ public class Driver_Phase extends LinearOpMode {
             }
             Robot.setServos(servoPosition, 0, "");
 
-            /*
-            if (gamepad2.left_bumper){
-                //clawPosition = ClawPosition.DOWN;
-                clawToggle = !clawToggle;
-                //sleep(200);
-            }
-            */
-            // TEST CLAW TOGGLE
+
             if(!clawToggle && gamepad2.left_bumper){
                 Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
                 clawOn = !clawOn;
@@ -91,21 +84,6 @@ public class Driver_Phase extends LinearOpMode {
                 clawToggle = false;
             }
 
-            /*
-            if(gamepad2.x) {
-                forwardIntakeToggle = !forwardIntakeToggle;
-                //sleep(200);
-            } else if (gamepad2.y) {
-
-            }
-            if(forwardIntakeToggle) {
-                intakePower = -1.0;
-            } else if {
-
-            } else {
-                intakePower = 0.0;
-            }
-            */
 
             if(!forwardIntakeToggle && gamepad2.x){
                 intakePower = (intakePower == -1 ? 0 : -1);
@@ -126,12 +104,12 @@ public class Driver_Phase extends LinearOpMode {
             } else if(!gamepad2.a) {
                 fingerToggle = false;
             }
-            
-            if(!wristToggle && gamepad2.left_stick_button){
+            //Need limits on when the wrist can turn based on arm's current position
+            if(!wristToggle && gamepad2.right_stick_button){
                 Robot.setWristServo(wristOn ? -0.2 : 1.0, 0, "");
                 wristOn = !wristOn;
                 wristToggle = true;
-            } else if(!gamepad2.left_stick_button) {
+            } else if(!gamepad2.right_stick_button) {
                 wristToggle = false;
             }
             //Robot.setArmServos(armPosition, 0, "");
@@ -178,7 +156,6 @@ public class Driver_Phase extends LinearOpMode {
             v4 = -1;
         }
         */
-
         // Precise movement
         if(gamepad1.right_bumper) {
             v1 *= 0.5;
@@ -204,7 +181,7 @@ public class Driver_Phase extends LinearOpMode {
             telemetry.addData("Arm Motor is too low!", " Raise it!");
             Robot.armMotor.setPower(-0.2);
         } else {
-            Robot.armMotor.setPower(gamepad2.right_stick_y);
+            Robot.armMotor.setPower(gamepad2.left_stick_y);
         }
 
 

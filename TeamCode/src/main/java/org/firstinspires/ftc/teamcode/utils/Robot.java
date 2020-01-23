@@ -8,6 +8,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+import java.util.Locale;
 
 public class Robot {
     /* Declare OpMode members. */
@@ -94,7 +97,7 @@ public class Robot {
     private static void waitForSeconds(double time, String msg) {
         runtime.reset();
         while (opModeIsActive.get() && (runtime.seconds() < time)) {
-            telemetry.addData("Path", msg, runtime.seconds());
+            //telemetry.addData("Path", msg, runtime.seconds());
             //telemetry.update();
         }
     }
@@ -226,6 +229,31 @@ public class Robot {
             turnRight(duration, "adjusting for drift");
             //checkDistanceSensors(duration);
         }
+
+    }
+    public static void massTelemetryDump(){
+        telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
+        telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
+        telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
+        telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearSensor.getDistance(DistanceUnit.INCH)));
+        int i = 0;
+        for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
+            telemetry.addData(String.format(Locale.ENGLISH,"label (%d)", i), recognition.getLabel());
+            telemetry.addData(String.format(Locale.ENGLISH,"  left,top (%d)", i), "%.03f , %.03f",
+                    recognition.getLeft(), recognition.getTop());
+            telemetry.addData(String.format(Locale.ENGLISH,"  right,bottom (%d)", i), "%.03f , %.03f",
+                    recognition.getRight(), recognition.getBottom());
+        }
+        telemetry.update();
+    }
+    public static void setArmPartsDown(){
+        setFingerServo(0.0,0,"");
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setTargetPosition(-60);
+        setFingerServo(1.0,0,"");
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    public static void setArmPartsUp(){
 
     }
 
