@@ -34,7 +34,11 @@ public class Driver_Phase extends LinearOpMode {
     private boolean fingerToggle = false;
     private boolean wristToggle = false;
     private boolean forwardIntakeToggle = false;
-    //private boolean backwardIntakeToggle = false;
+    private boolean backwardIntakeToggle = false;
+    private boolean intakeOn = false;
+    private boolean backwardIntakeOn = false;
+    private boolean fingerOn = false;
+    private boolean wristOn = false;
     //private double armPower = 0;
 
     /*
@@ -87,41 +91,49 @@ public class Driver_Phase extends LinearOpMode {
                 clawToggle = false;
             }
 
-
+            /*
             if(gamepad2.x) {
                 forwardIntakeToggle = !forwardIntakeToggle;
                 //sleep(200);
+            } else if (gamepad2.y) {
+
             }
-            if(forwardIntakeToggle){
+            if(forwardIntakeToggle) {
                 intakePower = -1.0;
+            } else if {
+
             } else {
                 intakePower = 0.0;
             }
+            */
 
-
-            if(gamepad2.a){
-                fingerToggle = !fingerToggle;
-                //sleep(200);
-                //armPosition = ArmPosition.UP;
-                //Robot.setFingerServo(0,0,"");
+            if(!forwardIntakeToggle && gamepad2.x){
+                intakePower = (intakePower == -1 ? 0 : -1);
+                forwardIntakeToggle = true;
+            } else if(!gamepad2.x) {
+                forwardIntakeToggle = false;
             }
-            if(!fingerToggle){
-                Robot.setFingerServo(0,0,"");
-
-            } else {
-                Robot.setFingerServo(1.0,0,"");
+            if(!backwardIntakeToggle && gamepad2.y){
+                intakePower = (intakePower == 1 ? 0 : 1);
+                backwardIntakeToggle = true;
+            } else if(!gamepad2.y) {
+                backwardIntakeToggle = false;
             }
-
-            if(gamepad2.y){
-                wristToggle = !wristToggle;
-                //sleep(200);
+            if(!fingerToggle && gamepad2.a){
+                Robot.setFingerServo(fingerOn ? 0 : 1.0, 0, "");
+                fingerOn = !fingerOn;
+                fingerToggle = true;
+            } else if(!gamepad2.a) {
+                fingerToggle = false;
             }
-            if (!wristToggle) {
-                Robot.setWristServo(-0.2,0,"");
-            } else {
-                Robot.setWristServo(1,0,"");
+            
+            if(!wristToggle && gamepad2.left_stick_button){
+                Robot.setWristServo(wristOn ? -0.2 : 1.0, 0, "");
+                wristOn = !wristOn;
+                wristToggle = true;
+            } else if(!gamepad2.left_stick_button) {
+                wristToggle = false;
             }
-
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
             telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
