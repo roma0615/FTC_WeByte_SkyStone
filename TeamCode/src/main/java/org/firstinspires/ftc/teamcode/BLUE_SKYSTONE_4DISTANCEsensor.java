@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 
-import java.util.List;
 import java.util.Locale;
 
 // ASSUMES STRAFE WORKS
@@ -52,14 +51,14 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.5);
-        while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 12 && opModeIsActive()) {
+        while (Robot.rightSensor.getDistance(DistanceUnit.INCH) > 12 && opModeIsActive()) {
             Robot.strafeRightContinuous();
         }
         Robot.stopMoving();
         //Robot.turnLeft(0.1, "turn");
         sleep(250);
         Robot.setForwardSpeed(0.4);
-        while (Robot.rearSensor.getDistance(DistanceUnit.INCH) < (distanceVar + 8) && opModeIsActive()) {
+        while (Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < (distanceVar + 8) && opModeIsActive()) {
             Robot.goForwardContinuous();
         }
         //Robot.turnLeft(0.02,"adjust for drift");
@@ -103,7 +102,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
             }
             telemetry.update();
             Robot.setForwardSpeed(0.2);
-            while(Robot.rearSensor.getDistance(DistanceUnit.INCH) > (distanceVar + 6.5) && opModeIsActive()){
+            while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) > (distanceVar + 6.5) && opModeIsActive()){
                 Robot.goBackContinuous();
             }
             Robot.stopMoving();
@@ -125,7 +124,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
 
         } else if(FOUND == false) {
             Robot.setForwardSpeed(0.2);
-            while(Robot.rearSensor.getDistance(DistanceUnit.INCH) > (distanceVar) && opModeIsActive()){
+            while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) > (distanceVar) && opModeIsActive()){
                 Robot.goBackContinuous();
             }
             Robot.stopMoving();
@@ -161,17 +160,17 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
             Robot.stopMoving();
             */
         Robot.setForwardSpeed(0.4);
-        while(Robot.rearSensor.getDistance(DistanceUnit.INCH) < skystonePosition && opModeIsActive()){
+        while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < skystonePosition && opModeIsActive()){
             Robot.goForwardContinuous();
         }
         Robot.stopMoving();
-        while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
+        while (Robot.rightSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
             Robot.strafeRightContinuous();
         }
         Robot.stopMoving();
         Robot.setForwardSpeed(0.12);
         Robot.checkDistanceSensors(checkDistanceVar);
-        while(Robot.rearSensor.getDistance(DistanceUnit.INCH) < (skystonePosition+0.5) && opModeIsActive()){
+        while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < (skystonePosition+0.5) && opModeIsActive()){
             Robot.goForwardContinuous();
         }
         Robot.stopMoving();
@@ -184,7 +183,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
         Robot.strafeRight(0.35, "move");
 
 
-        while(Robot.rearSensor.getDistance(DistanceUnit.INCH) < 40 && opModeIsActive()){
+        while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < 40 && opModeIsActive()){
             Robot.goBackContinuous();
         }
         Robot.goForward(1, "move");
@@ -202,7 +201,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
         //Robot.checkDistanceSensors(checkDistanceVar);
         //Robot.turnLeft(0.02, "adjust");
         Robot.setForwardSpeed(0.5);
-        while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
+        while (Robot.rightSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
             Robot.strafeRightContinuous();
         }
         Robot.stopMoving();

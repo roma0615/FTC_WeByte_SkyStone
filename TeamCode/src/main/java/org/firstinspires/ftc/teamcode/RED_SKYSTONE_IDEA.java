@@ -47,7 +47,7 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.3);
-        while(Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 13){
+        while(Robot.rightSensor.getDistance(DistanceUnit.INCH) > 13){
             Robot.strafeLeftContinous();
         }
         Robot.goForward(0.1, "Going 4 inches forward");
@@ -132,7 +132,7 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
 
                 }
                 Robot.stopMoving();
-                while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 3) {
+                while (Robot.rightSensor.getDistance(DistanceUnit.INCH) > 3) {
                     Robot.strafeLeftContinous();
                 }
                 Robot.stopMoving();
@@ -185,7 +185,7 @@ public class RED_SKYSTONE_IDEA extends LinearOpMode {
                 } else {
                     double itemWidth = TensorFlowDetection.getRecognitions().get(0).getWidth();
                     //ideal distance is 9-10 inches. USE DISTANCE SENSOR HERE
-                    // if (Robot.distanceSensor.getDistance(DistanceUnit.INCH) < 10.5)
+                    // if (Robot.rightSensor.getDistance(DistanceUnit.INCH) < 10.5)
                     if (TensorFlowDetection.getRecognitions().get(0).getWidth() > 550) {
                         END = true;
                     } else {

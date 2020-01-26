@@ -34,10 +34,12 @@ public class Robot {
     public static Servo wristServo = null;
     public static Servo fingerServo = null;
     //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER
-    public static DistanceSensor distanceSensor = null;
+    public static DistanceSensor rightSensor = null;
     public static DistanceSensor frontLeftSensor = null;
     public static DistanceSensor frontRightSensor = null;
-    public static DistanceSensor rearSensor = null;
+    public static DistanceSensor rearLeftSensor = null;
+    public static DistanceSensor rearRightSensor = null;
+    public static DistanceSensor leftSensor = null;
 
     private static HardwareMap hwMap;
     private static Telemetry telemetry;
@@ -80,10 +82,12 @@ public class Robot {
         fingerServo = hwMap.get(Servo.class, "fingerServo");
         wristServo = hwMap.get(Servo.class, "wristServo");
         //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER.
-        distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
+        rightSensor = hwMap.get(DistanceSensor.class, "rightSensor");
         frontLeftSensor = hwMap.get(DistanceSensor.class, "frontLeftSensor");
         frontRightSensor = hwMap.get(DistanceSensor.class, "frontRightSensor");
-        rearSensor = hwMap.get(DistanceSensor.class, "rearSensor");
+        rearLeftSensor = hwMap.get(DistanceSensor.class, "rearLeftSensor");
+        rearRightSensor = hwMap.get(DistanceSensor.class, "rearRightSensor");
+        leftSensor = hwMap.get(DistanceSensor.class, "leftSensor");
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
@@ -106,6 +110,7 @@ public class Robot {
     public static void setForwardSpeed(double newForwardSpeed) {
         forwardSpeed = newForwardSpeed;
     }
+
     public static void setTurnSpeed(double newTurnSpeed) {
         turnSpeed = newTurnSpeed;
     }
@@ -118,7 +123,8 @@ public class Robot {
         waitForSeconds(time, msg);
         stopMoving();
     }
-    public static void turnLeft(double time, String msg){
+
+    public static void turnLeft(double time, String msg) {
         forwardLeftDrive1.setPower(-turnSpeed);
         forwardRightDrive1.setPower(turnSpeed);
         backLeftDrive2.setPower(-turnSpeed);
@@ -126,70 +132,91 @@ public class Robot {
         waitForSeconds(time, msg);
         stopMoving();
     }
-    public static void goForward(double time, String msg){
+
+    public static void goForward(double time, String msg) {
         forwardLeftDrive1.setPower(forwardSpeed);
         forwardRightDrive1.setPower(forwardSpeed);
         backLeftDrive2.setPower(forwardSpeed);
         backRightDrive2.setPower(forwardSpeed);
-        waitForSeconds(time, msg);
-        stopMoving();
-    }
-    public static void goForwardContinuous(){
-        forwardLeftDrive1.setPower(forwardSpeed);
-        forwardRightDrive1.setPower(forwardSpeed);
-        backLeftDrive2.setPower(forwardSpeed);
-        backRightDrive2.setPower(forwardSpeed);
-    }
-    public static void goBackContinuous(){
-        forwardLeftDrive1.setPower(-forwardSpeed);
-        forwardRightDrive1.setPower(-forwardSpeed);
-        backLeftDrive2.setPower(-forwardSpeed);
-        backRightDrive2.setPower(-forwardSpeed);
-    }
-    public static void strafeLeftContinuous(){
-        forwardLeftDrive1.setPower(-forwardSpeed);
-        forwardRightDrive1.setPower(forwardSpeed);
-        backLeftDrive2.setPower(forwardSpeed);
-        backRightDrive2.setPower(-forwardSpeed);
-    }
-    public static void strafeRightContinuous(){
-        forwardLeftDrive1.setPower(forwardSpeed);
-        forwardRightDrive1.setPower(-forwardSpeed);
-        backLeftDrive2.setPower(-forwardSpeed);
-        backRightDrive2.setPower(forwardSpeed);
-    }
-    public static void goBack(double time, String msg){
-        forwardLeftDrive1.setPower(-forwardSpeed);
-        forwardRightDrive1.setPower(-forwardSpeed);
-        backLeftDrive2.setPower(-forwardSpeed);
-        backRightDrive2.setPower(-forwardSpeed);
         waitForSeconds(time, msg);
         stopMoving();
     }
 
-    public static void strafeLeft(double time, String msg){
-        forwardLeftDrive1.setPower(-forwardSpeed);
+    public static void goForwardContinuous() {
+        forwardLeftDrive1.setPower(forwardSpeed);
         forwardRightDrive1.setPower(forwardSpeed);
         backLeftDrive2.setPower(forwardSpeed);
-        backRightDrive2.setPower(-forwardSpeed);
-        waitForSeconds(time, msg);
-        stopMoving();
+        backRightDrive2.setPower(forwardSpeed);
     }
-    public static void strafeRight(double time, String msg){
-        forwardLeftDrive1.setPower(forwardSpeed);
+
+    public static void goBackContinuous() {
+        forwardLeftDrive1.setPower(-forwardSpeed);
         forwardRightDrive1.setPower(-forwardSpeed);
         backLeftDrive2.setPower(-forwardSpeed);
-        backRightDrive2.setPower(forwardSpeed);
-        waitForSeconds(time, msg);
-        stopMoving();
+        backRightDrive2.setPower(-forwardSpeed);
     }
-    public static void activateIntake(double intakePower,double time, String msg){
-        rightIntake.setPower(intakePower);
-        leftIntake.setPower(intakePower);
-        waitForSeconds(time, msg);
-        stopMoving();
+
+    public static void strafeLeftContinuous() {
+        if(opModeIsActive.get()) {
+            forwardLeftDrive1.setPower(-forwardSpeed);
+            forwardRightDrive1.setPower(forwardSpeed);
+            backLeftDrive2.setPower(forwardSpeed);
+            backRightDrive2.setPower(-forwardSpeed);
+        }
     }
-    public static void stopMoving(){
+
+    public static void strafeRightContinuous() {
+        if(opModeIsActive.get()) {
+            forwardLeftDrive1.setPower(forwardSpeed);
+            forwardRightDrive1.setPower(-forwardSpeed);
+            backLeftDrive2.setPower(-forwardSpeed);
+            backRightDrive2.setPower(forwardSpeed);
+        }
+    }
+
+    public static void goBack(double time, String msg) {
+        if(opModeIsActive.get()) {
+            forwardLeftDrive1.setPower(-forwardSpeed);
+            forwardRightDrive1.setPower(-forwardSpeed);
+            backLeftDrive2.setPower(-forwardSpeed);
+            backRightDrive2.setPower(-forwardSpeed);
+            waitForSeconds(time, msg);
+            stopMoving();
+        }
+    }
+
+    public static void strafeLeft(double time, String msg) {
+        if(opModeIsActive.get()) {
+            forwardLeftDrive1.setPower(-forwardSpeed);
+            forwardRightDrive1.setPower(forwardSpeed);
+            backLeftDrive2.setPower(forwardSpeed);
+            backRightDrive2.setPower(-forwardSpeed);
+            waitForSeconds(time, msg);
+            stopMoving();
+        }
+    }
+
+    public static void strafeRight(double time, String msg) {
+        if(opModeIsActive.get()) {
+            forwardLeftDrive1.setPower(forwardSpeed);
+            forwardRightDrive1.setPower(-forwardSpeed);
+            backLeftDrive2.setPower(-forwardSpeed);
+            backRightDrive2.setPower(forwardSpeed);
+            waitForSeconds(time, msg);
+            stopMoving();
+        }
+    }
+
+    public static void activateIntake(double intakePower, double time, String msg) {
+        if(opModeIsActive.get()) {
+            rightIntake.setPower(intakePower);
+            leftIntake.setPower(intakePower);
+            waitForSeconds(time, msg);
+            stopMoving();
+        }
+    }
+
+    public static void stopMoving() {
         forwardLeftDrive1.setPower(0);
         forwardRightDrive1.setPower(0);
         backLeftDrive2.setPower(0);
@@ -197,69 +224,259 @@ public class Robot {
     }
 
     public static void setServos(FlipperPosition pos, double time, String msg) {
-        rightServo.setPosition(pos.getRight());
-        leftServo.setPosition(pos.getLeft());
-        waitForSeconds(time, msg);
+        if (opModeIsActive.get()) {
+            rightServo.setPosition(pos.getRight());
+            leftServo.setPosition(pos.getLeft());
+            waitForSeconds(time, msg);
+        }
     }
+
     public static void setServos(double left, double right, double time, String msg) {
-        rightServo.setPosition(right);
-        leftServo.setPosition(left);
-        waitForSeconds(time, msg);
+        if (opModeIsActive.get()) {
+            rightServo.setPosition(right);
+            leftServo.setPosition(left);
+            waitForSeconds(time, msg);
+        }
     }
-    public static void setArmServos(ArmPosition pos, double time, String msg){
-        fingerServo.setPosition(pos.getFinger());
-        wristServo.setPosition(pos.getWrist());
-        waitForSeconds(time, msg);
+
+    public static void setArmServos(ArmPosition pos, double time, String msg) {
+        if (opModeIsActive.get()) {
+            fingerServo.setPosition(pos.getFinger());
+            wristServo.setPosition(pos.getWrist());
+            waitForSeconds(time, msg);
+        }
     }
-    public static void setFingerServo(double finger, double time, String msg){
-        fingerServo.setPosition(finger);
-        waitForSeconds(time, msg);
+
+    public static void setFingerServo(double finger, double time, String msg) {
+        if (opModeIsActive.get()) {
+            fingerServo.setPosition(finger);
+            waitForSeconds(time, msg);
+        }
     }
-    public static void setWristServo(double wrist, double time, String msg){
-        wristServo.setPosition(wrist);
-        waitForSeconds(time, msg);
+
+    public static void setWristServo(double wrist, double time, String msg) {
+        if (opModeIsActive.get()) {
+            wristServo.setPosition(wrist);
+            waitForSeconds(time, msg);
+        }
     }
+
     public static void checkDistanceSensors(double duration) {
-        double difference = frontLeftSensor.getDistance(DistanceUnit.INCH) -
-            frontRightSensor.getDistance(DistanceUnit.INCH);
-        if(difference > 1.25){
-            turnLeft(duration, "adjusting for drift");
-            //checkDistanceSensors(duration);
-        } else if (difference < -1.25){
-            turnRight(duration, "adjusting for drift");
-            //checkDistanceSensors(duration);
+        if (opModeIsActive.get()) {
+            //double difference = averageLeft - averageRight;
+            double averageRight = getAverageFrontRightSensor();
+            double averageLeft = getAverageFrontLeftSensor();
+            while (averageLeft - averageRight > 1
+                    || averageLeft - averageRight < -1 && opModeIsActive.get()) {
+                if (averageLeft - averageRight > 1) {
+                    Robot.turnRight(duration, "adjusting for drift");
+                    //checkDistanceSensors(duration);
+                    //Robot.massTelemetryDump(30);
+                }
+                if (averageLeft - averageRight < -1) {
+                    Robot.turnLeft(duration, "adjusting for drift");
+                    //checkDistanceSensors(duration);
+                    //Robot.massTelemetryDump(30);
+                }
+                averageRight = getAverageFrontRightSensor();
+                averageLeft = getAverageFrontLeftSensor();
+            }
+        }
+    }
+
+    public static void massTelemetryDump(double time) {
+        runtime.reset();
+        while (opModeIsActive.get() && (runtime.seconds() < time)) {
+            //telemetry.addData("Path", msg, runtime.seconds());
+            //telemetry.update();
+            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("average range right", String.format(Locale.ENGLISH, "%.01f in", getAverageRightSensor()));
+            telemetry.addData("average range front left", String.format(Locale.ENGLISH, "%.01f in", getAverageFrontLeftSensor()));
+            telemetry.addData("average range front right", String.format(Locale.ENGLISH, "%.01f in", getAverageFrontRightSensor()));
+            telemetry.addData("average range rear", String.format(Locale.ENGLISH, "%.01f in", getAverageRearLeftSensor()));
+            telemetry.addData("average range front right", String.format(Locale.ENGLISH, "%.01f in", getAverageRearRightSensor()));
+            telemetry.addData("average range rear", String.format(Locale.ENGLISH, "%.01f in", getAverageLeftSensor()));
+            int i = 0;
+            if (TensorFlowDetection.getRecognitions() != null) {
+                for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
+                    telemetry.addData(String.format(Locale.ENGLISH, "label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format(Locale.ENGLISH, "  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    telemetry.addData(String.format(Locale.ENGLISH, "  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
+                }
+            }
+            telemetry.update();
+        }
+    }
+
+    public static void setArmPartsDown() {
+        if (opModeIsActive.get()) {
+            setFingerServo(0.0, 0, "");
+            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            armMotor.setTargetPosition(-60);
+            setFingerServo(1.0, 0, "");
+            armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+    }
+
+    public static void setArmPartsUp() {
+        if (opModeIsActive.get()) {
+
+
         }
 
     }
-    public static void massTelemetryDump(){
-        telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
-        telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-        telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-        telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearSensor.getDistance(DistanceUnit.INCH)));
-        int i = 0;
-        for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
-            telemetry.addData(String.format(Locale.ENGLISH,"label (%d)", i), recognition.getLabel());
-            telemetry.addData(String.format(Locale.ENGLISH,"  left,top (%d)", i), "%.03f , %.03f",
-                    recognition.getLeft(), recognition.getTop());
-            telemetry.addData(String.format(Locale.ENGLISH,"  right,bottom (%d)", i), "%.03f , %.03f",
-                    recognition.getRight(), recognition.getBottom());
-        }
-        telemetry.update();
-    }
-    public static void setArmPartsDown(){
-        setFingerServo(0.0,0,"");
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setTargetPosition(-60);
-        setFingerServo(1.0,0,"");
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
-    public static void setArmPartsUp(){
 
+    public static double getAverageRightSensor() {
+        double averageRight = 0;
+        for (int i = 0; i < 5; i++) {
+            averageRight += Robot.rightSensor.getDistance(DistanceUnit.INCH);
+        }
+        averageRight = averageRight / 5;
+        return averageRight;
+    }
+
+    public static double getAverageLeftSensor() {
+        double averageRight = 0;
+        for (int i = 0; i < 5; i++) {
+            averageRight += Robot.leftSensor.getDistance(DistanceUnit.INCH);
+        }
+        averageRight = averageRight / 5;
+        return averageRight;
+    }
+
+    public static double getAverageFrontLeftSensor() {
+        double averageRight = 0;
+        for (int i = 0; i < 5; i++) {
+            averageRight += Robot.frontLeftSensor.getDistance(DistanceUnit.INCH);
+        }
+        averageRight = averageRight / 5;
+        return averageRight;
+    }
+
+    public static double getAverageFrontRightSensor() {
+        double averageRight = 0;
+        for (int i = 0; i < 5; i++) {
+            averageRight += Robot.frontRightSensor.getDistance(DistanceUnit.INCH);
+        }
+        averageRight = averageRight / 5;
+        return averageRight;
+    }
+
+    public static double getAverageRearLeftSensor() {
+        double averageRight = 0;
+        for (int i = 0; i < 5; i++) {
+            averageRight += Robot.rearLeftSensor.getDistance(DistanceUnit.INCH);
+        }
+        averageRight = averageRight / 5;
+        return averageRight;
+    }
+
+    public static double getAverageRearRightSensor() {
+        double averageRight = 0;
+        for (int i = 0; i < 5; i++) {
+            averageRight += Robot.rearRightSensor.getDistance(DistanceUnit.INCH);
+        }
+        averageRight = averageRight / 5;
+        return averageRight;
+    }
+
+    //Centers robot on a distance away from the wall.
+    public static void centerRobot(double distanceFromWall) {
+        if (opModeIsActive.get()) {
+            double averageRight = getAverageFrontRightSensor();
+            while (averageRight < (distanceFromWall - 0.4) || averageRight
+                    > (distanceFromWall + 0.4)) {
+                if (averageRight < (distanceFromWall - 0.4)) {
+                    goBack(0.01, "adjusting for drift");
+                    //checkDistanceSensors(duration);
+                    //obot.telemetry.addData("Distance from Wall ","" + distanceFromWall);
+                    //Robot.telemetry.addData("difference", getAverageFrontRightSensor() - (distanceFromWall - 0.4));
+                    //Robot.massTelemetryDump(30);
+                }
+                if (averageRight > (distanceFromWall + 0.4)) {
+                    goForward(0.01, "adjusting for drift");
+                    //checkDistanceSensors(duration);
+                    //Robot.massTelemetryDump(30);
+                }
+                averageRight = getAverageFrontRightSensor();
+            }
+        }
+    }
+
+    public static void moveIn() {
+        if (opModeIsActive.get()) {
+            // while(getAverageFrontRightSensor > 1){
+            while (getAverageRightSensor() > 2 && opModeIsActive.get()) {
+                strafeRight(0.04, "");
+            }
+        }
+    }
+
+    public static void BackwardStraight(double distance, double time) {
+        runtime.reset();
+        while (opModeIsActive.get() && (runtime.seconds() < time)) {
+            if (getAverageLeftSensor() < distance) {
+                forwardLeftDrive1.setPower(-0.9);
+                backLeftDrive2.setPower(-0.9);
+                forwardRightDrive1.setPower(-1.0);
+                backRightDrive2.setPower(-1.0);
+            } else if (getAverageLeftSensor() > distance) {
+                forwardLeftDrive1.setPower(-1.0);
+                backLeftDrive2.setPower(-1.0);
+                forwardRightDrive1.setPower(-0.9);
+                backRightDrive2.setPower(-0.9);
+            } else {
+                forwardLeftDrive1.setPower(-1.0);
+                backLeftDrive2.setPower(-1.0);
+                forwardRightDrive1.setPower(-1.0);
+                backRightDrive2.setPower(-1.0);
+            }
+        }
+        Robot.stopMoving();
+    }
+
+    public static void ForwardStraight(double distance, double skystoneDistance) {
+        runtime.reset();
+        while (opModeIsActive.get() && Robot.frontRightSensor.getDistance(DistanceUnit.INCH) > skystoneDistance) {
+            if (Robot.leftSensor.getDistance(DistanceUnit.INCH) > distance) {
+                forwardLeftDrive1.setPower(0.8);
+                backLeftDrive2.setPower(0.8);
+                forwardRightDrive1.setPower(1.0);
+                backRightDrive2.setPower(1.0);
+            } else if (Robot.leftSensor.getDistance(DistanceUnit.INCH) < distance) {
+                forwardLeftDrive1.setPower(1.0);
+                backLeftDrive2.setPower(1.0);
+                forwardRightDrive1.setPower(0.8);
+                backRightDrive2.setPower(0.8);
+            } else {
+                forwardLeftDrive1.setPower(1.0);
+                backLeftDrive2.setPower(1.0);
+                forwardRightDrive1.setPower(0.8);
+                backRightDrive2.setPower(0.8);
+            }
+        }
+        Robot.stopMoving();
     }
 
     //@Deprecated
-    public static void setClawServo(ClawPosition pos, double time, String msg){
-        clawServo.setPosition(pos.getPos());
-        waitForSeconds(time, msg);
+    public static void setClawServo(ClawPosition pos, double time, String msg) {
+        if (opModeIsActive.get()) {
+            clawServo.setPosition(pos.getPos());
+            waitForSeconds(time, msg);
+        }
+    }
+
+    public static void moveOver() {
+        if (opModeIsActive.get()) {
+            double right = getAverageRightSensor() / 30;
+            Robot.strafeRight(right, "");
+        }
     }
 }

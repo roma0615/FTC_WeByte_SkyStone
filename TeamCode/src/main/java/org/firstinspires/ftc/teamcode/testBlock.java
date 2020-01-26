@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
 import org.firstinspires.ftc.teamcode.utils.ClawPosition;
 import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
+import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 import java.util.Locale;
 
@@ -39,11 +40,10 @@ public class testBlock extends LinearOpMode {
             @Override
             public boolean get() { return opModeIsActive(); }
         });
-
         Robot.stopMoving();
-        telemetry.addData("Robot", "Initialized");
+        TensorFlowDetection.init(hardwareMap, telemetry);
+        telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         while (opModeIsActive()) {
@@ -76,24 +76,7 @@ public class testBlock extends LinearOpMode {
             }
 
              */
-            Robot.setClawServo(clawPosition, 0, "");
-            // Telemetry
-            telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
-                            "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
-                    Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
-            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.distanceSensor.getDistance(DistanceUnit.INCH)));
-            double frontLeftSensorValue = 0;
-            double frontRightSensorValue = 0;
-            for(int i = 0; i < 5; i++){
-                frontLeftSensorValue += Robot.frontLeftSensor.getDistance(DistanceUnit.INCH);
-                frontRightSensorValue += Robot.frontRightSensor.getDistance(DistanceUnit.INCH);
-            }
-            telemetry.addData("range front left AVERAGE", String.format(Locale.ENGLISH, "%.01f in", frontLeftSensorValue));
-            telemetry.addData("range front left AVERAGE", String.format(Locale.ENGLISH, "%.01f in", frontRightSensorValue));
-            telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("ArmMotor Rotations", Robot.armMotor.getCurrentPosition());
-            telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
-            telemetry.update();
+            Robot.massTelemetryDump(0);
 
         }
 

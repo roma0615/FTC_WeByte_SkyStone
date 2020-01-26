@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
 import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 
-import java.util.List;
 import java.util.Locale;
 
 // ASSUMES STRAFE WORKS
@@ -52,7 +51,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
         Robot.setServos(FlipperPosition.UP, 0, "Lifting servos");
         Robot.setClawServo(ClawPosition.UP, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.5);
-        while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 12 && opModeIsActive()) {
+        while (Robot.rightSensor.getDistance(DistanceUnit.INCH) > 12 && opModeIsActive()) {
             Robot.strafeLeftContinuous();
         }
         Robot.stopMoving();
@@ -165,7 +164,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
                 Robot.goBackContinuous();
             }
             Robot.stopMoving();
-            while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
+            while (Robot.rightSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
                 Robot.strafeRightContinuous();
             }
             Robot.stopMoving();
@@ -201,7 +200,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
             //Robot.checkDistanceSensors(checkDistanceVar);
             //Robot.turnLeft(0.02, "adjust");
             Robot.setForwardSpeed(0.5);
-            while (Robot.distanceSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
+            while (Robot.rightSensor.getDistance(DistanceUnit.INCH) > 1 && opModeIsActive()) {
                 Robot.strafeRightContinuous();
             }
             Robot.stopMoving();

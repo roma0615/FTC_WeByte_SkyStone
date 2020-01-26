@@ -92,7 +92,7 @@ public class Skystone_Post_RedIDEA extends LinearOpMode {
                 } else {
                     double itemWidth = TensorFlowDetection.getRecognitions().get(0).getWidth();
                     //ideal distance is 9-10 inches. USE DISTANCE SENSOR HERE
-                    // if (Robot.distanceSensor.getDistance(DistanceUnit.INCH) < 10.5)
+                    // if (Robot.rightSensor.getDistance(DistanceUnit.INCH) < 10.5)
                     if (TensorFlowDetection.getRecognitions().get(0).getWidth() > 550) {
                         END = true;
                     } else {

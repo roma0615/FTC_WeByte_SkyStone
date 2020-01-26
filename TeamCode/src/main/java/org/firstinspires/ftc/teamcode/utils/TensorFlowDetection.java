@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class TensorFlowDetection {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -111,6 +112,7 @@ public class TensorFlowDetection {
     */
     /** Return a list of recognitions from the tensorflow object detector */
     public static List<Recognition> getRecognitions() {
+        updateRecognitions();
         return recognitions;
     }
 
@@ -127,11 +129,13 @@ public class TensorFlowDetection {
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
                 for (Recognition recognition : updatedRecognitions) {
-                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                    telemetry.addData(String.format(Locale.ENGLISH, "label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format(Locale.ENGLISH,"  left,top (%d)", i), "%.03f , %.03f",
                             recognition.getLeft(), recognition.getTop());
-                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                    telemetry.addData(String.format(Locale.ENGLISH,"  right,bottom (%d)", i), "%.03f , %.03f",
                             recognition.getRight(), recognition.getBottom());
+                    telemetry.addData(String.format(Locale.ENGLISH,"  center", i), "%.03f",
+                            (recognition.getRight() + recognition.getLeft()) / 2);
                 }
                 telemetry.update();
             }
