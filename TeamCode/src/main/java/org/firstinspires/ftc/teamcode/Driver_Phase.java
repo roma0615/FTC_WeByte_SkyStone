@@ -58,6 +58,9 @@ public class Driver_Phase extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        Robot.setWristServo(-0.2,0,"");
+        Robot.setClawServo(ClawPosition.UP,0,"");
+        Robot.setFingerServo(0,0,"");
         while (opModeIsActive()) {
             // Controls movement of the robot
             drive();
@@ -84,18 +87,20 @@ public class Driver_Phase extends LinearOpMode {
             }
 
 
-            if(!forwardIntakeToggle && gamepad2.x){
+            if(!forwardIntakeToggle && gamepad1.x){
                 intakePower = (intakePower == -1 ? 0 : -1);
                 forwardIntakeToggle = true;
-            } else if(!gamepad2.x) {
+            } else if(!gamepad1.x) {
                 forwardIntakeToggle = false;
             }
-            if(!backwardIntakeToggle && gamepad2.y){
+            if(!backwardIntakeToggle && gamepad1.y){
                 intakePower = (intakePower == 1 ? 0 : 1);
                 backwardIntakeToggle = true;
-            } else if(!gamepad2.y) {
+            } else if(!gamepad1.y) {
                 backwardIntakeToggle = false;
             }
+
+
             if(!fingerToggle && gamepad2.a){
                 Robot.setFingerServo(fingerOn ? 0 : 1.0, 0, "");
                 fingerOn = !fingerOn;
@@ -114,11 +119,12 @@ public class Driver_Phase extends LinearOpMode {
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
             //telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
+            //telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
             //telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
             //telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("average range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontLeftSensor()));
-            //telemetry.addData("average range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontRightSensor()));
-            //telemetry.update();
+            //telemetry.addData("rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
+            //telemetry.addData("rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.update();
 
         }
 

@@ -115,15 +115,15 @@ public class armReset extends LinearOpMode {
                 telemetry.addData("","BYPASS COMPLETE. ENCODER ROTATIONS RESET");
             } else {
                 Robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telemetry.addData("","Move to a position and press right stick button to fix it as 0.");
+                telemetry.addData("","Move to a position and press left stick button to fix it as 0.");
             }
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
-            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("average range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontLeftSensor()));
-            telemetry.addData("average range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontRightSensor()));
+            //telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
+            //telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
+            //telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
+            //telemetry.addData("average range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontLeftSensor()));
+            //telemetry.addData("average range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontRightSensor()));
             telemetry.update();
 
             }
@@ -166,7 +166,7 @@ public class armReset extends LinearOpMode {
 
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
-        Robot.armMotor.setPower(gamepad2.right_stick_y * 0.5);
+        Robot.armMotor.setPower(gamepad2.left_stick_y * 0.5);
 
 
     }

@@ -45,7 +45,7 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
         //Robot.setClawServo(ClawPosition.MEASURING, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.5);
         Robot.strafeRight(1.05,"");
-        sleep(2000);
+        sleep(1000);
 
 
         //Step 2: Begin first read of blocks using Tensorflow
@@ -65,7 +65,7 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
         }
 
         if (FOUND == false) {
-            sleep(2000);
+            sleep(1000);
         }
         if (TensorFlowDetection.skystonesFound() >= 1 && FOUND == false &&
                 (TensorFlowDetection.getSkystone().getLeft() +
