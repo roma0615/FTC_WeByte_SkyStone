@@ -14,10 +14,10 @@ import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 import java.util.List;
 import java.util.Locale;
-@Autonomous(name = "red_skystoneNEWINCHING")
+@Autonomous(name = "blue_skystoneNEWINCHING")
 
 
-public class red_skystoneNEWINCHING extends LinearOpMode {
+public class blue_skystoneNEWINCHING extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;
@@ -58,8 +58,8 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
                         TensorFlowDetection.getSkystone().getRight() / 2) < 900) {
             FOUND = true;
             skystonePosition1 = 32.6;
-            additionalDistance = 0.3;
-         //   Robot.massTelemetryDump(15);
+            additionalDistance = 0.38;
+            //   Robot.massTelemetryDump(15);
         } else {
             Robot.goBack(0.2,"");
         }
@@ -74,18 +74,18 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
                         TensorFlowDetection.getSkystone().getRight() / 2) < 900) {
             FOUND = true;
             skystonePosition1 = 40.6;
-            additionalDistance = 0.0;
-           // Robot.massTelemetryDump(15);
+            additionalDistance = 0.4;
+            // Robot.massTelemetryDump(15);
         } else if(FOUND == false) {
             Robot.goForward(0.44,"");
             FOUND = true;
             skystonePosition1 = 24.6;
-            additionalDistance = 0.6;
-         //   Robot.massTelemetryDump(15);
+            additionalDistance = 0.0;
+            //   Robot.massTelemetryDump(15);
         }
         boolean END = false;
         //Robot.goBack(0.05,"");
-        Robot.strafeRight(0.27,"");
+        Robot.strafeRight(0.23,"");
         Robot.checkDistanceSensors(0.01);
         Robot.centerRobot(skystonePosition1);
         Robot.moveIn();
@@ -103,36 +103,42 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
         Robot.BackwardStraight(36,1.0 + additionalDistance);
         Robot.setClawServo(ClawPosition.UP,0.3,"");
         //Robot.massTelemetryDump(60);
-        Robot.goForward(0.4, "");
-        //Robot.strafeRight(0.3,"");
-        //Robot.turnRight(0.01,"");
-     if (skystonePosition1 > 30) {
-         Robot.ForwardStraight(42, skystonePosition1 - 6);
+        Robot.strafeRight(0.3,"");
+        Robot.turnRight(0.01,"");
+        Robot.ForwardStraight(42, skystonePosition1 - 8);
 
 
-         Robot.setForwardSpeed(0.5);
-         Robot.checkDistanceSensors(0.01);
-         Robot.strafeRight(0.3, "");
-         Robot.checkDistanceSensors(0.01);
-         Robot.centerRobot(skystonePosition1 - 24);
-         //Robot.moveOver();
-         Robot.moveIn();
-         Robot.centerRobot(skystonePosition1 - 24);
-         //Robot.massTelemetryDump(15);
-         Robot.setClawServo(ClawPosition.DOWN, 0.3, "");
-         Robot.checkDistanceSensors(0.01);
-         Robot.strafeLeft(0.4, "");
-         Robot.checkDistanceSensors(0.01);
-         //Robot.setForwardSpeed(1);
-         //Robot.goBack(2.4 + additionalDistance,"");
-         Robot.BackwardStraight(36, 1.9 + additionalDistance);
-         Robot.setClawServo(ClawPosition.UP, 0.3, "");
-         Robot.goForward(0.6, "");
-     }
-     else {
-         Robot.goForward(0.4, "");
-
-     }
+        Robot.setForwardSpeed(0.5);
+        Robot.checkDistanceSensors(0.01);
+        //if(skystonePosition1 == 25){
+        //  Robot.centerRobot(2);
+        //} else {
+        //  Robot.centerRobot(skystonePosition1 - 24);
+        //}
+        Robot.strafeRight(0.45,"");
+        Robot.checkDistanceSensors(0.01);
+        Robot.centerRobot(skystonePosition1 - 24);
+        //Robot.moveOver();
+        //Robot.checkDistanceSensors(0.01);
+        Robot.moveIn();
+        Robot.centerRobot(skystonePosition1 - 24);
+        // Robot.turnLeft(0.005,"");
+        //   if(skystonePosition1 == 25){
+        //      Robot.centerRobot(2);
+        //  } else {
+        //      Robot.centerRobot(skystonePosition1 - 24);
+        //  }
+        //  Robot.moveIn();
+        //Robot.massTelemetryDump(15);
+        Robot.setClawServo(ClawPosition.DOWN,0.3,"");
+        Robot.checkDistanceSensors(0.01);
+        Robot.strafeLeft(0.4,"");
+        Robot.checkDistanceSensors(0.01);
+        //Robot.setForwardSpeed(1);
+        //Robot.goBack(2.4 + additionalDistance,"");
+        Robot.BackwardStraight(36,1.6 + additionalDistance);
+        Robot.setClawServo(ClawPosition.UP,0.3,"");
+        Robot.goForward(0.4 + additionalDistance,"");
         stop();
 
     }

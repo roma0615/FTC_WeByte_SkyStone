@@ -37,8 +37,8 @@ public class testForwardStraight extends LinearOpMode {
         TensorFlowDetection.init(hardwareMap, telemetry);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        Robot.ForwardStraight(10,45);
-
+        Robot.ForwardStraight(24,45);
+        Robot.massTelemetryDump(15);
 
     }
 }
