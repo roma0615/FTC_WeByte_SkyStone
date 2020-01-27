@@ -44,8 +44,8 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
         Robot.setServos(FlipperPosition.BOTTOM, 0, "Lifting servos");
         //Robot.setClawServo(ClawPosition.MEASURING, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.5);
-        Robot.strafeRight(1.0,"");
-        sleep(1000);
+        Robot.strafeRight(1.05,"");
+        sleep(2000);
 
 
         //Step 2: Begin first read of blocks using Tensorflow
@@ -65,7 +65,7 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
         }
 
         if (FOUND == false) {
-            sleep(1000);
+            sleep(2000);
         }
         if (TensorFlowDetection.skystonesFound() >= 1 && FOUND == false &&
                 (TensorFlowDetection.getSkystone().getLeft() +
@@ -96,7 +96,7 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
         Robot.goBack(0.01,"");
 
 
-        Robot.strafeLeft(0.5,"");
+        Robot.strafeLeft(0.7,"");
         Robot.checkDistanceSensors(0.01);
         //Robot.setForwardSpeed(1);
         //Robot.goBack(1.4 + additionalDistance,"");
@@ -112,7 +112,7 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
 
          Robot.setForwardSpeed(0.5);
          Robot.checkDistanceSensors(0.01);
-         Robot.strafeRight(0.3, "");
+         Robot.strafeRight(0.5, "");
          Robot.checkDistanceSensors(0.01);
          Robot.centerRobot(skystonePosition1 - 24);
          //Robot.moveOver();
@@ -121,7 +121,7 @@ public class red_skystoneNEWINCHING extends LinearOpMode {
          //Robot.massTelemetryDump(15);
          Robot.setClawServo(ClawPosition.DOWN, 0.3, "");
          Robot.checkDistanceSensors(0.01);
-         Robot.strafeLeft(0.4, "");
+         Robot.strafeLeft(0.7, "");
          Robot.checkDistanceSensors(0.01);
          //Robot.setForwardSpeed(1);
          //Robot.goBack(2.4 + additionalDistance,"");

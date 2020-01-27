@@ -34,6 +34,9 @@ public class armReset extends LinearOpMode {
     private boolean wristToggle = false;
     private boolean forwardIntakeToggle = false;
     private boolean backwardIntakeToggle = false;
+    private boolean fingerOn = false;
+    private boolean wristOn = false;
+    private boolean clawOn = false;
     //private double armPower = 0;
 
     /*
@@ -65,65 +68,49 @@ public class armReset extends LinearOpMode {
             } else if (gamepad2.dpad_left || gamepad2.dpad_right) {
                 servoPosition = FlipperPosition.BOTTOM;
                 //telemetry.addData("Servo:","DOWN");
-            } else if (gamepad2.dpad_down){
+            } else if (gamepad2.dpad_down) {
                 servoPosition = FlipperPosition.DOWN;
             }
             Robot.setServos(servoPosition, 0, "");
 
 
-            if (gamepad2.left_bumper){
-                //clawPosition = ClawPosition.DOWN;
-                clawToggle = !clawToggle;
-                //sleep(200);
-            }
-            if(!clawToggle){
-                Robot.setClawServo(ClawPosition.UP, 0, "");
-            } else {
-                Robot.setClawServo(ClawPosition.DOWN, 0, "");
+            if (!clawToggle && gamepad2.left_bumper) {
+                Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
+                clawOn = !clawOn;
+                clawToggle = true;
+            } else if (!gamepad2.left_bumper) {
+                clawToggle = false;
             }
 
 
-            if (gamepad2.y){
-                backwardIntakeToggle = !backwardIntakeToggle;
+            if (!forwardIntakeToggle && gamepad2.x) {
+                intakePower = (intakePower == -1 ? 0 : -1);
+                forwardIntakeToggle = true;
+            } else if (!gamepad2.x) {
                 forwardIntakeToggle = false;
-                //sleep(200);
-            } else if(gamepad2.x) {
-                forwardIntakeToggle = !forwardIntakeToggle;
+            }
+            if (!backwardIntakeToggle && gamepad2.y) {
+                intakePower = (intakePower == 1 ? 0 : 1);
+                backwardIntakeToggle = true;
+            } else if (!gamepad2.y) {
                 backwardIntakeToggle = false;
-                //sleep(200);
             }
-            if(forwardIntakeToggle){
-                intakePower = -1.0;
-            } else if (backwardIntakeToggle) {
-                intakePower = 1.0;
-            } else {
-                intakePower = 0.0;
+            if (!fingerToggle && gamepad2.a) {
+                Robot.setFingerServo(fingerOn ? 0 : 1.0, 0, "");
+                fingerOn = !fingerOn;
+                fingerToggle = true;
+            } else if (!gamepad2.a) {
+                fingerToggle = false;
             }
-
-
-            if(gamepad2.a){
-                fingerToggle = !fingerToggle;
-                //sleep(200);
-                //armPosition = ArmPosition.UP;
-                //Robot.setFingerServo(0,0,"");
+            //Need limits on when the wrist can turn based on arm's current position
+            if (!wristToggle && gamepad2.right_stick_button) {
+                Robot.setWristServo(wristOn ? -0.2 : 1.0, 0, "");
+                wristOn = !wristOn;
+                wristToggle = true;
+            } else if (!gamepad2.right_stick_button) {
+                wristToggle = false;
             }
-            if(!fingerToggle){
-                Robot.setFingerServo(0,0,"");
-
-            } else {
-                Robot.setFingerServo(1.0,0,"");
-            }
-
-            if(gamepad2.left_stick_x > 0){
-                wristToggle = !wristToggle;
-                //sleep(200);
-            }
-            if (!wristToggle) {
-                Robot.setWristServo(-0.2,0,"");
-            } else {
-                Robot.setWristServo(1,0,"");
-            }
-            if(gamepad2.right_stick_button){
+            if(gamepad2.left_stick_button){
                 Robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 telemetry.addData("","BYPASS COMPLETE. ENCODER ROTATIONS RESET");
             } else {
@@ -132,21 +119,15 @@ public class armReset extends LinearOpMode {
             }
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
-            telemetry.addData("Wheel Power", "front left (%.2f), front right (%.2f), " +
-                            "back left (%.2f), back right (%.2f)", Robot.forwardLeftDrive1.getPower(), Robot.forwardRightDrive1.getPower(),
-                    Robot.backLeftDrive2.getPower(), Robot.backRightDrive2.getPower());
-            //telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("ArmMotor Rotations", Robot.armMotor.getCurrentPosition());
-            telemetry.addData("Status", "Run Time: " + Robot.runtime.toString());
+            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("average range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontLeftSensor()));
+            telemetry.addData("average range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontRightSensor()));
             telemetry.update();
 
+            }
         }
-
-    }
-
     private void drive() {
         // Do some ~~mathematics~~ to figure out how to power the mechanum wheels
         // Explained here: https://www.roboteq.com/index.php/applications/applications-blog/entry/driving-mecanum-wheels-omnidirectional-robots

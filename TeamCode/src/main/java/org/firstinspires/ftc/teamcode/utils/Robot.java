@@ -264,7 +264,7 @@ public class Robot {
     public static void checkDistanceSensors(double duration) {
         if (opModeIsActive.get()) {
             //double difference = averageLeft - averageRight;
-            double averageRight = getAverageFrontRightSensor();
+            double averageRight = getAverageFrontRightSensor() - 1;
             double averageLeft = getAverageFrontLeftSensor();
             if (averageLeft + averageRight < 200) {
                 while (averageLeft - averageRight > 1
