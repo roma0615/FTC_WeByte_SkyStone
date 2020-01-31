@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Locale;
 
 
-@Autonomous(name = "testAlign")
+@Autonomous(name = "testMoveOver")
 
-public class testAlign extends LinearOpMode {
+public class testMoveOver extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;
@@ -32,8 +32,7 @@ public class testAlign extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        Robot.checkDistanceRearSensors(0.01);
-        Robot.checkDistanceSensors(0.01);
+        Robot.moveOverLeft(19);
 
 
     }

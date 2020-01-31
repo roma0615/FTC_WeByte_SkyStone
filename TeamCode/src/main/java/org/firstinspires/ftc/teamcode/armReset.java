@@ -57,6 +57,9 @@ public class armReset extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        Robot.setWristServo(-0.2,0,"");
+        Robot.setClawServo(ClawPosition.UP,0,"");
+        Robot.setFingerServo(0,0,"");
         while (opModeIsActive()) {
             // Controls movement of the robot
             drive();
@@ -110,7 +113,7 @@ public class armReset extends LinearOpMode {
             } else if (!gamepad2.right_stick_button) {
                 wristToggle = false;
             }
-            if(gamepad2.left_stick_button){
+            if(gamepad2.back){
                 Robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 telemetry.addData("","BYPASS COMPLETE. ENCODER ROTATIONS RESET");
             } else {

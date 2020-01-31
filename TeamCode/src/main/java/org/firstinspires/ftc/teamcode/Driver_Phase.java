@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
@@ -38,6 +39,8 @@ public class Driver_Phase extends LinearOpMode {
     private boolean backwardIntakeOn = false;
     private boolean fingerOn = false;
     private boolean wristOn = false;
+    private boolean limitsOn = true;
+    private boolean limitToggle = false;
     //private double armPower = 0;
 
     /*
@@ -116,14 +119,35 @@ public class Driver_Phase extends LinearOpMode {
             } else if(!gamepad2.right_stick_button) {
                 wristToggle = false;
             }
+            if(gamepad2.back){
+                Robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                telemetry.addData("","BYPASS COMPLETE. ENCODER ROTATIONS RESET");
+            } else {
+                Robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+            if(!limitToggle && gamepad2.right_bumper){
+                limitsOn = (limitsOn == true ? false : true);
+                limitToggle = true;
+            } else if(!gamepad2.right_bumper) {
+                limitToggle = false;
+            }
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
-            //telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
-            //telemetry.addData("rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
+            /*
+            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
+            */
+            if(!limitsOn){
+
+                telemetry.addData("WARNING", "LIMIT OVERRIDE ENGAGED. MOVE ARM WITH CAUTION");
+            } else {
+                //telemetry.addData("All clear", "Limits are online");
+            }
+            //telemetry.addData("Current Arm Position",Robot.armMotor.getCurrentPosition());
             telemetry.update();
 
         }
@@ -175,10 +199,10 @@ public class Driver_Phase extends LinearOpMode {
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
 
-        if(Robot.armMotor.getCurrentPosition() < -5000) {
+        if(Robot.armMotor.getCurrentPosition() < -5000 && limitsOn) {
             telemetry.addData("Arm Motor is too high!", " Lower it!");
             Robot.armMotor.setPower(0.1);
-        } else if(Robot.armMotor.getCurrentPosition() > -20){
+        } else if(Robot.armMotor.getCurrentPosition() > -20 && limitsOn){
             telemetry.addData("Arm Motor is too low!", " Raise it!");
             Robot.armMotor.setPower(-0.2);
         } else {
