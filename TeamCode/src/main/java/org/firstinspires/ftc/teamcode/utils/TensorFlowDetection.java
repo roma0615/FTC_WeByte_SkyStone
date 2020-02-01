@@ -105,6 +105,23 @@ public class TensorFlowDetection {
             return null;
         }
     }
+    public static boolean detectCenterSkystone(){
+        updateRecognitions();
+        if (getRecognitions() == null) return false;
+        else {
+            int c = 0;
+            for (Recognition r : getRecognitions()) {
+                if (r.getLabel().equals(LABEL_SECOND_ELEMENT)) {
+                    if (((r.getLeft() + r.getRight()) / 2) > 250 &&
+                            ((r.getLeft() + r.getRight()) / 2) < 900){
+                        return true;
+                    }
+                }
+                c++;
+            }
+            return false;
+        }
+    }
     /*
     public static int getSkystone(){
 

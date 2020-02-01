@@ -312,7 +312,6 @@ public class Robot {
     }
 
 
-
     public static void massTelemetryDump(double time) {
         runtime.reset();
         while (opModeIsActive.get() && (runtime.seconds() < time)) {
@@ -579,7 +578,7 @@ public class Robot {
 
     public static void moveOver() {
         if (opModeIsActive.get()) {
-            double right = getAverageRightSensor() / 25;
+            double right = getAverageRightSensor() / 20;
             if (right < 10) {
                 Robot.strafeRight(right, "");
             }
@@ -591,11 +590,13 @@ public class Robot {
             double left = getAverageLeftSensor();
             if (left < 100) {
                 double distance = left - distancefromleftwall;
-                double time = distance / 25;
+                double time = distance / 20;
                 if (time > 0) {
                     Robot.strafeLeft(time, "");
-            }   else {
-                Robot.strafeRight(time, "");
+                } else {
+                    time = -time;
+                    Robot.strafeRight(time, "");
+                }
             }
         }
     }
