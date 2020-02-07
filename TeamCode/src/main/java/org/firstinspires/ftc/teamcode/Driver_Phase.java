@@ -35,6 +35,7 @@ public class Driver_Phase extends LinearOpMode {
     private boolean wristToggle = false;
     private boolean forwardIntakeToggle = false;
     private boolean backwardIntakeToggle = false;
+    private boolean slowForwardIntakeToggle = false;
     private boolean intakeOn = false;
     private boolean backwardIntakeOn = false;
     private boolean fingerOn = false;
@@ -89,7 +90,9 @@ public class Driver_Phase extends LinearOpMode {
                 clawToggle = false;
             }
 
-
+            //Intake inward on x
+            //Intake outward on y
+            //Intake slow inward on b
             if(!forwardIntakeToggle && gamepad1.x){
                 intakePower = (intakePower == -1 ? 0 : -1);
                 forwardIntakeToggle = true;
@@ -101,6 +104,12 @@ public class Driver_Phase extends LinearOpMode {
                 backwardIntakeToggle = true;
             } else if(!gamepad1.y) {
                 backwardIntakeToggle = false;
+            }
+            if(!slowForwardIntakeToggle && gamepad1.b){
+                intakePower = (intakePower == -0.5 ? 0 : -0.5);
+                slowForwardIntakeToggle = true;
+            } else if(!gamepad1.b) {
+                slowForwardIntakeToggle = false;
             }
 
 

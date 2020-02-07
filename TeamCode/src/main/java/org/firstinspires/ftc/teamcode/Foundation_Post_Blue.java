@@ -47,7 +47,7 @@ public class Foundation_Post_Blue extends LinearOpMode {
         // Step 1:  Drive forward and then turn around to expose the back flippers
         Robot.goBack(0.4, "Drive back");
         Robot.setForwardSpeed(0.5);
-        Robot.goBack(0.7, "Drive back");
+        Robot.goBack(0.8, "Drive back");
         Robot.setForwardSpeed(1.0);
 
 
@@ -57,7 +57,7 @@ public class Foundation_Post_Blue extends LinearOpMode {
 
         // Step 3:  Drive Forward for 1 Second
         //Robot.turnRight(0.1, "Turn and get ready");
-        Robot.goForward(1.2, "Driving forward");
+        Robot.goForward(1.3, "Driving forward");
 
         // Move back
         Robot.goBack(0.1, "Driving Backward");

@@ -52,7 +52,7 @@ public class Foundation_Post_Red extends LinearOpMode {
         Robot.goBack(0.7, "Drive back");
         */
         Robot.setForwardSpeed(0.25);
-        Robot.goBack(1.4,"Drive back");
+        Robot.goBack(1.6,"Drive back");
         Robot.setForwardSpeed(1);
 
 
@@ -62,7 +62,7 @@ public class Foundation_Post_Red extends LinearOpMode {
 
         // Step 3:  Drive Forward for 1 Second
         //Robot.turnRight(0.1, "Turn and get ready");
-        Robot.goForward(1.2, "Driving forward");
+        Robot.goForward(1.3, "Driving forward");
 
         // Move back
         Robot.goBack(0.2, "Driving Backward");
@@ -87,7 +87,7 @@ public class Foundation_Post_Red extends LinearOpMode {
 
         Robot.strafeRight(0.4, "heading to midline!");
         */
-        Robot.turnLeft(1.27, "Turning left");
+        Robot.turnLeft(1.2, "Turning left");
         Robot.goBack(0.45, "Moving Back");
         //Robot.turnRight(0.1, "Turning left");
         //Robot.goBack(0.1, "Heading to Midline");

@@ -52,7 +52,7 @@ public class Foundation_Wall_Red extends LinearOpMode {
         Robot.goBack(0.7, "Drive back");
         */
         Robot.setForwardSpeed(0.25);
-        Robot.goBack(1.4,"Drive back");
+        Robot.goBack(1.6,"Drive back");
         Robot.setForwardSpeed(1);
 
 
@@ -62,7 +62,7 @@ public class Foundation_Wall_Red extends LinearOpMode {
 
         // Step 3:  Drive Forward for 1 Second
         //Robot.turnRight(0.1, "Turn and get ready");
-        Robot.goForward(1.2, "Driving forward");
+        Robot.goForward(1.3, "Driving forward");
 
         // Move back
         Robot.goBack(0.2, "Driving Backward");

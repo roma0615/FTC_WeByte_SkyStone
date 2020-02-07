@@ -45,9 +45,10 @@ public class BLUE_SKYSTONE extends LinearOpMode {
         Robot.setClawServo(ClawPosition.MEASURING, 0, "Getting claw ready");
         Robot.setForwardSpeed(0.5);
         Robot.strafeRight(1.32,"");
-        Robot.centerRearRobot(25);
+        Robot.centerRearRobot(27);
         //Robot.checkDistanceRearSensors(0.01);
         sleep(1500);
+        //Robot.massTelemetryDump(15);
 
         //Step 2: Begin first read of blocks using Tensorflow
         boolean FOUND = false;
@@ -55,7 +56,7 @@ public class BLUE_SKYSTONE extends LinearOpMode {
         if (TensorFlowDetection.skystonesFound() >= 1 &&
                 TensorFlowDetection.detectCenterSkystone()) {
             FOUND = true;
-            skystonePosition1 = 23.5;
+            skystonePosition1 = 24.5;
             skystonePosition2 = 2;
             additionalDistance = 0.4;
             //Robot.massTelemetryDump(15);
@@ -71,7 +72,7 @@ public class BLUE_SKYSTONE extends LinearOpMode {
         if (FOUND == false && TensorFlowDetection.skystonesFound() >= 1 &&
                 TensorFlowDetection.detectCenterSkystone()) {
             FOUND = true;
-            skystonePosition1 = 32;
+            skystonePosition1 = 32.5;
             skystonePosition2 = 1;
             additionalDistance = 0.0;
 
@@ -85,7 +86,7 @@ public class BLUE_SKYSTONE extends LinearOpMode {
         }
 
         Robot.strafeRight(0.35,"");
-        //Robot.checkDistanceRearSensors(0.01);
+        Robot.checkDistanceRearSensors(0.01);
         Robot.centerRearRobot(skystonePosition1);
         Robot.moveIn();
         Robot.strafeRight(0.05, "");
@@ -111,30 +112,30 @@ public class BLUE_SKYSTONE extends LinearOpMode {
             Robot.setClawServo(ClawPosition.MEASURING, 0.3, "");
 
             Robot.checkDistanceRearSensors(0.01);
-            Robot.strafeRight(0.3, "");
+            Robot.strafeRight(0.1, "");
             //Robot.checkDistanceRearSensors(0.01);
 
             Robot.centerRearRobot(skystonePosition1 - 24);
             Robot.moveOver();
             Robot.moveIn();
             Robot.turnLeft(0.01, "");
-            Robot.checkDistanceRearSensors(0.01);
-            Robot.centerRearRobot(skystonePosition1 - 24);
-            Robot.strafeRight(0.05, "");
+            //Robot.checkDistanceRearSensors(0.01);
+            //Robot.centerRearRobot(skystonePosition1 - 24);
+            //Robot.strafeRight(0.05, "");
 
             Robot.setClawServo(ClawPosition.DOWN, 0.5, "");
             Robot.goBack(0.04,"");
             Robot.goForward(0.08,"");
 
-            Robot.strafeLeft(0.7, "");
+            Robot.strafeLeft(0.8, "");
             Robot.checkDistanceRearSensors(0.01);
             //Robot.turnLeft(0.01, "");
 
             //Robot.ForwardStraightTime(20, 2.2 + additionalDistance);
 
-            Robot.ForwardStraightTime(20, 1.1 + additionalDistance);
+            Robot.ForwardStraightTime(20, 1.0 + additionalDistance);
             Robot.moveOverLeft(20);
-            Robot.ForwardStraightTime(20, 1.1 );
+            Robot.ForwardStraightTime(20, 0.9);
 
             Robot.setClawServo(ClawPosition.UP, 0.3, "");
             Robot.turnRight(0.01, "");
@@ -163,15 +164,15 @@ public class BLUE_SKYSTONE extends LinearOpMode {
             Robot.goBack(0.04,"");
             Robot.goForward(0.08,"");
 
-            Robot.strafeLeft(0.7, "");
+            Robot.strafeLeft(0.8, "");
             Robot.checkDistanceRearSensors(0.01);
             //Robot.turnLeft(0.01, "");
 
             //Robot.ForwardStraightTime(20, 2.2 + additionalDistance);
 
-            Robot.ForwardStraightTime(20, 1.1 + additionalDistance);
+            Robot.ForwardStraightTime(20, 0.8 + additionalDistance);
             Robot.moveOverLeft(20);
-            Robot.ForwardStraightTime(20, 1.1 );
+            Robot.ForwardStraightTime(20, 1.2 );
 
             Robot.setClawServo(ClawPosition.UP, 0.3, "");
 
@@ -179,7 +180,7 @@ public class BLUE_SKYSTONE extends LinearOpMode {
             Robot.goBack(0.7, "");
         }
         else {
-            skystonePosition1 = 33.5;
+            skystonePosition1 = 32;
             Robot.BackwardStraight(20, 1.1);
             Robot.setClawServo(ClawPosition.MEASURING, 0.3, "");
 
@@ -192,9 +193,9 @@ public class BLUE_SKYSTONE extends LinearOpMode {
             Robot.moveOver();
             Robot.moveIn();
             Robot.turnLeft(0.01, "");
-            Robot.checkDistanceRearSensors(0.01);
-            Robot.centerRearRobot(skystonePosition1);
-            Robot.strafeRight(0.05, "");
+            //Robot.checkDistanceRearSensors(0.01);
+            //Robot.centerRearRobot(skystonePosition1);
+            //Robot.strafeRight(0.05, "");
 
 
             Robot.setClawServo(ClawPosition.DOWN, 0.5, "");
@@ -207,9 +208,9 @@ public class BLUE_SKYSTONE extends LinearOpMode {
 
             //Robot.ForwardStraightTime(20, 1.5);
 
-            Robot.ForwardStraightTime(20, 0.5);
+            Robot.ForwardStraightTime(20, 0.4);
             Robot.moveOverLeft(20);
-            Robot.ForwardStraightTime(20, 0.8);
+            Robot.ForwardStraightTime(20, 0.9);
 
             Robot.setClawServo(ClawPosition.UP, 0.3, "");
 

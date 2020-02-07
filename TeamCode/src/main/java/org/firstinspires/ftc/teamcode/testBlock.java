@@ -48,7 +48,7 @@ public class testBlock extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             // Controls movement of the robot
-            drive();
+            //drive();
             /*
             // Setting the position of the "flipper" servos
             if (gamepad2.dpad_up) {
@@ -76,11 +76,32 @@ public class testBlock extends LinearOpMode {
             }
 
              */
-            Robot.massTelemetryDump(0);
+            double sonic = 0;
+            double sonicInches = 0;
+            sonic = Robot.frontRightSensor.rawUltrasonic();
+            sonicInches = sonic / 2.54;
+            if(sonic != 255) {
+                telemetry.addData("Raw Ultrasonic reading:", sonic);
+                telemetry.addData("Ultrasonic inches:", sonicInches);
+            }
+            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("raw optical", Robot.frontRightSensor.rawOptical());
+            telemetry.addData("cm optical", "%.2f cm", Robot.frontRightSensor.cmOptical());
+            telemetry.addData("getDistance inch", "%.2f distance", Robot.frontRightSensor.getDistance(DistanceUnit.INCH));
+            telemetry.addData("range rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
+
+
+            telemetry.update();
+            //Robot.massTelemetryDump(10000000);
 
         }
 
     }
+
+
 
     private void drive() {
         // Do some ~~mathematics~~ to figure out how to power the mechanum wheels
