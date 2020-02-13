@@ -81,8 +81,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-@TeleOp(name="vuforiaCamera", group ="Concept")
-public class vuforiaCamera extends LinearOpMode {
+@TeleOp(name="vuforiaCameraLite", group ="Concept")
+public class vuforiaCameraLite extends LinearOpMode {
 
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
@@ -172,7 +172,10 @@ public class vuforiaCamera extends LinearOpMode {
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");
 
-       VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
+        VuforiaTrackableDefaultListener listener;
+
+/*
+        VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
         blueRearBridge.setName("Blue Rear Bridge");
         VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
         redRearBridge.setName("Red Rear Bridge");
@@ -196,11 +199,13 @@ public class vuforiaCamera extends LinearOpMode {
         rear1.setName("Rear Perimeter 1");
         VuforiaTrackable rear2 = targetsSkyStone.get(12);
         rear2.setName("Rear Perimeter 2");
-
+*/
 
         // For convenience, gather together all the trackable objects in one easily-iterable collection */
+/*
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsSkyStone);
+*/
 
         /**
          * In order for localization to work, we need to tell the system where each target is on the field, and
@@ -228,7 +233,7 @@ public class vuforiaCamera extends LinearOpMode {
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
         //Set the position of the bridge support targets with relation to origin (center of field)
-
+/*
         blueFrontBridge.setLocation(OpenGLMatrix
                 .translation(-bridgeX, bridgeY, bridgeZ)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 0, bridgeRotY, bridgeRotZ)));
@@ -277,7 +282,7 @@ public class vuforiaCamera extends LinearOpMode {
         rear2.setLocation(OpenGLMatrix
                 .translation(halfField, -quadField, mmTargetHeight)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
-
+*/
         //
         // Create a transformation matrix describing where the phone is on the robot.
         //
@@ -316,9 +321,15 @@ public class vuforiaCamera extends LinearOpMode {
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
 
         /**  Let all the trackable listeners know where the phone is.  */
-        for (VuforiaTrackable trackable : allTrackables) {
+  /*
+          for (VuforiaTrackable trackable : allTrackables) {
             ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
         }
+*/
+
+         listener = (VuforiaTrackableDefaultListener) stoneTarget.getListener();
+         listener.setPhoneInformation(robotFromCamera, parameters.cameraDirection);
+
 
         // WARNING:
         // In this sample, we do not wait for PLAY to be pressed.  Target Tracking is started immediately when INIT is pressed.
@@ -339,20 +350,20 @@ public class vuforiaCamera extends LinearOpMode {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
-            for (VuforiaTrackable trackable : allTrackables) {
-                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                    telemetry.addData("Visible Target", trackable.getName());
+        //    for (VuforiaTrackable trackable : allTrackables) {
+                if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
+                    telemetry.addData("Visible Target", stoneTarget.getName());
                     targetVisible = true;
 
                     // getUpdatedRobotLocation() will return null if no new information is available since
                     // the last time that call was made, or if the trackable is not currently visible.
-                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)stoneTarget.getListener()).getUpdatedRobotLocation();
                     if (robotLocationTransform != null) {
                         lastLocation = robotLocationTransform;
                     }
-                    break;
+        //            break;
                 }
-            }
+        //    }
 
             // Provide feedback as to where the robot is located (if we know).
             if (targetVisible) {

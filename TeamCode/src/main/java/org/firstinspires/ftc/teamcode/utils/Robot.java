@@ -34,14 +34,19 @@ public class Robot {
     public static Servo clawServo = null;
     public static Servo wristServo = null;
     public static Servo fingerServo = null;
-    //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER
-    public static DistanceSensor rightSensor = null;
-    public static DistanceSensor frontLeftSensor = null;
-    //public static DistanceSensor frontRightSensor = null;
-    public static ModernRoboticsI2cRangeSensor frontRightSensor = null;
+
+    //Distance sensors
+    public static ModernRoboticsI2cRangeSensor leftRearSensor = null;
+    public static ModernRoboticsI2cRangeSensor leftFrontSensor = null;
+    public static ModernRoboticsI2cRangeSensor rightRearSensor = null;
+    public static ModernRoboticsI2cRangeSensor rightFrontSensor = null;
+    public static ModernRoboticsI2cRangeSensor rearRightSensor = null;
     public static DistanceSensor rearLeftSensor = null;
-    public static DistanceSensor rearRightSensor = null;
-    public static DistanceSensor leftSensor = null;
+    public static ModernRoboticsI2cRangeSensor frontRightSensor = null;
+
+    //  public static DistanceSensor rearLeftSensor = null;
+  //  public static DistanceSensor rearRightSensor = null;
+  //  public static DistanceSensor leftSensor = null;
     //public static
     //
     private static HardwareMap hwMap;
@@ -84,14 +89,17 @@ public class Robot {
         clawServo = hwMap.get(Servo.class, "servoClaw");
         fingerServo = hwMap.get(Servo.class, "fingerServo");
         wristServo = hwMap.get(Servo.class, "wristServo");
+
         //TESTING THE DISTANCE SENSOR. MIGHT WANT TO REMOVE THIS LATER.
-        rightSensor = hwMap.get(DistanceSensor.class, "rightSensor");
-        frontLeftSensor = hwMap.get(DistanceSensor.class, "frontLeftSensor");
-        //frontRightSensor = hwMap.get(DistanceSensor.class, "frontRightSensor");
-        frontRightSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "frontRightSensor");
+
+        leftFrontSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rightFrontSensor");
+        leftRearSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rightFrontSensor");
+        rightFrontSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rightFrontSensor");
+        rightRearSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rightFrontSensor");
+        rearRightSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rearRightSensor");
         rearLeftSensor = hwMap.get(DistanceSensor.class, "rearLeftSensor");
-        rearRightSensor = hwMap.get(DistanceSensor.class, "rearRightSensor");
-        leftSensor = hwMap.get(DistanceSensor.class, "leftSensor");
+        frontRightSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "frontRightSensor");
+
         forwardLeftDrive1.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive2.setDirection(DcMotor.Direction.REVERSE);
         forwardRightDrive1.setDirection(DcMotor.Direction.FORWARD);
@@ -265,6 +273,7 @@ public class Robot {
         }
     }
 
+    /* Replaced by align
     public static void checkDistanceSensors(double duration) {
         if (opModeIsActive.get()) {
             //double difference = averageLeft - averageRight;
@@ -314,6 +323,8 @@ public class Robot {
             }
         }
     }
+*/
+
 
 
     public static void massTelemetryDump(double time) {
@@ -321,19 +332,15 @@ public class Robot {
         while (opModeIsActive.get() && (runtime.seconds() < time)) {
             //telemetry.addData("Path", msg, runtime.seconds());
             //telemetry.update();
-            telemetry.addData("range right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01d", Robot.frontRightSensor.rawUltrasonic()));
-            //telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.rawUltrasonic(DistanceUnit.INCH)));
-            telemetry.addData("range rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range right front", String.format(Locale.ENGLISH, "%.01f in", Robot.rightFrontSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range right rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rightRearSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range left front", String.format(Locale.ENGLISH, "%.01f in", Robot.leftFrontSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range left rear", String.format(Locale.ENGLISH, "%.01f in", Robot.leftRearSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("average range right", String.format(Locale.ENGLISH, "%.01f in", getAverageRightSensor()));
-            telemetry.addData("average range front left", String.format(Locale.ENGLISH, "%.01f in", getAverageFrontLeftSensor()));
-            telemetry.addData("average range front right", String.format(Locale.ENGLISH, "%.01f in", getAverageFrontRightSensor()));
+            telemetry.addData("range rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("average range rear left", String.format(Locale.ENGLISH, "%.01f in", getAverageRearLeftSensor()));
-            telemetry.addData("average range rear right", String.format(Locale.ENGLISH, "%.01f in", getAverageRearRightSensor()));
-            telemetry.addData("average range left", String.format(Locale.ENGLISH, "%.01f in", getAverageLeftSensor()));
+
             int i = 0;
             if (TensorFlowDetection.getRecognitions() != null) {
                 for (Recognition recognition : TensorFlowDetection.getRecognitions()) {
@@ -366,19 +373,27 @@ public class Robot {
 
     }
 
-    public static double getAverageRightSensor() {
+    public static double getAverageRightFrontSensor() {
         double averageRight = 0;
         for (int i = 0; i < 5; i++) {
-            averageRight += Robot.rightSensor.getDistance(DistanceUnit.INCH);
+            averageRight += Robot.rightFrontSensor.getDistance(DistanceUnit.INCH);
+        }
+        averageRight = averageRight / 5;
+        return averageRight;
+    }
+    public static double getAverageRightRearSensor() {
+        double averageRight = 0;
+        for (int i = 0; i < 5; i++) {
+            averageRight += Robot.rightRearSensor.getDistance(DistanceUnit.INCH);
         }
         averageRight = averageRight / 5;
         return averageRight;
     }
 
-    public static double getAverageLeftSensor() {
+    public static double getAverageLeftRearSensor() {
         double averageRight = 0;
         for (int i = 0; i < 5; i++) {
-            averageRight += Robot.leftSensor.getDistance(DistanceUnit.INCH);
+            averageRight += Robot.leftRearSensor.getDistance(DistanceUnit.INCH);
         }
         averageRight = averageRight / 5;
         return averageRight;
@@ -387,13 +402,13 @@ public class Robot {
     public static double getAverageLeftFrontSensor() {
         double averageLeft = 0;
         for (int i = 0; i < 5; i++) {
-            averageLeft += Robot.frontLeftSensor.getDistance(DistanceUnit.INCH);
+            averageLeft += Robot.leftFrontSensor.getDistance(DistanceUnit.INCH);
         }
         averageLeft = averageLeft / 5;
         return averageLeft;
     }
 
-    public static double getAverageLeftRearSensor() {
+    public static double getAverageRearLeftSensor() {
         double averageLeft = 0;
         for (int i = 0; i < 5; i++) {
             averageLeft += Robot.rearLeftSensor.getDistance(DistanceUnit.INCH);
@@ -402,15 +417,15 @@ public class Robot {
         return averageLeft;
     }
 
-
-    public static double getAverageFrontLeftSensor() {
-        double averageRight = 0;
+    public static double getAverageRearRightSensor() {
+        double averageLeft = 0;
         for (int i = 0; i < 5; i++) {
-            averageRight += Robot.frontLeftSensor.getDistance(DistanceUnit.INCH);
+            averageLeft += Robot.rearRightSensor.getDistance(DistanceUnit.INCH);
         }
-        averageRight = averageRight / 5;
-        return averageRight;
+        averageLeft = averageLeft / 5;
+        return averageLeft;
     }
+
 
     public static double getAverageFrontRightSensor() {
         double averageRight = 0;
@@ -421,23 +436,8 @@ public class Robot {
         return averageRight;
     }
 
-    public static double getAverageRearLeftSensor() {
-        double averageRight = 0;
-        for (int i = 0; i < 5; i++) {
-            averageRight += Robot.rearLeftSensor.getDistance(DistanceUnit.INCH);
-        }
-        averageRight = averageRight / 5;
-        return averageRight;
-    }
 
-    public static double getAverageRearRightSensor() {
-        double averageRight = 0;
-        for (int i = 0; i < 5; i++) {
-            averageRight += Robot.rearRightSensor.getDistance(DistanceUnit.INCH);
-        }
-        averageRight = averageRight / 5;
-        return averageRight;
-    }
+
 /*
     //Old code for centerRobot
     //Centers robot on a distance away from the wall.
@@ -467,33 +467,33 @@ public class Robot {
 */
 
     //Centers robot on a distance away from the wall.
-    public static void centerRobot(double distanceFromWall) {
-            double averageRight = getAverageFrontRightSensor();
-                while (averageRight < (distanceFromWall - 0.4) || averageRight
-                        > (distanceFromWall + 0.4) && averageRight < 100  && opModeIsActive.get())
+    public static void centerRobotFrontRear(double distanceFromWall) {
+            double averageFront = getAverageFrontRightSensor();
+                while (averageFront < (distanceFromWall - 0.4) || averageFront
+                        > (distanceFromWall + 0.4) && averageFront < 100  && opModeIsActive.get())
                 {
-                    if (averageRight < (distanceFromWall - 0.4)) {
-                        if (averageRight < (distanceFromWall - 0.8)) {
-                            goBack(((distanceFromWall - averageRight) / 40), "");
+                    if (averageFront < (distanceFromWall - 0.4)) {
+                        if (averageFront < (distanceFromWall - 0.8)) {
+                            goBack(((distanceFromWall - averageFront) / 40), "");
                         } else {
                             goBack(0.01, "");
                         }
                     }
 
-                    if (averageRight > (distanceFromWall + 0.4)) {
-                        if (averageRight > (distanceFromWall + 0.8)) {
-                            goBack(((distanceFromWall - averageRight) / 40), "");
+                    if (averageFront > (distanceFromWall + 0.4)) {
+                        if (averageFront > (distanceFromWall + 0.8)) {
+                            goForward(((distanceFromWall - averageFront) / 40), "");
                         } else {
                             goForward(0.01, "");
                         }
                     }
-                    averageRight = getAverageFrontRightSensor();
+                    averageFront = getAverageFrontRightSensor();
                 }
                 }
 
 
 
-/*
+/*  Old code should be obsolete
     public static void centerRearRobot(double distanceFromWall) {
         if (opModeIsActive.get()) {
             double averageRight = getAverageRearRightSensor();
@@ -519,41 +519,65 @@ public class Robot {
     }
 */
 
-    public static void centerRearRobot(double distanceFromWall) {
-            double averageRight = getAverageRearRightSensor();
+    public static void centerRobotRight(double distanceFromWall) {
+            double averageRight = getAverageRightRearSensor();
                 while (averageRight < (distanceFromWall - 0.4) || averageRight
                         > (distanceFromWall + 0.4) && averageRight < 100  && opModeIsActive.get())
                 {
                     if (averageRight < (distanceFromWall - 0.4)) {
                         if (averageRight < (distanceFromWall - 0.8)) {
-                            goBack(((distanceFromWall - averageRight) / 40), "");
+                            strafeLeft(((distanceFromWall - averageRight) / 13), "");
                         } else {
-                            goBack(0.01, "");
+                            strafeLeft(0.01, "");
                         }
                     }
 
                     if (averageRight > (distanceFromWall + 0.4)) {
                         if (averageRight > (distanceFromWall + 0.8)) {
-                            goBack(((distanceFromWall - averageRight) / 40), "");
+                            strafeRight(((distanceFromWall - averageRight) / 13), "");
                         } else {
-                            goForward(0.01, "");
+                            strafeRight(0.01, "");
                         }
                     }
-                    averageRight = getAverageRearRightSensor();
+                    averageRight = getAverageRightRearSensor();
                 }
         }
 
+    public static void centerRobotLeft(double distanceFromWall) {
+        double averageLeft = getAverageLeftRearSensor();
+        while (averageLeft < (distanceFromWall - 0.4) || averageLeft
+                > (distanceFromWall + 0.4) && averageLeft < 100  && opModeIsActive.get())
+        {
+            if (averageLeft < (distanceFromWall - 0.4)) {
+                if (averageLeft < (distanceFromWall - 0.8)) {
+                    strafeRight(((distanceFromWall - averageLeft) / 13), "");
+                } else {
+                    strafeRight(0.01, "");
+                }
+            }
+
+            if (averageLeft > (distanceFromWall + 0.4)) {
+                if (averageLeft > (distanceFromWall + 0.8)) {
+                    strafeLeft(((distanceFromWall - averageLeft) / 13), "");
+                } else {
+                    strafeLeft(0.01, "");
+                }
+            }
+            averageLeft = getAverageLeftRearSensor();
+        }
+    }
 
 
-    public static void BackwardStraight(double distance, double time) {
+
+    public static void BackwardStraightLeft(double distance, double time) {
         runtime.reset();
         while (opModeIsActive.get() && (runtime.seconds() < time)) {
-            if (Robot.leftSensor.getDistance(DistanceUnit.INCH) > distance) {
+            if (Robot.leftRearSensor.getDistance(DistanceUnit.INCH) > distance) {
                 forwardLeftDrive1.setPower(-0.9);
                 backLeftDrive2.setPower(-0.9);
                 forwardRightDrive1.setPower(-1.0);
                 backRightDrive2.setPower(-1.0);
-            } else if (Robot.leftSensor.getDistance(DistanceUnit.INCH) < distance) {
+            } else if (Robot.leftRearSensor.getDistance(DistanceUnit.INCH) < distance) {
                 forwardLeftDrive1.setPower(-1.0);
                 backLeftDrive2.setPower(-1.0);
                 forwardRightDrive1.setPower(-0.9);
@@ -568,15 +592,15 @@ public class Robot {
         Robot.stopMoving();
     }
 
-    public static void ForwardStraightTime(double distance, double time) {
+    public static void ForwardStraightTimeLeft(double distance, double time) {
         runtime.reset();
         while (opModeIsActive.get() && (runtime.seconds() < time)) {
-            if (Robot.leftSensor.getDistance(DistanceUnit.INCH) > distance) {
+            if (Robot.leftFrontSensor.getDistance(DistanceUnit.INCH) > distance) {
                 forwardLeftDrive1.setPower(0.9);
                 backLeftDrive2.setPower(0.9);
                 forwardRightDrive1.setPower(1.0);
                 backRightDrive2.setPower(1.0);
-            } else if (Robot.leftSensor.getDistance(DistanceUnit.INCH) < distance) {
+            } else if (Robot.leftFrontSensor.getDistance(DistanceUnit.INCH) < distance) {
                 forwardLeftDrive1.setPower(1.0);
                 backLeftDrive2.setPower(1.0);
                 forwardRightDrive1.setPower(0.9);
@@ -592,15 +616,15 @@ public class Robot {
     }
 
 
-    public static void ForwardStraight(double distance, double skystoneDistance) {
+    public static void ForwardStraightLeft(double distance, double skystoneDistance) {
         runtime.reset();
         while (opModeIsActive.get() && Robot.frontRightSensor.getDistance(DistanceUnit.INCH) > skystoneDistance) {
-            if (Robot.leftSensor.getDistance(DistanceUnit.INCH) > distance) {
+            if (Robot.leftFrontSensor.getDistance(DistanceUnit.INCH) > distance) {
                 forwardLeftDrive1.setPower(0.9);
                 backLeftDrive2.setPower(0.9);
                 forwardRightDrive1.setPower(1.0);
                 backRightDrive2.setPower(1.0);
-            } else if (Robot.leftSensor.getDistance(DistanceUnit.INCH) < distance) {
+            } else if (Robot.leftFrontSensor.getDistance(DistanceUnit.INCH) < distance) {
                 forwardLeftDrive1.setPower(1.0);
                 backLeftDrive2.setPower(1.0);
                 forwardRightDrive1.setPower(0.9);
@@ -615,15 +639,15 @@ public class Robot {
         Robot.stopMoving();
     }
 
-    public static void BackwardStraightDistance(double distance, double skystoneDistance) {
+    public static void BackwardStraightDistanceLeft(double distance, double skystoneDistance) {
         runtime.reset();
         while (opModeIsActive.get() && Robot.rearRightSensor.getDistance(DistanceUnit.INCH) > skystoneDistance) {
-            if (Robot.leftSensor.getDistance(DistanceUnit.INCH) > distance) {
+            if (Robot.leftRearSensor.getDistance(DistanceUnit.INCH) > distance) {
                 forwardLeftDrive1.setPower(-0.9);
                 backLeftDrive2.setPower(-0.9);
                 forwardRightDrive1.setPower(-1.0);
                 backRightDrive2.setPower(-1.0);
-            } else if (Robot.leftSensor.getDistance(DistanceUnit.INCH) < distance) {
+            } else if (Robot.leftRearSensor.getDistance(DistanceUnit.INCH) < distance) {
                 forwardLeftDrive1.setPower(-1.0);
                 backLeftDrive2.setPower(-1.0);
                 forwardRightDrive1.setPower(-0.9);
@@ -648,7 +672,7 @@ public class Robot {
     }
 
     public static void moveIn() {
-        double averageRight = getAverageRightSensor();
+        double averageRight = getAverageRearRightSensor();
         double tolerance = 3;
         while (averageRight > tolerance && opModeIsActive.get()
                 && averageRight < 100) {
@@ -657,10 +681,11 @@ public class Robot {
             } else {
                 strafeRight(0.04, "");
             }
-            averageRight = getAverageRightSensor();
+            averageRight = getAverageRearRightSensor();
         }
     }
 
+    /* Old code should be obsolete
     public static void moveOver() {
         if (opModeIsActive.get()) {
             double right = getAverageRightSensor() / 15;
@@ -685,9 +710,13 @@ public class Robot {
             }
         }
     }
-    /*
 
-    public static void align () {
+    */
+
+
+
+
+    public static void alignLeft () {
             double duration = 0.01;
             double averageLeftFront = getAverageLeftFrontSensor();
             double averageLeftRear = getAverageLeftRearSensor();
@@ -706,6 +735,24 @@ public class Robot {
                 }
             }
 
-     */
+    public static void alignRight () {
+        double duration = 0.01;
+        double averageRightFront = getAverageRightFrontSensor();
+        double averageRightRear = getAverageRightRearSensor();
+
+        while ((averageRightFront - averageRightRear > 1
+                || averageRightFront - averageRightRear < -1) && (averageRightFront + averageRightRear < 200)) {
+
+            if (averageRightFront - averageRightRear > 1) {
+                Robot.turnLeft(duration, "");
+            }
+            if (averageRightFront - averageRightRear < -1) {
+                Robot.turnRight(duration, "");
+            }
+            averageRightRear = getAverageLeftRearSensor();
+            averageRightFront = getAverageLeftFrontSensor();
+        }
+    }
+
 
         }

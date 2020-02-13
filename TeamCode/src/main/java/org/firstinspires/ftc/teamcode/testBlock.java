@@ -78,7 +78,7 @@ public class testBlock extends LinearOpMode {
              */
             double sonic = 0;
             double sonicInches = 0;
-            sonic = Robot.frontRightSensor.rawUltrasonic();
+            sonic = Robot.frontRightUltrasonicSensor.rawUltrasonic();
             sonicInches = sonic / 2.54;
             if(sonic != 255) {
                 telemetry.addData("Raw Ultrasonic reading:", sonic);
@@ -86,8 +86,8 @@ public class testBlock extends LinearOpMode {
             }
             telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("raw optical", Robot.frontRightSensor.rawOptical());
-            telemetry.addData("cm optical", "%.2f cm", Robot.frontRightSensor.cmOptical());
+            telemetry.addData("raw optical", Robot.frontRightUltrasonicSensor.rawOptical());
+            telemetry.addData("cm optical", "%.2f cm", Robot.frontRightUltrasonicSensor.cmOptical());
             telemetry.addData("getDistance inch", "%.2f distance", Robot.frontRightSensor.getDistance(DistanceUnit.INCH));
             telemetry.addData("range rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
