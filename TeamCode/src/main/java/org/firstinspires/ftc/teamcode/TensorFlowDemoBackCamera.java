@@ -155,7 +155,7 @@ public class TensorFlowDemoBackCamera extends LinearOpMode {
                         if(TensorFlowDetection.skystonesFound() >= 1) {
                             telemetry.addData("Nearest Skystone: ", TensorFlowDetection.getSkystone().getTop());
                         }
-                        telemetry.addData("range", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
+                        //telemetry.addData("range", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
                         telemetry.update();
                     }
                 }

@@ -1,38 +1,14 @@
-/* Copyright (c) 2019 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+/* CHANGE THIS INTO A CLASS LIKE TENSORFLOWDETECTION
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.utils;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -50,6 +26,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+
 
 /**
  * This 2019-2020 OpMode illustrates the basics of using the Vuforia localizer to determine
@@ -81,13 +58,13 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-@TeleOp(name="vuforiaCamera", group ="Concept")
-public class vuforiaCamera extends LinearOpMode {
+public class VuforiaWebcamDetection {
 
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false;
+    private static Telemetry telemetry;
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -138,8 +115,10 @@ public class vuforiaCamera extends LinearOpMode {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
-
-    @Override public void runOpMode() {
+    private static boolean stopGoing = false;
+    //DESTROY THIS AND TURN INTO A CLASS
+    public void init(HardwareMap hardwareMap, Telemetry tel) {
+        telemetry = tel;
         /*
          * Retrieve the camera we are to use.
          */
@@ -172,7 +151,7 @@ public class vuforiaCamera extends LinearOpMode {
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");
 
-       VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
+        VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
         blueRearBridge.setName("Blue Rear Bridge");
         VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
         redRearBridge.setName("Red Rear Bridge");
@@ -335,7 +314,7 @@ public class vuforiaCamera extends LinearOpMode {
 
 
         targetsSkyStone.activate();
-        while (!isStopRequested()) {
+        while (!stopGoing) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
@@ -353,8 +332,6 @@ public class vuforiaCamera extends LinearOpMode {
                     break;
                 }
             }
-
-
 
             // Provide feedback as to where the robot is located (if we know).
             if (targetVisible) {
@@ -380,5 +357,11 @@ public class vuforiaCamera extends LinearOpMode {
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
+    }
+    public static int getStonePostion (){
+        return 0;
+    }
+    public static void shutDown(){
+        stopGoing = true;
     }
 }

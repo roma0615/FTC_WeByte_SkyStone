@@ -28,6 +28,7 @@
  */
 
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -41,6 +42,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
+import org.firstinspires.ftc.teamcode.utils.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,8 +85,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-@TeleOp(name="vuforiaCamera", group ="Concept")
-public class vuforiaCamera extends LinearOpMode {
+@Autonomous(name = "DEMOvuforiaCamera")
+
+
+public class DEMOvuforiaCamera extends LinearOpMode {
 
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
@@ -138,11 +144,17 @@ public class vuforiaCamera extends LinearOpMode {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
-
+    private int Skystone_position1 = 0;
     @Override public void runOpMode() {
         /*
          * Retrieve the camera we are to use.
          */
+        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
+            @Override
+            public boolean get() {
+                return opModeIsActive();
+            }
+        });
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         /*
@@ -172,7 +184,7 @@ public class vuforiaCamera extends LinearOpMode {
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");
 
-       VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
+        VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
         blueRearBridge.setName("Blue Rear Bridge");
         VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
         redRearBridge.setName("Red Rear Bridge");
@@ -335,6 +347,7 @@ public class vuforiaCamera extends LinearOpMode {
 
 
         targetsSkyStone.activate();
+        // Need
         while (!isStopRequested()) {
 
             // check all the trackable targets to see which one (if any) is visible.
@@ -353,30 +366,46 @@ public class vuforiaCamera extends LinearOpMode {
                     break;
                 }
             }
+            if(opModeIsActive()){
+                Robot.setForwardSpeed(0.5);
+                Robot.goBack(0.5,"");
+                long startTime = System.currentTimeMillis();
+                while (!targetVisible && ((System.currentTimeMillis() - startTime) < 10000)){
+                }
 
 
+                // Provide feedback as to where the robot is located (if we know).
+                if (targetVisible) {
+                    // express position (translation) of robot in inches.
+                    VectorF translation = lastLocation.getTranslation();
+                    telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                            translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+                    telemetry.update();
+                    //Data for WeByte Skystone identification routine should go here
+                    if(opModeIsActive()) {
+                        if (translation.get(1) > 1) {
+                            Skystone_position1 = 1;
+                        } else {
+                            Skystone_position1 = 2;
+                            Robot.setServos(FlipperPosition.UP,0,"");
+                        }
+                    }
 
-            // Provide feedback as to where the robot is located (if we know).
-            if (targetVisible) {
-                // express position (translation) of robot in inches.
-                VectorF translation = lastLocation.getTranslation();
-                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+                    // express the rotation of the robot in degrees.
+                    //Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                    //telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                }
+                else {
+                    telemetry.addData("Visible Target", "none");
+                    Skystone_position1 = 3;
+                }
+                telemetry.update();
 
-                //Data for WeByte Skystone identification routine should go here
-                //if translation.get(1) > 2 {Skystone_position1 = 2;}
-                // else {Skystone_position1 = 1;}
 
-                // express the rotation of the robot in degrees.
-                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            sleep(60000);
             }
-            else {
-                telemetry.addData("Visible Target", "none");
-                //Skystone_position1 = 3;
-            }
-            telemetry.update();
         }
+
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();

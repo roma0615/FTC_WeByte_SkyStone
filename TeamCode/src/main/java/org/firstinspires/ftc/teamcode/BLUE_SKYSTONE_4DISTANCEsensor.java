@@ -28,6 +28,7 @@ import java.util.Locale;
 public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
     @Override
     public void runOpMode() {
+        /*
         int inchPause = 500;
         double skystonePosition = 0;
         double distanceVar = 24;
@@ -58,7 +59,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
         //Robot.turnLeft(0.1, "turn");
         sleep(250);
         Robot.setForwardSpeed(0.4);
-        while (Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < (distanceVar + 8) && opModeIsActive()) {
+        while (Robot.rearRightSensor.getDistance(DistanceUnit.INCH) < (distanceVar + 8) && opModeIsActive()) {
             Robot.goForwardContinuous();
         }
         //Robot.turnLeft(0.02,"adjust for drift");
@@ -102,7 +103,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
             }
             telemetry.update();
             Robot.setForwardSpeed(0.2);
-            while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) > (distanceVar + 6.5) && opModeIsActive()){
+            while(Robot.rearRightSensor.getDistance(DistanceUnit.INCH) > (distanceVar + 6.5) && opModeIsActive()){
                 Robot.goBackContinuous();
             }
             Robot.stopMoving();
@@ -124,7 +125,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
 
         } else if(FOUND == false) {
             Robot.setForwardSpeed(0.2);
-            while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) > (distanceVar) && opModeIsActive()){
+            while(Robot.rearRightSensor.getDistance(DistanceUnit.INCH) > (distanceVar) && opModeIsActive()){
                 Robot.goBackContinuous();
             }
             Robot.stopMoving();
@@ -159,8 +160,9 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
             }
             Robot.stopMoving();
             */
+        /*
         Robot.setForwardSpeed(0.4);
-        while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < skystonePosition && opModeIsActive()){
+        while(Robot.rearRightSensor.getDistance(DistanceUnit.INCH) < skystonePosition && opModeIsActive()){
             Robot.goForwardContinuous();
         }
         Robot.stopMoving();
@@ -170,7 +172,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
         Robot.stopMoving();
         Robot.setForwardSpeed(0.12);
         Robot.checkDistanceSensors(checkDistanceVar);
-        while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < (skystonePosition+0.5) && opModeIsActive()){
+        while(Robot.rearRightSensor.getDistance(DistanceUnit.INCH) < (skystonePosition+0.5) && opModeIsActive()){
             Robot.goForwardContinuous();
         }
         Robot.stopMoving();
@@ -183,7 +185,7 @@ public class BLUE_SKYSTONE_4DISTANCEsensor extends LinearOpMode {
         Robot.strafeRight(0.35, "move");
 
 
-        while(Robot.rearLeftSensor.getDistance(DistanceUnit.INCH) < 40 && opModeIsActive()){
+        while(Robot.rearRightSensor.getDistance(DistanceUnit.INCH) < 40 && opModeIsActive()){
             Robot.goBackContinuous();
         }
         Robot.goForward(1, "move");

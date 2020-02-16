@@ -28,6 +28,7 @@ import java.util.Locale;
 public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
     @Override
     public void runOpMode() {
+        /*
         int inchPause = 500;
         double skystonePosition = 0;
         double distanceVar = 24;
@@ -159,6 +160,7 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
             }
             Robot.stopMoving();
             */
+        /*
             Robot.setForwardSpeed(0.4);
             while(Robot.frontLeftSensor.getDistance(DistanceUnit.INCH) < skystonePosition && opModeIsActive()){
                 Robot.goBackContinuous();
@@ -229,5 +231,8 @@ public class RED_SKYSTONE_3DISTANCEsensor extends LinearOpMode {
 
         }
         //TensorFlowDetection.shutdown();
-    }
+
+
+         */
+    }}
 

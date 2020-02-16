@@ -140,6 +140,11 @@ public class Driver_Phase extends LinearOpMode {
             } else if(!gamepad2.right_bumper) {
                 limitToggle = false;
             }
+            if(gamepad2.right_trigger > 0){
+                Robot.superServoClaw.setPower((gamepad2.right_trigger / 2) + 0.5);
+            } else if (gamepad2.left_trigger > 0) {
+                Robot.superServoClaw.setPower(0.5 - (gamepad2.left_trigger / 2));
+            }
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
             /*
@@ -147,8 +152,8 @@ public class Driver_Phase extends LinearOpMode {
             telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
             */
             if(!limitsOn){
 
@@ -208,7 +213,7 @@ public class Driver_Phase extends LinearOpMode {
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
 
-        if(Robot.armMotor.getCurrentPosition() < -5000 && limitsOn) {
+        if(Robot.armMotor.getCurrentPosition() < -9200 && limitsOn) {
             telemetry.addData("Arm Motor is too high!", " Lower it!");
             Robot.armMotor.setPower(0.1);
         } else if(Robot.armMotor.getCurrentPosition() > -20 && limitsOn){
