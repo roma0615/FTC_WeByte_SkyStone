@@ -78,82 +78,21 @@ public class testBlock extends LinearOpMode {
 
              */
 
-            boolean update = false;
-            double num = 1;
-            /*
-            double rightSideFrontSonic = Robot.rightSideFrontSensor.cmUltrasonic();
-            double rightSideFrontRAWSONIC = Robot.rightSideFrontSensor.rawUltrasonic();
-            double rightSideFrontSonicInches = rightSideFrontSonic / 2.54;
-            double rightSideRearSonic = Robot.rightSideRearSensor.cmUltrasonic();
-            double rightSideRearSonicInches = rightSideRearSonic / 2.54;
-            double leftSideFrontSonic = Robot.leftSideFrontSensor.cmUltrasonic();
-            double leftSideFrontSonicInches = leftSideFrontSonic / 2.54;
-            double leftSideRearSonic = Robot.leftSideRearSensor.cmUltrasonic();
-            double leftSideRearSonicInches = leftSideRearSonic / 2.54;
-            double rearLeftSonic = Robot.rearLeftSensor.cmUltrasonic();
-            double rearLeftSonicInches = rearLeftSonic / 2.54;
-            double rearRight = Robot.rearRightSensor.getDistance(DistanceUnit.INCH);
-            double frontRightSonic = Robot.frontRightSensor.cmUltrasonic();
-            double frontRightSonicInches = frontRightSonic / 2.54;
-        /*    if (rightSideFrontSonic != (255)) {
-                telemetry.addData("range right side front", String.format(Locale.ENGLISH, "%.01f in", rightSideFrontSonicInches));
-                update = true;
-            }
 
-
-            if (rightSideRearSonic != (255)) {
-                telemetry.addData("range right side rear", String.format(Locale.ENGLISH, "%.01f in", rightSideRearSonicInches));
-                num = num + 1;
-                update = true;
-            }
-
-            if (leftSideFrontSonic != (255)) {
-                telemetry.addData("range left side front", String.format(Locale.ENGLISH, "%.01f in", leftSideFrontSonicInches));
-                update = true;
-            }
-
-            if (leftSideRearSonic != (255)) {
-                telemetry.addData("range left side rear", String.format(Locale.ENGLISH, "%.01f in", leftSideRearSonicInches));
-                update = true;
-            }
-            */
-            /*
-            if (frontRightSonic != (255)) {
-                telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", frontRightSonicInches));
-                update = true;
-            }
-
-         /*
-            if (rearLeftSonic != (255)) {
-                telemetry.addData("range rear left", String.format(Locale.ENGLISH, "%.01f in", rearLeftSonicInches));
-                update = true;
-            }
-            */
-            if (update) {
-                telemetry.addData("update", String.format(Locale.ENGLISH, "%.01f", num));
-                telemetry.update();
-                update = false;
-            sleep(3000);}
-            /*
+            telemetry.addData("range right side front", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSideFrontSensor.getDistance(DistanceUnit.INCH)));
+            telemetry.addData("range right side rear", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSideRearSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range left side front", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSideFrontSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range left side rear", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSideRearSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.frontRightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
             telemetry.addData("range rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
-            */
-            /*
+            telemetry.addData("avg right front", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageRightFrontSensor()));
+            telemetry.addData("avg right rear", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageRightRearSensor()));
+            telemetry.addData("avg left front", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageLeftFrontSensor()));
+            telemetry.addData("avg left rear", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageLeftRearSensor()));
+            telemetry.addData("avg front right", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageFrontRightSensor()));
+            telemetry.addData("avg rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.getAverageRearRightSensor()));
 
-            telemetry.addData("range front right", String.format(Locale.ENGLISH, "%.01f in", Robot.rightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range front left", String.format(Locale.ENGLISH, "%.01f in", Robot.frontLeftSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("raw optical", Robot.frontRightUltrasonicSensor.rawOptical());
-            telemetry.addData("cm optical", "%.2f cm", Robot.frontRightUltrasonicSensor.cmOptical());
-            telemetry.addData("getDistance inch", "%.2f distance", Robot.frontRightSensor.getDistance(DistanceUnit.INCH));
-            telemetry.addData("range rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range left", String.format(Locale.ENGLISH, "%.01f in", Robot.leftSensor.getDistance(DistanceUnit.INCH)));
-            telemetry.addData("range rear right", String.format(Locale.ENGLISH, "%.01f in", Robot.rearLeftSensor.getDistance(DistanceUnit.INCH)));
-            */
-
-          //  telemetry.update();
+          telemetry.update();
             //Robot.massTelemetryDump(10000000);
 
         }

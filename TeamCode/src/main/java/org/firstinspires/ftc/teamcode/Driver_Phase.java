@@ -81,7 +81,13 @@ public class Driver_Phase extends LinearOpMode {
             }
             Robot.setServos(servoPosition, 0, "");
 
-
+            if(!clawToggle && gamepad2.y){
+                Robot.capstoneServo.setPosition(clawOn ? 0.2 : 0.9);
+                clawOn = !clawOn;
+                clawToggle = true;
+            } else if (!gamepad2.y) {
+                clawToggle = false;
+            }
             if(!clawToggle && gamepad2.left_bumper){
                 Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
                 clawOn = !clawOn;
@@ -89,6 +95,16 @@ public class Driver_Phase extends LinearOpMode {
             } else if(!gamepad2.left_bumper) {
                 clawToggle = false;
             }
+            /*
+            if(!clawToggle && gamepad2.left_bumper){
+                Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
+                clawOn = !clawOn;
+                clawToggle = true;
+            } else if(!gamepad2.left_bumper) {
+                clawToggle = false;
+            }
+
+             */
 
             //Intake inward on x
             //Intake outward on y
@@ -141,10 +157,11 @@ public class Driver_Phase extends LinearOpMode {
                 limitToggle = false;
             }
             if(gamepad2.right_trigger > 0){
-                Robot.superServoClaw.setPower((gamepad2.right_trigger / 2) + 0.5);
+                Robot.superServoClaw.setPower(1);
             } else if (gamepad2.left_trigger > 0) {
-                Robot.superServoClaw.setPower(0.5 - (gamepad2.left_trigger / 2));
+                Robot.superServoClaw.setPower(-1);
             }
+
             //Robot.setArmServos(armPosition, 0, "");
             // Telemetry
             /*
@@ -156,7 +173,6 @@ public class Driver_Phase extends LinearOpMode {
             telemetry.addData("rear left", String.format(Locale.ENGLISH, "%.01f in", Robot.rearRightSensor.getDistance(DistanceUnit.INCH)));
             */
             if(!limitsOn){
-
                 telemetry.addData("WARNING", "LIMIT OVERRIDE ENGAGED. MOVE ARM WITH CAUTION");
             } else {
                 //telemetry.addData("All clear", "Limits are online");
@@ -213,7 +229,7 @@ public class Driver_Phase extends LinearOpMode {
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
 
-        if(Robot.armMotor.getCurrentPosition() < -9200 && limitsOn) {
+        if(Robot.armMotor.getCurrentPosition() < -9000 && limitsOn) {
             telemetry.addData("Arm Motor is too high!", " Lower it!");
             Robot.armMotor.setPower(0.1);
         } else if(Robot.armMotor.getCurrentPosition() > -20 && limitsOn){

@@ -51,6 +51,9 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
+import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.Robot;
+
 /**
  * This 2019-2020 OpMode illustrates the basics of using the Vuforia localizer to determine
  * positioning and orientation of robot on the SKYSTONE FTC field.
@@ -143,6 +146,12 @@ public class vuforiaCameraLite extends LinearOpMode {
         /*
          * Retrieve the camera we are to use.
          */
+        Robot.init(hardwareMap, telemetry, new BooleanFunction() {
+            @Override
+            public boolean get() {
+                return opModeIsActive();
+            }
+        });
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         /*
@@ -343,8 +352,6 @@ public class vuforiaCameraLite extends LinearOpMode {
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
 
-
-
         targetsSkyStone.activate();
         while (!isStopRequested()) {
 
@@ -364,6 +371,7 @@ public class vuforiaCameraLite extends LinearOpMode {
         //            break;
                 }
         //    }
+
 
             // Provide feedback as to where the robot is located (if we know).
             if (targetVisible) {

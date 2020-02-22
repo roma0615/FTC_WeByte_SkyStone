@@ -14,10 +14,10 @@ import org.firstinspires.ftc.teamcode.utils.TensorFlowDetection;
 
 import java.util.List;
 import java.util.Locale;
-@Autonomous(name = "RED_SKYSTONE")
+@Autonomous(name = "RED_SKYSTONE_OLD")
 
 
-public class RED_SKYSTONE extends LinearOpMode {
+public class RED_SKYSTONE_OLD extends LinearOpMode {
     @Override
     public void runOpMode() {
         int inchPause = 500;

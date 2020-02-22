@@ -1,32 +1,3 @@
-/* Copyright (c) 2019 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -42,18 +13,23 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
-import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
-import org.firstinspires.ftc.teamcode.utils.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
+import static org.firstinspires.ftc.teamcode.utils.Robot.centerRobotRear;
+import static org.firstinspires.ftc.teamcode.utils.Robot.centerRobotRight;
+import static org.firstinspires.ftc.teamcode.utils.Robot.strafeLeft;
+
+import org.firstinspires.ftc.teamcode.utils.BooleanFunction;
+import org.firstinspires.ftc.teamcode.utils.FlipperPosition;
+import org.firstinspires.ftc.teamcode.utils.Robot;
 
 /**
  * This 2019-2020 OpMode illustrates the basics of using the Vuforia localizer to determine
@@ -85,10 +61,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-@Autonomous(name = "DEMOvuforiaCamera")
-
-
-public class DEMOvuforiaCamera extends LinearOpMode {
+@Autonomous(name="RedSkystone")
+public class RedSkystone extends LinearOpMode {
 
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
@@ -110,11 +84,10 @@ public class DEMOvuforiaCamera extends LinearOpMode {
     private static final String VUFORIA_KEY = "AQqx7Hv/////AAABmeHmysAgekSTg8A/T+sJO28b/TqN3z6xf6Dxrsqx/fV0NyN91JIaf1/r4s9SAhIFBarof770EinO7ACBxPgaRv8luUQcQWyyh1UUaC0EDVzgCDbZDLPAoj7+gch3RnNLYfRWt/mcyVs2oKHF/5hArN1Rk7ubxrjnUSOCnOLd7ncXo5W+O9XGnaVgEhD+lmuR0jjWFcSuRgYOuA7X6dXaeVdzumrQu7AH42+VtN4TIuSsEfTvH/wGKcGGehiX5MvWIvm7P+uMj256blkXPJLol4hksCfybiJpN2Zr7h4q0CALaHsdaBD5cSJBAadYdQuh6KxhXKQGwFybQty8ee0on4Dfmt6hq2i/aCXIGslJqol+";
 
 
-
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
+    private static final float mmPerInch = 25.4f;
+    private static final float mmTargetHeight = (6) * mmPerInch;          // the height of the center of the target image above the floor
 
     // Constant for Stone Target
     private static final float stoneZ = 2.00f * mmPerInch;
@@ -128,7 +101,7 @@ public class DEMOvuforiaCamera extends LinearOpMode {
 
     // Constants for perimeter targets
     private static final float halfField = 72 * mmPerInch;
-    private static final float quadField  = 36 * mmPerInch;
+    private static final float quadField = 36 * mmPerInch;
 
     // Class Members
     private OpenGLMatrix lastLocation = null;
@@ -140,12 +113,19 @@ public class DEMOvuforiaCamera extends LinearOpMode {
      */
     WebcamName webcamName = null;
 
+    private boolean alignStatus = true;
+    private long startTime = 0;
+    private float xcoord = -99999;
+    private double skystonePosition2 = 0;
+    private float skystonePosition = 0;
+    private boolean firsttime = true;
     private boolean targetVisible = false;
-    private float phoneXRotate    = 0;
-    private float phoneYRotate    = 0;
-    private float phoneZRotate    = 0;
-    private int Skystone_position1 = 0;
-    @Override public void runOpMode() {
+    private float phoneXRotate = 0;
+    private float phoneYRotate = 0;
+    private float phoneZRotate = 0;
+
+    @Override
+    public void runOpMode() {
         /*
          * Retrieve the camera we are to use.
          */
@@ -184,35 +164,9 @@ public class DEMOvuforiaCamera extends LinearOpMode {
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");
 
-        VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
-        blueRearBridge.setName("Blue Rear Bridge");
-        VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
-        redRearBridge.setName("Red Rear Bridge");
-        VuforiaTrackable redFrontBridge = targetsSkyStone.get(3);
-        redFrontBridge.setName("Red Front Bridge");
-        VuforiaTrackable blueFrontBridge = targetsSkyStone.get(4);
-        blueFrontBridge.setName("Blue Front Bridge");
-        VuforiaTrackable red1 = targetsSkyStone.get(5);
-        red1.setName("Red Perimeter 1");
-        VuforiaTrackable red2 = targetsSkyStone.get(6);
-        red2.setName("Red Perimeter 2");
-        VuforiaTrackable front1 = targetsSkyStone.get(7);
-        front1.setName("Front Perimeter 1");
-        VuforiaTrackable front2 = targetsSkyStone.get(8);
-        front2.setName("Front Perimeter 2");
-        VuforiaTrackable blue1 = targetsSkyStone.get(9);
-        blue1.setName("Blue Perimeter 1");
-        VuforiaTrackable blue2 = targetsSkyStone.get(10);
-        blue2.setName("Blue Perimeter 2");
-        VuforiaTrackable rear1 = targetsSkyStone.get(11);
-        rear1.setName("Rear Perimeter 1");
-        VuforiaTrackable rear2 = targetsSkyStone.get(12);
-        rear2.setName("Rear Perimeter 2");
+        VuforiaTrackableDefaultListener listener;
 
 
-        // For convenience, gather together all the trackable objects in one easily-iterable collection */
-        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-        allTrackables.addAll(targetsSkyStone);
 
         /**
          * In order for localization to work, we need to tell the system where each target is on the field, and
@@ -239,56 +193,6 @@ public class DEMOvuforiaCamera extends LinearOpMode {
                 .translation(0, 0, stoneZ)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
-        //Set the position of the bridge support targets with relation to origin (center of field)
-
-        blueFrontBridge.setLocation(OpenGLMatrix
-                .translation(-bridgeX, bridgeY, bridgeZ)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 0, bridgeRotY, bridgeRotZ)));
-
-        blueRearBridge.setLocation(OpenGLMatrix
-                .translation(-bridgeX, bridgeY, bridgeZ)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 0, -bridgeRotY, bridgeRotZ)));
-
-        redFrontBridge.setLocation(OpenGLMatrix
-                .translation(-bridgeX, -bridgeY, bridgeZ)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 0, -bridgeRotY, 0)));
-
-        redRearBridge.setLocation(OpenGLMatrix
-                .translation(bridgeX, -bridgeY, bridgeZ)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 0, bridgeRotY, 0)));
-
-        //Set the position of the perimeter targets with relation to origin (center of field)
-        red1.setLocation(OpenGLMatrix
-                .translation(quadField, -halfField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180)));
-
-        red2.setLocation(OpenGLMatrix
-                .translation(-quadField, -halfField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180)));
-
-        front1.setLocation(OpenGLMatrix
-                .translation(-halfField, -quadField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , 90)));
-
-        front2.setLocation(OpenGLMatrix
-                .translation(-halfField, quadField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 90)));
-
-        blue1.setLocation(OpenGLMatrix
-                .translation(-quadField, halfField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0)));
-
-        blue2.setLocation(OpenGLMatrix
-                .translation(quadField, halfField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0)));
-
-        rear1.setLocation(OpenGLMatrix
-                .translation(halfField, quadField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , -90)));
-
-        rear2.setLocation(OpenGLMatrix
-                .translation(halfField, -quadField, mmTargetHeight)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
         //
         // Create a transformation matrix describing where the phone is on the robot.
@@ -313,24 +217,24 @@ public class DEMOvuforiaCamera extends LinearOpMode {
 
         // Rotate the phone vertical about the X axis if it's in portrait mode
         if (PHONE_IS_PORTRAIT) {
-            phoneXRotate = 90 ;
+            phoneXRotate = 90;
         }
 
 
         // Next, translate the camera lens to where it is on the robot.
         // In this example, it is centered (left to right), but forward of the middle of the robot, and above ground level.
-        final float CAMERA_FORWARD_DISPLACEMENT  = 0.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
+        final float CAMERA_FORWARD_DISPLACEMENT = 0.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
         final float CAMERA_VERTICAL_DISPLACEMENT = 2.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
-        final float CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
+        final float CAMERA_LEFT_DISPLACEMENT = 0;     // eg: Camera is ON the robot's center line
 
         OpenGLMatrix robotFromCamera = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
 
-        /**  Let all the trackable listeners know where the phone is.  */
-        for (VuforiaTrackable trackable : allTrackables) {
-            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
-        }
+
+        listener = (VuforiaTrackableDefaultListener) stoneTarget.getListener();
+        listener.setPhoneInformation(robotFromCamera, parameters.cameraDirection);
+
 
         // WARNING:
         // In this sample, we do not wait for PLAY to be pressed.  Target Tracking is started immediately when INIT is pressed.
@@ -344,70 +248,215 @@ public class DEMOvuforiaCamera extends LinearOpMode {
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
 
-
-
         targetsSkyStone.activate();
-        // Need
-        while (!isStopRequested()) {
+        while (!isStopRequested() && (skystonePosition == 0)) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
-            for (VuforiaTrackable trackable : allTrackables) {
-                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                    telemetry.addData("Visible Target", trackable.getName());
-                    targetVisible = true;
+            if (((VuforiaTrackableDefaultListener) stoneTarget.getListener()).isVisible()) {
+                telemetry.addData("Visible Target", stoneTarget.getName());
+                targetVisible = true;
 
-                    // getUpdatedRobotLocation() will return null if no new information is available since
-                    // the last time that call was made, or if the trackable is not currently visible.
-                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
-                    if (robotLocationTransform != null) {
-                        lastLocation = robotLocationTransform;
-                    }
-                    break;
+                // getUpdatedRobotLocation() will return null if no new information is available since
+                // the last time that call was made, or if the trackable is not currently visible.
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) stoneTarget.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
+                    lastLocation = robotLocationTransform;
                 }
             }
-            if(opModeIsActive()){
-                Robot.setForwardSpeed(0.5);
-                Robot.goBack(0.5,"");
-                long startTime = System.currentTimeMillis();
-                while (!targetVisible && ((System.currentTimeMillis() - startTime) < 10000)){
+
+            // Provide feedback as to where the robot is located (if we know).
+            if (targetVisible) {
+                // express position (translation) of robot in inches.
+                VectorF translation = lastLocation.getTranslation();
+                xcoord = translation.get(1);
+                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+
+
+                // express the rotation of the robot in degrees.
+                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            } else {
+                telemetry.addData("Visible Target", "none");
+            }
+            telemetry.update();
+
+            if (opModeIsActive()) {
+                if (firsttime) {
+                    Robot.setForwardSpeed(0.7);
+                    Robot.goBack(0.3, "");
+                    firsttime = false;
+                    startTime = System.currentTimeMillis();
                 }
 
+                if ((skystonePosition == 0) && ((System.currentTimeMillis() - startTime) > 2000)) {
 
-                // Provide feedback as to where the robot is located (if we know).
-                if (targetVisible) {
-                    // express position (translation) of robot in inches.
-                    VectorF translation = lastLocation.getTranslation();
-                    telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                            translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
-                    telemetry.update();
-                    //Data for WeByte Skystone identification routine should go here
-                    if(opModeIsActive()) {
-                        if (translation.get(1) > 1) {
-                            Skystone_position1 = 1;
-                        } else {
-                            Skystone_position1 = 2;
-                            Robot.setServos(FlipperPosition.UP,0,"");
+                    if (xcoord > 0) {
+                        skystonePosition = 1;
+                        break;
+                    } else {
+                        if (xcoord == -99999) {
+                            skystonePosition = 3;
+                            break;
+                        }
+                        else {skystonePosition = 2;
+                            break;
                         }
                     }
-
                     // express the rotation of the robot in degrees.
                     //Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                     //telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 }
-                else {
-                    telemetry.addData("Visible Target", "none");
-                    Skystone_position1 = 3;
-                }
-                telemetry.update();
 
-
-            sleep(60000);
             }
+
+        }
+
+        // Disable Tracking when we are done;
+
+
+        //   targetsSkyStone.deactivate();
+        //telemetry.addData("Skystone position", String.format(Locale.ENGLISH, "%.01f", skystonePosition));
+        //telemetry.update();
+
+        Robot.setForwardSpeed(0.7);
+
+
+        if (skystonePosition == 1) {
+            skystonePosition2 = 43;
+            Robot.strafeLeft(0.6, "");
+            Robot.goBack(0.3, "end jump");
+            Robot.centerRobotRight(skystonePosition2, 0.6, 0.04);
+            Robot.moveIn();
+            Robot.goBack(0.02, "");
+        }
+
+        if (skystonePosition == 2) {
+            skystonePosition2 = 35.5;
+            Robot.strafeLeft(0.1, "");
+            Robot.goBack(0.3, "end jump");
+            Robot.centerRobotRight(skystonePosition2, 0.6, 0.04);
+            Robot.moveIn();
+            Robot.goBack(0.02, "");
+        }
+        if (skystonePosition == 3) {
+            skystonePosition2 = 26;
+            Robot.strafeRight(0.26, "");
+            Robot.goBack(0.3, "end jump");
+            Robot.centerRobotRight(skystonePosition2, 0.6, 0.04);
+            Robot.moveIn();
+            Robot.goBack(0.02, "");
+        }
+
+        Robot.superServoClaw.setPower(-1);
+        Robot.waitForSeconds(1.0,"");
+        Robot.goBack(0.1, "");
+
+        Robot.setForwardSpeed(1.0);
+        Robot.goForward(0.33, "");
+        Robot.turnRight(1.0, "");
+        Robot.alignLeft();
+
+        Robot.centerRobotLeft(24, 2, 0.08);
+        Robot.goBack(((48 - skystonePosition2)/50 + 0.9), "");
+
+        Robot.superServoClaw.setPower(1);
+        Robot.waitForSeconds(0.2,"");
+
+        Robot.alignLeft();
+        Robot.goForward(0.7,"");
+
+
+        if (skystonePosition == 1) {
+            Robot.goForward(1.3, "");
+            Robot.turnLeft(0.9, "");
+            Robot.setForwardSpeed(0.5);
+            Robot.strafeRight(1.0, "");
+            Robot.setForwardSpeed(0.7);
+            Robot.goBack(0.1, "");
+            Robot.strafeLeft(0.36, "");
+            Robot.centerRobotRight(17, 0.6, 0.04);
+            Robot.moveIn();
+            Robot.goBack(0.01, "");
+            Robot.superServoClaw.setPower(-1);
+            Robot.waitForSeconds(1.0,"");
+            Robot.goBack(0.1, "");
+
+            Robot.setForwardSpeed(1.0);
+            Robot.goForward(0.4, "");
+            Robot.strafeLeft(0.3, "");
+            Robot.setForwardSpeed(1.0);
+            Robot.turnRight(0.9, "");
+
+            Robot.alignLeft();
+            Robot.goBack((0.2), "");
+            Robot.centerRobotLeft(24, 2, 0.08);
+            Robot.goBack(1.3, "");
         }
 
 
-        // Disable Tracking when we are done;
-        targetsSkyStone.deactivate();
+         if (skystonePosition == 2) {
+            Robot.goForward(1.3, "");
+            Robot.turnLeft(0.9, "");
+            Robot.setForwardSpeed(0.5);
+            Robot.strafeRight(1.0, "");
+            Robot.setForwardSpeed(0.7);
+            Robot.goBack(0.1, "");
+            Robot.strafeLeft(0.16, "");
+            Robot.centerRobotRight(10.3, 0.6, 0.04);
+            Robot.moveIn();
+            Robot.goBack(0.01, "");
+            Robot.superServoClaw.setPower(-1);
+            Robot.waitForSeconds(1.0,"");
+            Robot.goBack(0.1, "");
+
+            Robot.setForwardSpeed(1.0);
+            Robot.goForward(0.4, "");
+            Robot.strafeLeft(0.3, "");
+            Robot.turnRight(0.9, "");
+
+             Robot.alignLeft();
+             Robot.goBack((0.3), "");
+             Robot.centerRobotLeft(24, 2, 0.08);
+             Robot.goBack(1.45, "");
+         }
+
+
+        if (skystonePosition == 3) {
+            Robot.goForward(1.2, "");
+            Robot.turnLeft(0.9, "");
+            Robot.setForwardSpeed(0.5);
+            Robot.strafeRight(0.7, "");
+            Robot.setForwardSpeed(0.7);
+            Robot.goBack(0.1, "");
+            Robot.moveIn();
+            Robot.goBack(0.01, "");
+            Robot.superServoClaw.setPower(-1);
+            Robot.waitForSeconds(1.0,"");
+            Robot.goBack(0.1, "");
+
+            Robot.setForwardSpeed(1.0);
+            Robot.goForward(0.4, "");
+            Robot.strafeLeft(0.3, "");
+            Robot.setForwardSpeed(1.0);
+            Robot.turnRight(0.9, "");
+
+            Robot.alignLeft();
+            Robot.goBack((0.3), "");
+            Robot.centerRobotLeft(24, 2, 0.08);
+            Robot.goBack((1.6), "");
+
+        }
+
+
+        Robot.superServoClaw.setPower(1);
+        Robot.waitForSeconds(0.5,"");
+
+        Robot.strafeRight(0.15, "");
+        Robot.goForward(0.5, "");
+
+        Robot.superServoClaw.setPower(-1);
+        Robot.waitForSeconds(0.5,"");
     }
 }
