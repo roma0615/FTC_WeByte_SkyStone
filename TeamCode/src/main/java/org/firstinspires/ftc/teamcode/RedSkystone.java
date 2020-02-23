@@ -285,12 +285,12 @@ public class RedSkystone extends LinearOpMode {
             if (opModeIsActive()) {
                 if (firsttime) {
                     Robot.setForwardSpeed(0.7);
-                    Robot.goBack(0.3, "");
+                    Robot.goBack(0.25, "");
                     firsttime = false;
                     startTime = System.currentTimeMillis();
                 }
 
-                if ((skystonePosition == 0) && ((System.currentTimeMillis() - startTime) > 2000)) {
+                if ((skystonePosition == 0) && ((System.currentTimeMillis() - startTime) > 3000)) {
 
                     if (xcoord > 0) {
                         skystonePosition = 1;
@@ -319,9 +319,8 @@ public class RedSkystone extends LinearOpMode {
         //   targetsSkyStone.deactivate();
         //telemetry.addData("Skystone position", String.format(Locale.ENGLISH, "%.01f", skystonePosition));
         //telemetry.update();
-
         Robot.setForwardSpeed(0.7);
-
+        Robot.capstoneServo.setPosition(0.2);
 
         if (skystonePosition == 1) {
             skystonePosition2 = 43;
@@ -365,6 +364,7 @@ public class RedSkystone extends LinearOpMode {
         Robot.waitForSeconds(0.2,"");
 
         Robot.alignLeft();
+        Robot.turnLeft(0.05, "");
         Robot.goForward(0.7,"");
 
 

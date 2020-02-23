@@ -319,7 +319,7 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
              //   telemetry.update();
 
                 Robot.setForwardSpeed(0.7);
-
+                Robot.capstoneServo.setPosition(0.2);
 
                 if (skystonePosition == 1) {
                     skystonePosition2 = 31;
@@ -363,6 +363,7 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
                 Robot.waitForSeconds(0.2,"");
 
                 Robot.alignRight();
+                Robot.turnRight(0.05, "");
                 Robot.goForward(0.7, "");
 
                 if (skystonePosition == 1) {
@@ -373,9 +374,9 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
                     Robot.setForwardSpeed(0.5);
                     Robot.strafeLeft(1.0, "");
                     Robot.setForwardSpeed(0.7);
-                    Robot.goBack(0.1, "");
-                    Robot.strafeRight (0.25, "");
-                    Robot.centerRobotRight(7, 0.6, 0.04);
+                   // Robot.goBack(0.1, "");
+                    Robot.strafeRight (0.35, "");
+                    Robot.centerRobotLeft(7, 0.6, 0.04);
                     Robot.moveIn();
                     Robot.goBack(0.01, "");
                     Robot.superServoClaw.setPower(-1);
@@ -400,7 +401,7 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
 
 
 
-                if (skystonePosition == 2) {
+     /*           if (skystonePosition == 2) {
                     Robot.turnRight(0.02, "");
                     Robot.goForward(0.6, "");
                //     Robot.strafeRight (0.4, "");
@@ -437,7 +438,7 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
 
                     Robot.setForwardSpeed(1.0);
                     Robot.goBack(0.3, "");
-                    Robot.strafeLeft(0.3, "");
+                    Robot.strafeLeft(0.3 "");
                     Robot.turnRight(0.9, "");
                     Robot.strafeRight(0.5, "");
                     Robot.alignRight();
@@ -446,8 +447,44 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
                     Robot.goBack((1.1), "");
 
                 }
+*/
 
-                if (skystonePosition == 3) {
+                if (skystonePosition > 1) {
+                    Robot.goForward(0.6, "");
+                    Robot.strafeRight (0.4, "");
+                    Robot.goForward(0.7, "");
+                    Robot.turnRight(0.9, "");
+                    Robot.setForwardSpeed(0.5);
+                    Robot.strafeLeft(1.0, "");
+                    Robot.setForwardSpeed(0.7);
+                 //   Robot.goBack(0.1, "");
+                    Robot.strafeRight (1.25, "");
+                    Robot.centerRobotLeft(31, 0.6, 0.04);
+                    Robot.moveIn();
+                    Robot.goBack(0.01, "");
+                    Robot.superServoClaw.setPower(-1);
+                    Robot.waitForSeconds(1.0,"");
+                    Robot.goBack(0.1, "");
+
+                    Robot.setForwardSpeed(1.0);
+                    Robot.goForward(0.4, "");
+                    Robot.strafeRight(0.3, "");
+                    Robot.setForwardSpeed(1.0);
+                    Robot.turnLeft(0.9, "");
+
+                    Robot.alignRight();
+                    Robot.goBack((0.2), "");
+                    Robot.centerRobotRight(24, 2, 0.08);
+
+
+
+                    Robot.goBack(1.4, "");
+
+                }
+
+
+
+/*                if (skystonePosition == 3) {
 
                     Robot.goForward(0.6, "");
                     Robot.strafeRight (0.4, "");
@@ -493,6 +530,8 @@ import org.firstinspires.ftc.teamcode.utils.Robot;
                     Robot.goBack((1.1), "");
 
                 }
+*/
+
 
                 Robot.superServoClaw.setPower(1);
                 Robot.waitForSeconds(0.5,"");

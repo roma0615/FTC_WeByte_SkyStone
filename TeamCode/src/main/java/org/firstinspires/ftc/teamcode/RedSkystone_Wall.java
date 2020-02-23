@@ -456,5 +456,7 @@ public class RedSkystone_Wall extends LinearOpMode {
 
         Robot.superServoClaw.setPower(-1);
         Robot.waitForSeconds(0.5,"");
+        Robot.capstoneServo.setPosition(0.2);
+        sleep(4000);
     }
 }

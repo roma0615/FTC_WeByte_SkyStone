@@ -317,9 +317,8 @@ public class BlueSkystone_Wall extends LinearOpMode {
         //   targetsSkyStone.deactivate();
         //   telemetry.addData("Skystone position", String.format(Locale.ENGLISH, "%.01f", skystonePosition));
         //   telemetry.update();
-
         Robot.setForwardSpeed(0.7);
-
+        Robot.capstoneServo.setPosition(0.2);
 
         if (skystonePosition == 1) {
             skystonePosition2 = 30.5;
@@ -467,7 +466,6 @@ public class BlueSkystone_Wall extends LinearOpMode {
 
         Robot.superServoClaw.setPower(-1);
         Robot.waitForSeconds(0.5,"");
-
     }
 }
 

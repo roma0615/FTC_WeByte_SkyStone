@@ -320,7 +320,7 @@ public class BlueSkystone_Post extends LinearOpMode {
 
         Robot.setForwardSpeed(0.7);
 
-
+        Robot.capstoneServo.setPosition(0.2);
         if (skystonePosition == 1) {
             skystonePosition2 = 30.5;
             Robot.strafeLeft(0.2, "");
@@ -467,7 +467,6 @@ public class BlueSkystone_Post extends LinearOpMode {
 
         Robot.superServoClaw.setPower(-1);
         Robot.waitForSeconds(0.5,"");
-
     }
 }
 

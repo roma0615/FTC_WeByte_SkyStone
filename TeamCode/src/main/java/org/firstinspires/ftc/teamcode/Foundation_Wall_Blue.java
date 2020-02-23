@@ -32,7 +32,8 @@ public class Foundation_Wall_Blue extends LinearOpMode {
             }
         });
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run");    //
+        telemetry.addData("Status", "Ready to run");
+        telemetry.addData("Positioning","Robot middle of 2nd square, back facing foundation");//
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -57,10 +58,10 @@ public class Foundation_Wall_Blue extends LinearOpMode {
 
         // Step 3:  Drive Forward for 1 Second
         //Robot.turnRight(0.1, "Turn and get ready");
-        Robot.goForward(1.3, "Driving forward");
+        Robot.goForward(1.1, "Driving forward");
 
         // Move back
-        Robot.goBack(0.1, "Driving Backward");
+        //Robot.goBack(0.1, "Driving Backward");
 
         // Step 4:  Turn right to move the foundation
         Robot.turnLeft(1.5, "Turning Left");
@@ -86,8 +87,9 @@ public class Foundation_Wall_Blue extends LinearOpMode {
         Robot.goBack(0.5, "Moving Back");
         //Robot.turnRight(0.1, "Turning left");
         //Robot.goBack(0.1, "Heading to Midline");
+        Robot.capstoneServo.setPosition(0.2);
         telemetry.addData("Path", "Complete");
         telemetry.update();
-        sleep(1000);
+        sleep(4000);
     }
 }

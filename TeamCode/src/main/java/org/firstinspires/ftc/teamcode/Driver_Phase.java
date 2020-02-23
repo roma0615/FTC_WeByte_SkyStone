@@ -82,12 +82,13 @@ public class Driver_Phase extends LinearOpMode {
             Robot.setServos(servoPosition, 0, "");
 
             if(!clawToggle && gamepad2.y){
-                Robot.capstoneServo.setPosition(clawOn ? 0.2 : 0.9);
+                Robot.capstoneServo.setPosition(clawOn ? 0 : 1);
                 clawOn = !clawOn;
                 clawToggle = true;
             } else if (!gamepad2.y) {
                 clawToggle = false;
             }
+            /*
             if(!clawToggle && gamepad2.left_bumper){
                 Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
                 clawOn = !clawOn;
@@ -95,6 +96,8 @@ public class Driver_Phase extends LinearOpMode {
             } else if(!gamepad2.left_bumper) {
                 clawToggle = false;
             }
+
+             */
             /*
             if(!clawToggle && gamepad2.left_bumper){
                 Robot.setClawServo(clawOn ? ClawPosition.UP : ClawPosition.DOWN, 0, "");
@@ -229,7 +232,7 @@ public class Driver_Phase extends LinearOpMode {
         Robot.leftIntake.setPower(intakePower);
         Robot.rightIntake.setPower(intakePower);
 
-        if(Robot.armMotor.getCurrentPosition() < -9000 && limitsOn) {
+        if(Robot.armMotor.getCurrentPosition() < -8800 && limitsOn) {
             telemetry.addData("Arm Motor is too high!", " Lower it!");
             Robot.armMotor.setPower(0.1);
         } else if(Robot.armMotor.getCurrentPosition() > -20 && limitsOn){
